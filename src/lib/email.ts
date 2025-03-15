@@ -56,13 +56,34 @@ export async function sendAdminEmail(
   }
 }
 
+interface Booking {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  destination: string;
+  date: string;
+  travelers: number;
+  totalAmount: string;
+  email: string;
+}
+
+interface ContactForm {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface NewsletterSubscription {
+  email: string;
+}
+
 // Email templates
 export const emailTemplates = {
   // Newsletter subscription confirmation
-  newsletterConfirmation: (email: string) => `
+  newsletterSubscription: (data: NewsletterSubscription) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">Newsletter Subscription Confirmed</h2>
-      <p>Thank you for subscribing to our newsletter! Your email address <strong>${email}</strong> has been added to our mailing list.</p>
+      <p>Thank you for subscribing to our newsletter! Your email address <strong>${data.email}</strong> has been added to our mailing list.</p>
       <p>You'll now receive updates about our latest travel packages, promotions, and travel tips.</p>
       <p>If you didn't subscribe to our newsletter, please ignore this email.</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
@@ -85,7 +106,7 @@ export const emailTemplates = {
   `,
 
   // Booking confirmation for user
-  bookingConfirmation: (booking: any) => `
+  bookingConfirmation: (booking: Booking) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">Booking Confirmation</h2>
       <p>Dear ${booking.firstName} ${booking.lastName},</p>
@@ -107,7 +128,7 @@ export const emailTemplates = {
   `,
 
   // Booking notification for admin
-  bookingAdminNotification: (booking: any) => `
+  bookingAdminNotification: (booking: Booking) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">New Booking Received</h2>
       <p>A new booking has been made:</p>
@@ -150,19 +171,19 @@ export const emailTemplates = {
   `,
 
   // Contact form notification for admin
-  contactAdminNotification: (contact: any) => `
+  contactFormNotification: (formData: ContactForm) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">New Contact Form Submission</h2>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Contact Information</h3>
-        <p><strong>Name:</strong> ${contact.name}</p>
-        <p><strong>Email:</strong> ${contact.email}</p>
-        <p><strong>Phone:</strong> ${contact.phone || 'Not provided'}</p>
-        <p><strong>Subject:</strong> ${contact.subject}</p>
+        <p><strong>Name:</strong> ${formData.name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+        <p><strong>Subject:</strong> ${formData.subject}</p>
       </div>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Message</h3>
-        <p>${contact.message}</p>
+        <p>${formData.message}</p>
       </div>
       <p><strong>Date Submitted:</strong> ${new Date().toLocaleString()}</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">

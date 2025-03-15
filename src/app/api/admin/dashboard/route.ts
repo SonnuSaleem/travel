@@ -101,7 +101,6 @@ export async function GET(request: NextRequest) {
     ]).toArray();
     
     // Get destination colors
-    const destinations = await destinationsCollection.find({}).toArray();
     const destinationColors = {
       'Paris': '#3B82F6',
       'Bali': '#10B981',

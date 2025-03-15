@@ -120,7 +120,7 @@ const Hero = () => {
                           if (dateInput) {
                             try {
                               dateInput.showPicker();
-                            } catch (error) {
+                            } catch {
                               // Fallback for browsers that don't support showPicker
                               dateInput.click();
                             }

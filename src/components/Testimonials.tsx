@@ -69,7 +69,7 @@ const Testimonials = () => {
                 </div>
                 
                 <p className="text-light-dark italic mb-6 text-lg">
-                  "{testimonials[activeIndex].comment}"
+                  &ldquo;{testimonials[activeIndex].comment}&rdquo;
                 </p>
                 
                 <div>

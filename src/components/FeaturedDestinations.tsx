@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import DestinationCard from './DestinationCard';
 import { destinations } from '@/data/destinations';
+import Link from 'next/link';
 
 const FeaturedDestinations = () => {
   // Filter featured destinations
@@ -57,12 +58,12 @@ const FeaturedDestinations = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <a
+          <Link
             href="/destinations"
             className="inline-block bg-gradient-primary hover:opacity-90 text-light font-semibold py-3 px-6 rounded-md transition-all"
           >
             View All Destinations
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

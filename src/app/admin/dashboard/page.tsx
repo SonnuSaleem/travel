@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -73,10 +73,10 @@ export default function AdminDashboard() {
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [router, timeFrame]);
+  }, [router, timeFrame, fetchDashboardData]);
 
   // Function to fetch dashboard data
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch(`/api/admin/dashboard?timeFrame=${timeFrame}`);
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [timeFrame]);
 
   // Function to handle revenue reset
   const handleResetRevenue = async (type: 'manual' | 'annual') => {

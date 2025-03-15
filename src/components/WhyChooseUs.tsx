@@ -41,7 +41,7 @@ const WhyChooseUs = () => {
             Why Choose <span className="text-primary">Travel</span><span className="text-secondary">Ease</span>
           </h2>
           <p className="text-light-dark max-w-3xl mx-auto">
-            We're dedicated to making your travel dreams come true with exceptional service and unforgettable experiences.
+            We&apos;re dedicated to making your travel dreams come true with exceptional service and unforgettable experiences.
           </p>
         </motion.div>
 

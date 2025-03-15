@@ -9,10 +9,25 @@ import BookingForm from '@/components/BookingForm';
 import { destinations } from '@/data/destinations';
 import BackButton from '@/components/BackButton';
 
+interface Destination {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  price: number;
+  rating: number;
+  imageUrl: string;
+  duration: string;
+  featured: boolean;
+  highlights?: string[];
+  includes?: string[];
+  excludes?: string[];
+}
+
 export default function DestinationDetails() {
   const params = useParams();
   const id = params.id as string;
-  const [destination, setDestination] = useState<any>(null);
+  const [destination, setDestination] = useState<Destination | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -60,7 +60,7 @@ export default function About() {
                 Our founders, avid explorers themselves, were frustrated by the complexity and impersonal nature of travel planning. They envisioned a service that combined the convenience of modern technology with the personalized touch of a dedicated travel expert.
               </p>
               <p className="text-light-dark">
-                Today, we're proud to have helped thousands of travelers create memories that last a lifetime. Our commitment to exceptional service, attention to detail, and passion for discovery remains at the heart of everything we do.
+                Today, we&apos;re proud to have helped thousands of travelers create memories that last a lifetime. Our commitment to exceptional service, attention to detail, and passion for discovery remains at the heart of everything we do.
               </p>
             </motion.div>
             <motion.div
@@ -179,7 +179,7 @@ export default function About() {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-3">Responsible Travel</h3>
               <p className="text-light-dark">
-                We're committed to sustainable tourism practices that respect local cultures and protect the environment.
+                We&apos;re committed to sustainable tourism practices that respect local cultures and protect the environment.
               </p>
             </motion.div>
             <motion.div

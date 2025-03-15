@@ -109,7 +109,7 @@ const Newsletter = () => {
               animate={{ opacity: 1 }}
               className="text-center text-light mt-4 bg-secondary/20 p-2 rounded"
             >
-              Thank you for subscribing! We've sent a confirmation email to your inbox.
+              Thank you for subscribing! We&apos;ve sent a confirmation email to your inbox.
             </motion.p>
           )}
 

@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaCreditCard } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
+import { Suspense } from 'react';
 
-export default function BookingConfirmation() {
+function BookingConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -46,7 +46,7 @@ export default function BookingConfirmation() {
               Booking Confirmed!
             </h1>
             <p className="text-light-dark text-lg max-w-xl mx-auto">
-              Thank you for booking with us. Your travel adventure is now confirmed. We've sent a confirmation email to your inbox.
+              Thank you for booking with us. Your travel adventure is now confirmed. We&apos;ve sent a confirmation email to your inbox.
             </p>
           </div>
 
@@ -138,5 +138,15 @@ export default function BookingConfirmation() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function BookingConfirmation() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-dark-light flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>}>
+      <BookingConfirmationContent />
+    </Suspense>
   );
 } 

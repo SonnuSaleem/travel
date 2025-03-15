@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaCreditCard, FaLock, FaCheckCircle } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
 
-export default function Payment() {
+function PaymentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -351,5 +351,15 @@ export default function Payment() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Payment() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-dark-light flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>}>
+      <PaymentContent />
+    </Suspense>
   );
 } 
