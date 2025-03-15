@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom styles for date input in dark mode */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
+/* For Firefox */
+input[type="date"] {
+  position: relative;
+  color-scheme: dark;
+}
+
+/* For other browsers */
+input[type="date"]::-ms-clear {
+  display: none;
+}
+
+input[type="date"]::-ms-reveal {
+  display: none;
+}
+
+/* Custom styles for select dropdown */
+select option {
+  margin: 40px;
+  background: rgba(29, 29, 29, 0.9);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+}
+
+select option:hover {
+  background-color: rgba(251, 133, 0, 0.1);
+}
+
+select option:checked {
+  background: linear-gradient(90deg, #E63946 0%, #FB8500 100%);
+}
+
+/* Custom scrollbar for the entire site */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(29, 29, 29, 0.9);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #E63946, #FB8500);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #C1121F, #E67700);
+}
+
+/* Smooth scrolling for the entire site */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(251, 133, 0, 0.3);
+  color: #fff;
+}
+
+/* Focus outline styles */
+*:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(251, 133, 0, 0.3);
+}
+
+/* Input autofill styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(29, 29, 29, 0.9) inset !important;
+  -webkit-text-fill-color: white !important;
+  caret-color: white;
+}
+
+/* Custom utility classes */
+.text-shadow-lg {
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.text-shadow-sm {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
