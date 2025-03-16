@@ -27,6 +27,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'c4.wallpaperflare.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
     ],
   },
 };

@@ -1,13 +1,34 @@
 import nodemailer from 'nodemailer';
 
-// Create a transporter using the Gmail SMTP
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// Check if email credentials are available
+const hasEmailCredentials = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+
+// Create a transporter using the Gmail SMTP if credentials are available
+let transporter: nodemailer.Transporter | undefined;
+try {
+  if (hasEmailCredentials) {
+    // Create a more reliable Gmail transporter with explicit settings
+    transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // use SSL
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        // Do not fail on invalid certs
+        rejectUnauthorized: false,
+      },
+    });
+    
+    console.log('Email transporter initialized with user:', process.env.EMAIL_USER);
+  } else {
+    console.warn('Email credentials (EMAIL_USER, EMAIL_PASS) not found in environment variables');
+  }
+} catch (error) {
+  console.error('Failed to create email transporter:', error);
+}
 
 // Function to send confirmation email to user
 export async function sendUserEmail(
@@ -16,19 +37,51 @@ export async function sendUserEmail(
   htmlContent: string
 ) {
   try {
+    // Check if transporter is available
+    if (!transporter) {
+      console.warn('Email transporter not initialized. Check EMAIL_USER and EMAIL_PASS environment variables.');
+      return { 
+        success: false, 
+        error: 'Email service not configured. Please set EMAIL_USER and EMAIL_PASS environment variables.' 
+      };
+    }
+
+    console.log(`Attempting to send email to user: ${userEmail}`);
+    
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"Travel Agency" <${process.env.EMAIL_USER}>`,
       to: userEmail,
       subject: subject,
       html: htmlContent,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent to user:', info.response);
+    console.log('Email sent to user successfully:', info.response);
+    console.log('Message ID:', info.messageId);
     return { success: true, messageId: info.messageId };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error sending email to user:', error);
-    return { success: false, error };
+    
+    // Provide more helpful error messages for common Gmail authentication issues
+    if (error && typeof error === 'object' && 'code' in error) {
+      if (error.code === 'EAUTH') {
+        console.error('Gmail authentication failed. Make sure you are using an App Password if you have 2-Step Verification enabled.');
+        return { 
+          success: false, 
+          error: 'Gmail authentication failed. Please check your EMAIL_USER and EMAIL_PASS. If you have 2-Step Verification enabled, you need to use an App Password.' 
+        };
+      } else if (error.code === 'ESOCKET') {
+        return {
+          success: false,
+          error: 'Connection to Gmail SMTP server failed. Please check your network connection.'
+        };
+      }
+    }
+    
+    return { 
+      success: false, 
+      error: error && typeof error === 'object' && 'message' in error ? error.message : 'Unknown error sending email' 
+    };
   }
 }
 
@@ -39,8 +92,28 @@ export async function sendAdminEmail(
   replyTo: string = ''
 ) {
   try {
+    // Check if transporter is available
+    if (!transporter) {
+      console.warn('Email transporter not initialized. Check EMAIL_USER and EMAIL_PASS environment variables.');
+      return { 
+        success: false, 
+        error: 'Email service not configured. Please set EMAIL_USER and EMAIL_PASS environment variables.' 
+      };
+    }
+
+    // Check if admin email is available
+    if (!process.env.ADMIN_EMAIL) {
+      console.warn('ADMIN_EMAIL not found in environment variables');
+      return { 
+        success: false, 
+        error: 'Admin email not configured. Please set ADMIN_EMAIL environment variable.' 
+      };
+    }
+
+    console.log(`Attempting to send email to admin: ${process.env.ADMIN_EMAIL}`);
+    
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"Travel Agency" <${process.env.EMAIL_USER}>`,
       to: process.env.ADMIN_EMAIL,
       replyTo: replyTo || process.env.EMAIL_USER,
       subject: subject,
@@ -48,11 +121,32 @@ export async function sendAdminEmail(
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent to admin:', info.response);
+    console.log('Email sent to admin successfully:', info.response);
+    console.log('Message ID:', info.messageId);
     return { success: true, messageId: info.messageId };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error sending email to admin:', error);
-    return { success: false, error };
+    
+    // Provide more helpful error messages for common Gmail authentication issues
+    if (error && typeof error === 'object' && 'code' in error) {
+      if (error.code === 'EAUTH') {
+        console.error('Gmail authentication failed. Make sure you are using an App Password if you have 2-Step Verification enabled.');
+        return { 
+          success: false, 
+          error: 'Gmail authentication failed. Please check your EMAIL_USER and EMAIL_PASS. If you have 2-Step Verification enabled, you need to use an App Password.' 
+        };
+      } else if (error.code === 'ESOCKET') {
+        return {
+          success: false,
+          error: 'Connection to Gmail SMTP server failed. Please check your network connection.'
+        };
+      }
+    }
+    
+    return { 
+      success: false, 
+      error: error && typeof error === 'object' && 'message' in error ? error.message : 'Unknown error sending email' 
+    };
   }
 }
 
@@ -61,16 +155,22 @@ interface Booking {
   firstName: string;
   lastName: string;
   destination: string;
-  date: string;
+  travelDate?: string;
+  date?: string;
   travelers: number;
   totalAmount: string;
   email: string;
+  phone?: string;
+  packageName?: string;
+  cardNumber?: string;
 }
 
 interface ContactForm {
   name: string;
   email: string;
   message: string;
+  phone?: string;
+  subject?: string;
 }
 
 interface NewsletterSubscription {
@@ -114,9 +214,8 @@ export const emailTemplates = {
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Booking Details</h3>
         <p><strong>Booking ID:</strong> ${booking.id || 'TBA'}</p>
-        <p><strong>Package:</strong> ${booking.packageName}</p>
         <p><strong>Destination:</strong> ${booking.destination}</p>
-        <p><strong>Travel Date:</strong> ${booking.travelDate}</p>
+        <p><strong>Travel Date:</strong> ${booking.travelDate || booking.date}</p>
         <p><strong>Number of Travelers:</strong> ${booking.travelers}</p>
         <p><strong>Total Amount:</strong> $${booking.totalAmount}</p>
       </div>
@@ -136,20 +235,19 @@ export const emailTemplates = {
         <h3 style="margin-top: 0; color: #4a5568;">Customer Information</h3>
         <p><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</p>
         <p><strong>Email:</strong> ${booking.email}</p>
-        <p><strong>Phone:</strong> ${booking.phone}</p>
+        <p><strong>Phone:</strong> ${booking.phone || 'Not provided'}</p>
       </div>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Booking Details</h3>
-        <p><strong>Package:</strong> ${booking.packageName}</p>
         <p><strong>Destination:</strong> ${booking.destination}</p>
-        <p><strong>Travel Date:</strong> ${booking.travelDate}</p>
+        <p><strong>Travel Date:</strong> ${booking.travelDate || booking.date}</p>
         <p><strong>Number of Travelers:</strong> ${booking.travelers}</p>
         <p><strong>Total Amount:</strong> $${booking.totalAmount}</p>
       </div>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Payment Information</h3>
         <p><strong>Payment Method:</strong> Credit Card</p>
-        <p><strong>Card Number:</strong> XXXX-XXXX-XXXX-${booking.cardNumber.slice(-4)}</p>
+        <p><strong>Card Number:</strong> XXXX-XXXX-XXXX-${booking.cardNumber ? booking.cardNumber.slice(-4) : '****'}</p>
       </div>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
         <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
@@ -171,7 +269,7 @@ export const emailTemplates = {
   `,
 
   // Contact form notification for admin
-  contactFormNotification: (formData: ContactForm) => `
+  contactAdminNotification: (formData: ContactForm) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">New Contact Form Submission</h2>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
@@ -179,7 +277,7 @@ export const emailTemplates = {
         <p><strong>Name:</strong> ${formData.name}</p>
         <p><strong>Email:</strong> ${formData.email}</p>
         <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-        <p><strong>Subject:</strong> ${formData.subject}</p>
+        <p><strong>Subject:</strong> ${formData.subject || 'Not provided'}</p>
       </div>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Message</h3>
