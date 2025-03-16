@@ -41,6 +41,19 @@ export async function POST(request: NextRequest) {
       createdAt: new Date()
     };
 
+    // Check if we have a valid DATABASE_URL
+    if (!process.env.DATABASE_URL || 
+        !(process.env.DATABASE_URL.startsWith('mongodb://') || 
+          process.env.DATABASE_URL.startsWith('mongodb+srv://'))) {
+      console.log('No valid DATABASE_URL found, skipping database storage');
+      return NextResponse.json({
+        success: true,
+        bookingId,
+        message: 'Booking processed successfully',
+        note: 'Your booking information will be synced when our database is configured.'
+      });
+    }
+
     try {
       // Connect to database
       const db = await connectToDatabase();

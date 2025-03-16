@@ -35,7 +35,20 @@ const mockDashboardData = {
 };
 
 export async function GET() {
+  // During build time, always return mock data to avoid database connection errors
+  if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE === 'build') {
+    return NextResponse.json(mockDashboardData);
+  }
+
   try {
+    // Check if we have a valid DATABASE_URL
+    if (!process.env.DATABASE_URL || 
+        !(process.env.DATABASE_URL.startsWith('mongodb://') || 
+          process.env.DATABASE_URL.startsWith('mongodb+srv://'))) {
+      console.log('No valid DATABASE_URL found, returning mock data');
+      return NextResponse.json(mockDashboardData);
+    }
+
     try {
       // Try to connect to the database
       await connectToDatabase();

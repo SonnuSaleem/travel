@@ -46,7 +46,27 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // During build time, always return mock data to avoid database connection errors
+  if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE === 'build') {
+    return NextResponse.json({
+      success: true,
+      bookings: mockBookings
+    });
+  }
+
   try {
+    // Check if we have a valid DATABASE_URL
+    if (!process.env.DATABASE_URL || 
+        !(process.env.DATABASE_URL.startsWith('mongodb://') || 
+          process.env.DATABASE_URL.startsWith('mongodb+srv://'))) {
+      console.log('No valid DATABASE_URL found, returning mock data');
+      return NextResponse.json({
+        success: true,
+        bookings: mockBookings,
+        note: 'Using mock data due to missing database configuration'
+      });
+    }
+
     try {
       // Connect to database
       const db = await connectToDatabase();

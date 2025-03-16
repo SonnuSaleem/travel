@@ -46,12 +46,16 @@ export async function connectToDatabase() {
       throw new Error('Invalid MongoDB connection string. Please check your DATABASE_URL environment variable.');
     }
     
+    if (!clientPromise) {
+      throw new Error('MongoDB client not initialized. Please check your DATABASE_URL environment variable.');
+    }
+    
     const client = await clientPromise;
     const db = client.db('travel_agency');
     return db;
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error);
-    throw new Error('Database connection failed. Please check your configuration.');
+    throw error; // Rethrow to allow calling code to handle the error
   }
 }
 
