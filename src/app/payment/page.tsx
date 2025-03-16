@@ -71,7 +71,6 @@ function PaymentContent() {
         lastName: name?.split(' ').slice(1).join(' ') || '',
         email: email || '',
         phone: searchParams.get('phone') || '123456789', // Default phone if not provided
-        packageName: searchParams.get('package') || destination || '',
         destination: destination || '',
         travelDate: date || new Date().toISOString().split('T')[0],
         travelers: travelers || '1',
