@@ -71,7 +71,7 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source 
-            src="https://download-video-ak.vimeocdn.com/v3-1/playback/f2687e59-4a92-4e4e-920f-13a2476e3fef/07ac9fb2?__token__=st=1742099540~exp=1742113940~acl=%2Fv3-1%2Fplayback%2Ff2687e59-4a92-4e4e-920f-13a2476e3fef%2F07ac9fb2%2A~hmac=54c851d4c03b076cbfc9617a36b1063320423de786cec3b31e24123a7982a234&r=dXMtd2VzdDE%3D" 
+            src="/HeroVideo.mp4" 
             type="video/mp4" 
           />
           Your browser does not support the video tag.
@@ -111,13 +111,13 @@ const Hero = () => {
             <button
               type="button"
               onClick={() => window.location.href = '/destinations'}
-              className="group relative bg-gradient-to-r from-primary via-accent to-secondary text-white font-bold py-4 px-12 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark shadow-lg shadow-accent/20 transform hover:scale-105 active:scale-95 hover:bg-gradient-to-r hover:from-purple-700 hover:via-indigo-600 hover:to-blue-600"
+              className="group relative bg-gradient-to-r from-primary via-accent to-secondary text-white font-bold py-4 px-12 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark shadow-lg shadow-accent/20 transform hover:scale-105 active:scale-95 hover:bg-gradient-to-r hover:from-purple-800 hover:via-indigo-700 hover:to-blue-700"
             >
               <span className="flex items-center justify-center">
-                <FaSearch className="mr-2 animate-pulse" />
-                <span className="tracking-wider text-white">Explore Our Packages</span>
+                <FaSearch className="mr-2 animate-pulse z-1" />
+                <span className="tracking-wider text-white z-1">Explore Our Packages</span>
               </span>
-              <div className="absolute inset-0 rounded-full bg-white/5 opacity-100"></div>
+              <div className="absolute inset-0 rounded-full bg-gray-700 opacity-80 z-0"></div>
             </button>
           </motion.div>
         </motion.div>
