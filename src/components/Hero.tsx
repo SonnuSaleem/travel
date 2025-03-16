@@ -1,193 +1,125 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaSearch, FaCalendarAlt, FaMapMarkerAlt, FaUsers, FaArrowRight } from 'react-icons/fa';
-import Image from 'next/image';
+import { FaSearch } from 'react-icons/fa';
 
 const Hero = () => {
-  const [destination, setDestination] = useState('');
-  const [date, setDate] = useState('');
-  const [travelers, setTravelers] = useState('');
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate inputs
-    if (!destination.trim()) {
-      alert('Please enter a destination');
-      return;
+  useEffect(() => {
+    // Add event listeners to the video
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      // Ensure video plays properly
+      videoElement.play().catch(error => {
+        console.log('Video autoplay failed:', error);
+      });
     }
-    if (!date) {
-      alert('Please select a date');
-      return;
-    }
-    if (!travelers) {
-      alert('Please select number of travelers');
-      return;
-    }
+  }, []);
 
-    // For now, redirect to destinations page with search params
-    const searchParams = new URLSearchParams({
-      destination: destination.trim(),
-      date,
-      travelers
-    });
-    
-    window.location.href = `/destinations?${searchParams.toString()}`;
+  // Animation variants for smoother transitions
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 1.2, 
+        ease: [0.25, 0.1, 0.25, 1] // cubic-bezier easing for smoother motion
+      }
+    }
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 1, 
+        ease: [0.25, 0.1, 0.25, 1],
+        delay: 0.6
+      }
+    }
   };
 
   return (
     <div className="relative h-screen">
-      {/* Background Image with Overlay */}
+      {/* Background Video */}
       <div className="absolute inset-0 overflow-hidden">
-        <Image
-          src="https://c4.wallpaperflare.com/wallpaper/680/388/949/nature-landscape-field-terraces-wallpaper-preview.jpg"
-          alt="Snow-capped mountains and misty evergreen forest"
-          fill
-          className="object-cover"
-          priority
-        />
+        {/* Video Background */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source 
+            src="https://download-video-ak.vimeocdn.com/v3-1/playback/f2687e59-4a92-4e4e-920f-13a2476e3fef/07ac9fb2?__token__=st=1742099540~exp=1742113940~acl=%2Fv3-1%2Fplayback%2Ff2687e59-4a92-4e4e-920f-13a2476e3fef%2F07ac9fb2%2A~hmac=54c851d4c03b076cbfc9617a36b1063320423de786cec3b31e24123a7982a234&r=dXMtd2VzdDE%3D" 
+            type="video/mp4" 
+          />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-dark/80 via-dark/60 to-transparent" />
       </div>
 
       {/* Content */}
       <div className="relative h-full flex flex-col items-center justify-center text-light px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-4xl mb-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="text-center max-w-4xl mb-12"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-lg">
-            <span className="block"><span className="bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">Explore</span> The</span>
-            <span className="text-primary-light drop-shadow-[0_2px_4px_rgba(255,107,107,0.6)]">Beautiful </span>
-            <span className="text-secondary drop-shadow-[0_2px_4px_rgba(255,183,3,0.6)]">World</span>
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-secondary-light drop-shadow-md">
-            Discover amazing places at exclusive deals. Adventure awaits!
-          </p>
-        </motion.div>
-
-        {/* Search Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="w-full max-w-5xl"
-        >
-          <div className="bg-gradient-to-r from-primary via-accent to-secondary p-1 rounded-xl shadow-2xl">
-            <div 
-              className="rounded-xl p-8 backdrop-blur-xl"
-              style={{
-                backgroundColor: 'rgba(29, 29, 29, 0.8)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid rgba(251, 133, 0, 0.2)'
-              }}
+          <motion.h1 
+            variants={itemVariants}
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-lg"
+          >
+            <span className="block"><span className="bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">Phool Nagar</span> Travels</span>
+            <span className="text-primary-light drop-shadow-[0_2px_4px_rgba(255,107,107,0.6)]">Your Trusted </span>
+            <span className="text-secondary drop-shadow-[0_2px_4px_rgba(255,183,3,0.6)]">Travel Agency</span>
+          </motion.h1>
+          <motion.p 
+            variants={itemVariants}
+            className="text-xl md:text-2xl mb-12 text-secondary-light drop-shadow-md"
+          >
+            Best travel agency in Phool Nagar offering affordable tour packages and visa services
+          </motion.p>
+          
+          <motion.div
+            variants={buttonVariants}
+            className="flex justify-center"
+          >
+            <button
+              type="button"
+              onClick={() => window.location.href = '/destinations'}
+              className="group relative bg-gradient-to-r from-primary via-accent to-secondary text-white font-bold py-4 px-12 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark shadow-lg shadow-accent/20 transform hover:scale-105 active:scale-95 hover:bg-gradient-to-r hover:from-purple-700 hover:via-indigo-600 hover:to-blue-600"
             >
-              <form onSubmit={handleSearch} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="relative">
-                    <label htmlFor="destination" className="block text-secondary text-sm font-medium mb-2">
-                      Where To?
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <FaMapMarkerAlt className="text-accent" />
-                      </div>
-                      <input
-                        type="text"
-                        id="destination"
-                        className="block w-full pl-12 pr-4 py-4 bg-dark-light/50 border border-accent/20 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-white placeholder-light/30"
-                        placeholder="Where would you like to go?"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="date" className="block text-secondary text-sm font-medium mb-2">
-                      When?
-                    </label>
-                    <div className="relative">
-                      <div 
-                        className="absolute inset-y-0 left-0 pl-4 flex items-center cursor-pointer z-10"
-                        onClick={() => {
-                          const dateInput = document.getElementById('date') as HTMLInputElement;
-                          if (dateInput) {
-                            try {
-                              dateInput.showPicker();
-                            } catch {
-                              // Fallback for browsers that don't support showPicker
-                              dateInput.click();
-                            }
-                          }
-                        }}
-                      >
-                        <FaCalendarAlt className="text-accent hover:text-primary transition-colors duration-300" />
-                      </div>
-                      <input
-                        type="date"
-                        id="date"
-                        className="block w-full pl-12 pr-4 py-4 bg-dark-light/50 border border-accent/20 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-white calendar-white"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        min={new Date().toISOString().split('T')[0]}
-                        required
-                        style={{
-                          colorScheme: 'dark'
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="travelers" className="block text-secondary text-sm font-medium mb-2">
-                      Travelers
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <FaUsers className="text-accent" />
-                      </div>
-                      <select
-                        id="travelers"
-                        className="block w-full pl-12 pr-10 py-4 bg-dark-light/50 border border-accent/20 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-white appearance-none cursor-pointer hover:bg-dark-light/60 transition-colors duration-300"
-                        value={travelers}
-                        onChange={(e) => setTravelers(e.target.value)}
-                        required
-                      >
-                        <option value="" className="bg-dark text-light/80">Number of travelers</option>
-                        <option value="1" className="bg-dark text-light">1 Traveler</option>
-                        <option value="2" className="bg-dark text-light">2 Travelers</option>
-                        <option value="3" className="bg-dark text-light">3 Travelers</option>
-                        <option value="4" className="bg-dark text-light">4 Travelers</option>
-                        <option value="5+" className="bg-dark text-light">5+ Travelers</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                        <FaArrowRight className="text-accent" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 flex justify-center">
-                  <button
-                    type="submit"
-                    className="group relative bg-gradient-to-r from-primary via-accent to-secondary hover:from-primary-dark hover:via-accent-dark hover:to-secondary-dark text-white font-bold py-4 px-12 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark shadow-lg hover:shadow-accent/20 transform hover:scale-105 active:scale-95"
-                  >
-                    <span className="flex items-center justify-center">
-                      <FaSearch className="mr-2 group-hover:animate-pulse" />
-                      <span className="group-hover:tracking-wider transition-all duration-300">Search Now</span>
-                    </span>
-                    <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+              <span className="flex items-center justify-center">
+                <FaSearch className="mr-2 animate-pulse" />
+                <span className="tracking-wider text-white">Explore Our Packages</span>
+              </span>
+              <div className="absolute inset-0 rounded-full bg-white/5 opacity-100"></div>
+            </button>
+          </motion.div>
         </motion.div>
       </div>
     </div>

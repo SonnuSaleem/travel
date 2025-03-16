@@ -35,8 +35,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold">
-            <span className="text-primary">Travel</span>
-            <span className="text-secondary">Ease</span>
+            <span className="text-primary">Infinite</span>
+            <span className="text-secondary">Journeys</span>
           </Link>
 
           {/* Desktop Menu */}
