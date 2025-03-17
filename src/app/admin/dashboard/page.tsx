@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { 
   FaHome, FaSignOutAlt, FaCalendarCheck, FaExclamationTriangle
 } from 'react-icons/fa';
+import { getApiUrl } from '@/lib/utils';
 
 // Simplified dashboard data interface
 interface DashboardData {
@@ -42,36 +43,40 @@ export default function AdminDashboard() {
   const [isLoadingBookings, setIsLoadingBookings] = useState(false);
 
   // Function to fetch dashboard data
-  const fetchDashboardData = useCallback(async () => {
+  const fetchDashboardData = async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch('/api/admin/dashboard');
+      // Use the dynamic API URL
+      const apiUrl = getApiUrl('/api/admin/dashboard');
+      console.log('Fetching dashboard data from:', apiUrl);
+      
+      const response = await fetch(apiUrl);
       
       if (!response.ok) {
         throw new Error('Failed to fetch dashboard data');
       }
       
       const data = await response.json();
-      setDashboardData({
-        totalRevenue: data.totalRevenue || 0,
-        totalBookings: data.totalBookings || 0,
-        totalDestinations: data.totalDestinations || 0,
-        activeUsers: data.activeUsers || 0
-      });
-      setError(null);
-    } catch (err) {
-      console.error('Error fetching dashboard data:', err);
-      setError('Failed to load dashboard data. Please try again.');
+      setDashboardData(data);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      setError('Failed to load dashboard data. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  };
 
   // Function to fetch bookings
-  const fetchBookings = useCallback(async () => {
+  const fetchBookings = async () => {
+    setIsLoadingBookings(true);
     try {
-      setIsLoadingBookings(true);
-      // Add admin auth header for simple authentication
-      const response = await fetch('/api/admin/bookings', {
+      // Use the dynamic API URL
+      const apiUrl = getApiUrl('/api/admin/bookings');
+      console.log('Fetching bookings from:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         headers: {
-          'x-admin-auth': 'true'
+          'x-admin-auth': localStorage.getItem('adminToken') || ''
         }
       });
       
@@ -81,13 +86,13 @@ export default function AdminDashboard() {
       
       const data = await response.json();
       setBookings(data.bookings || []);
-    } catch (err) {
-      console.error('Error fetching bookings:', err);
-      // Don't set error state to avoid disrupting the dashboard
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+      setBookingsError('Failed to load bookings. Please try again later.');
     } finally {
       setIsLoadingBookings(false);
     }
-  }, []);
+  };
 
   // Check if user is authenticated
   useEffect(() => {

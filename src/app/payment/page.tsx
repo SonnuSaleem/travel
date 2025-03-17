@@ -1,24 +1,19 @@
 'use client';
 
-import { useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaCreditCard, FaLock, FaCheckCircle } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
+import { getApiUrl } from '@/lib/utils';
 
 function PaymentContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
+  
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [selectedCard, setSelectedCard] = useState<'credit' | 'master' | null>(null);
-  const [cardDetails, setCardDetails] = useState({
-    cardNumber: '',
-    cardHolder: '',
-    expiryDate: '',
-    cvv: ''
-  });
-
+  const [error, setError] = useState('');
+  
   // Get booking details from URL params
   const destination = searchParams.get('destination');
   const price = searchParams.get('price');
@@ -26,83 +21,88 @@ function PaymentContent() {
   const date = searchParams.get('date');
   const name = searchParams.get('name');
   const email = searchParams.get('email');
-
-  const handleCardSelect = (type: 'credit' | 'master') => {
-    setSelectedCard(type);
+  const phone = searchParams.get('phone');
+  
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: '',
+    cardHolder: '',
+    expiryDate: '',
+    cvv: ''
+  });
+  
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    // Add spaces after every 4 digits
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    // Limit to 16 digits (19 with spaces)
+    value = value.substring(0, 19);
+    setCardDetails({ ...cardDetails, cardNumber: value });
   };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    let formattedValue = value;
-
-    // Format card number with spaces
-    if (name === 'cardNumber') {
-      formattedValue = value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim();
+  
+  const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 2) {
+      value = value.substring(0, 2) + '/' + value.substring(2, 4);
     }
-    // Format expiry date
-    if (name === 'expiryDate') {
-      formattedValue = value
-        .replace(/\D/g, '')
-        .replace(/(\d{2})(\d)/, '$1/$2')
-        .substring(0, 5);
-    }
-    // Limit CVV to 3 digits
-    if (name === 'cvv') {
-      formattedValue = value.substring(0, 3);
-    }
-
-    setCardDetails(prev => ({ ...prev, [name]: formattedValue }));
+    setCardDetails({ ...cardDetails, expiryDate: value });
   };
-
+  
+  const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '').substring(0, 3);
+    setCardDetails({ ...cardDetails, cvv: value });
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProcessing(true);
-
-    // Validate card details
-    if (!validateCardDetails()) {
-      setIsProcessing(false);
+    
+    // Validate form
+    if (!validateForm()) {
       return;
     }
-
+    
+    setIsProcessing(true);
+    setError('');
+    
     try {
-      // Prepare booking data
-      const bookingData = {
-        firstName: name?.split(' ')[0] || '',
-        lastName: name?.split(' ').slice(1).join(' ') || '',
-        email: email || '',
-        phone: searchParams.get('phone') || '123456789', // Default phone if not provided
-        destination: destination || '',
-        travelDate: date || new Date().toISOString().split('T')[0],
-        travelers: travelers || '1',
-        totalAmount: price || '0',
-        cardNumber: cardDetails.cardNumber.replace(/\s/g, ''),
-        cardHolder: cardDetails.cardHolder,
-        expiryDate: cardDetails.expiryDate
-      };
-
-      // Log the data being sent to help debug
-      console.log('Sending booking data:', bookingData);
-
-      // Send booking data to API
-      const response = await fetch('/api/booking', {
+      // Use the dynamic API URL
+      const apiUrl = getApiUrl('/api/booking');
+      console.log('Submitting booking to:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify({
+          firstName: name?.split(' ')[0] || '',
+          lastName: name?.split(' ').slice(1).join(' ') || '',
+          email,
+          phone,
+          destination,
+          date,
+          travelers: parseInt(travelers || '1'),
+          totalAmount: price || '0',
+          cardNumber: cardDetails.cardNumber.replace(/\s/g, ''),
+          cardName: cardDetails.cardHolder,
+          expiryDate: cardDetails.expiryDate,
+          cvv: cardDetails.cvv,
+        }),
       });
-
+      
       const data = await response.json();
-
+      
       if (!response.ok) {
-        throw new Error(data.error || 'Payment processing failed');
+        throw new Error(data.error || 'Failed to process payment');
       }
-
-      // Redirect to confirmation page with booking ID
+      
+      // Show success message before redirecting
       setPaymentSuccess(true);
       
       // Redirect to confirmation page after a short delay
       setTimeout(() => {
+        // Redirect to confirmation page
+        const bookingId = data.bookingId || 'BK-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        
         const params = new URLSearchParams({
           destination: destination || '',
           price: price || '',
@@ -110,57 +110,50 @@ function PaymentContent() {
           date: date || '',
           name: name || '',
           email: email || '',
-          bookingId: data.bookingId || ''
+          bookingId,
         });
-        router.push(`/booking-confirmation?${params.toString()}`);
+        
+        window.location.href = `/booking-confirmation?${params.toString()}`;
       }, 2000);
-    } catch (error) {
-      console.error('Payment error:', error);
-      alert('Payment processing failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    } catch (err) {
+      console.error('Payment processing error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to process payment. Please try again.');
+    } finally {
       setIsProcessing(false);
     }
   };
-
-  const validateCardDetails = () => {
+  
+  const validateForm = () => {
     // Card number validation (16 digits, spaces allowed)
     const cardNumberRegex = /^[\d\s]{16,19}$/;
-    const cardNumberWithoutSpaces = cardDetails.cardNumber.replace(/\s/g, '');
-    if (!cardNumberRegex.test(cardDetails.cardNumber) || cardNumberWithoutSpaces.length !== 16) {
-      alert('Please enter a valid 16-digit card number');
+    if (!cardNumberRegex.test(cardDetails.cardNumber)) {
+      setError('Please enter a valid 16-digit card number');
       return false;
     }
-
-    // Card holder validation (not empty, only letters and spaces)
-    if (!cardDetails.cardHolder || !/^[A-Za-z\s]+$/.test(cardDetails.cardHolder)) {
-      alert('Please enter a valid card holder name');
+    
+    // Card holder validation (not empty)
+    if (!cardDetails.cardHolder.trim()) {
+      setError('Please enter the cardholder name');
       return false;
     }
-
+    
     // Expiry date validation (MM/YY format)
     const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
     if (!expiryRegex.test(cardDetails.expiryDate)) {
-      alert('Please enter a valid expiry date (MM/YY)');
+      setError('Please enter a valid expiry date (MM/YY)');
       return false;
     }
-
-    // Check if card is expired
-    const [month, year] = cardDetails.expiryDate.split('/');
-    const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
-    const currentDate = new Date();
-    if (expiryDate < currentDate) {
-      alert('Your card has expired');
-      return false;
-    }
-
+    
     // CVV validation (3 digits)
     if (!/^\d{3}$/.test(cardDetails.cvv)) {
-      alert('Please enter a valid 3-digit CVV');
+      setError('Please enter a valid 3-digit CVV');
       return false;
     }
-
+    
     return true;
   };
-
+  
+  // If payment is successful, show success message
   if (paymentSuccess) {
     return (
       <div className="min-h-screen pt-16 bg-dark-light">
@@ -175,178 +168,152 @@ function PaymentContent() {
             <p className="text-light-dark mb-8">
               Your booking has been confirmed. Redirecting to confirmation page...
             </p>
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto"></div>
           </motion.div>
         </div>
       </div>
     );
   }
-
+  
   return (
     <div className="min-h-screen pt-16 bg-dark-light">
-      <BackButton />
-      
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-dark rounded-xl shadow-2xl p-8"
-          >
-            <div className="flex items-center justify-between mb-8 pb-6 border-b border-dark-light">
-              <h1 className="text-2xl font-bold text-light">Complete Your Payment</h1>
-              <div className="flex items-center text-accent">
-                <FaLock className="mr-2" />
-                <span>Secure Payment</span>
-              </div>
-            </div>
-
-            {/* Booking Summary */}
-            <div className="mb-8 p-6 bg-dark-light/30 rounded-lg">
-              <h2 className="text-xl font-semibold text-light mb-4">Booking Summary</h2>
-              <div className="space-y-2 text-light-dark">
-                <p><span className="font-medium">Destination:</span> {destination}</p>
-                <p><span className="font-medium">Travel Date:</span> {new Date(date || '').toLocaleDateString()}</p>
-                <p><span className="font-medium">Travelers:</span> {travelers}</p>
-                <p><span className="font-medium">Total Amount:</span> <span className="text-xl font-bold text-secondary">${price}</span></p>
-              </div>
-            </div>
-
-            {/* Payment Method Selection */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-light mb-4">Select Payment Method</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button
-                  onClick={() => handleCardSelect('credit')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    selectedCard === 'credit'
-                      ? 'border-primary bg-primary/10'
-                      : 'border-dark-light hover:border-primary/50'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <FaCreditCard className="text-2xl text-primary mr-3" />
-                    <div className="text-left">
-                      <p className="font-semibold text-light">Credit Card</p>
-                      <p className="text-sm text-light-dark">Visa, American Express</p>
-                    </div>
+      <div className="container mx-auto px-4 py-8">
+        <BackButton />
+        
+        <div className="max-w-4xl mx-auto bg-dark rounded-lg shadow-lg overflow-hidden mt-8">
+          <div className="p-6 md:p-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-light mb-6">Complete Your Booking</h1>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Booking Summary */}
+              <div className="bg-dark-light rounded-lg p-6">
+                <h2 className="text-xl font-semibold text-light mb-4">Booking Summary</h2>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-light-dark">Destination</p>
+                    <p className="text-light font-medium">{destination}</p>
                   </div>
-                </button>
-
-                <button
-                  onClick={() => handleCardSelect('master')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    selectedCard === 'master'
-                      ? 'border-primary bg-primary/10'
-                      : 'border-dark-light hover:border-primary/50'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <FaCreditCard className="text-2xl text-primary mr-3" />
-                    <div className="text-left">
-                      <p className="font-semibold text-light">Mastercard</p>
-                      <p className="text-sm text-light-dark">Debit or Credit</p>
-                    </div>
+                  
+                  <div>
+                    <p className="text-light-dark">Travel Date</p>
+                    <p className="text-light font-medium">{date}</p>
                   </div>
-                </button>
-              </div>
-            </div>
-
-            {/* Payment Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="cardNumber" className="block text-light font-medium mb-2">
-                  Card Number
-                </label>
-                <input
-                  type="text"
-                  id="cardNumber"
-                  name="cardNumber"
-                  placeholder="1234 5678 9012 3456"
-                  value={cardDetails.cardNumber}
-                  onChange={handleInputChange}
-                  maxLength={19}
-                  className="w-full px-4 py-3 bg-dark-light border border-dark-lighter rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-light"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="cardHolder" className="block text-light font-medium mb-2">
-                  Card Holder Name
-                </label>
-                <input
-                  type="text"
-                  id="cardHolder"
-                  name="cardHolder"
-                  placeholder="John Doe"
-                  value={cardDetails.cardHolder}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-dark-light border border-dark-lighter rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-light"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="expiryDate" className="block text-light font-medium mb-2">
-                    Expiry Date
-                  </label>
-                  <input
-                    type="text"
-                    id="expiryDate"
-                    name="expiryDate"
-                    placeholder="MM/YY"
-                    value={cardDetails.expiryDate}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-dark-light border border-dark-lighter rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-light"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="cvv" className="block text-light font-medium mb-2">
-                    CVV
-                  </label>
-                  <input
-                    type="text"
-                    id="cvv"
-                    name="cvv"
-                    placeholder="123"
-                    value={cardDetails.cvv}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-dark-light border border-dark-lighter rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-light"
-                    required
-                  />
+                  
+                  <div>
+                    <p className="text-light-dark">Travelers</p>
+                    <p className="text-light font-medium">{travelers}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-light-dark">Contact Information</p>
+                    <p className="text-light font-medium">{name}</p>
+                    <p className="text-light font-medium">{email}</p>
+                    {phone && <p className="text-light font-medium">{phone}</p>}
+                  </div>
+                  
+                  <div className="pt-4 border-t border-dark-light">
+                    <p className="text-light-dark">Total Amount</p>
+                    <p className="text-2xl font-bold text-primary">${price}</p>
+                  </div>
                 </div>
               </div>
-
-              <button
-                type="submit"
-                disabled={isProcessing}
-                className="w-full bg-gradient-to-r from-primary via-accent to-secondary hover:opacity-90 text-light font-bold py-4 px-8 rounded-lg transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isProcessing ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing Payment...
-                  </>
-                ) : (
-                  <>
-                    <FaCreditCard className="mr-2" />
-                    Pay ${price}
-                  </>
+              
+              {/* Payment Form */}
+              <div>
+                <h2 className="text-xl font-semibold text-light mb-4">Payment Details</h2>
+                
+                {error && (
+                  <div className="bg-red-900/30 border border-red-500/50 text-red-200 px-4 py-3 rounded mb-4">
+                    <p>{error}</p>
+                  </div>
                 )}
-              </button>
-
-              <p className="text-center text-light-dark text-sm mt-4">
-                By proceeding with the payment, you agree to our Terms of Service and Privacy Policy.
-              </p>
-            </form>
-          </motion.div>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="cardNumber" className="block text-light-dark mb-1">Card Number</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="cardNumber"
+                        className="w-full bg-dark-light border border-dark-light rounded-lg px-4 py-2 text-light focus:outline-none focus:ring-1 focus:ring-primary"
+                        placeholder="1234 5678 9012 3456"
+                        value={cardDetails.cardNumber}
+                        onChange={handleCardNumberChange}
+                        required
+                      />
+                      <FaCreditCard className="absolute right-3 top-1/2 transform -translate-y-1/2 text-light-dark" />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="cardHolder" className="block text-light-dark mb-1">Cardholder Name</label>
+                    <input
+                      type="text"
+                      id="cardHolder"
+                      className="w-full bg-dark-light border border-dark-light rounded-lg px-4 py-2 text-light focus:outline-none focus:ring-1 focus:ring-primary"
+                      placeholder="John Doe"
+                      value={cardDetails.cardHolder}
+                      onChange={(e) => setCardDetails({ ...cardDetails, cardHolder: e.target.value })}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="expiryDate" className="block text-light-dark mb-1">Expiry Date</label>
+                      <input
+                        type="text"
+                        id="expiryDate"
+                        className="w-full bg-dark-light border border-dark-light rounded-lg px-4 py-2 text-light focus:outline-none focus:ring-1 focus:ring-primary"
+                        placeholder="MM/YY"
+                        value={cardDetails.expiryDate}
+                        onChange={handleExpiryDateChange}
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="cvv" className="block text-light-dark mb-1">CVV</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="cvv"
+                          className="w-full bg-dark-light border border-dark-light rounded-lg px-4 py-2 text-light focus:outline-none focus:ring-1 focus:ring-primary"
+                          placeholder="123"
+                          value={cardDetails.cvv}
+                          onChange={handleCvvChange}
+                          required
+                        />
+                        <FaLock className="absolute right-3 top-1/2 transform -translate-y-1/2 text-light-dark" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                      disabled={isProcessing}
+                    >
+                      {isProcessing ? (
+                        <>
+                          <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                          Processing...
+                        </>
+                      ) : (
+                        'Complete Payment'
+                      )}
+                    </button>
+                  </div>
+                </form>
+                
+                <div className="mt-4 text-center text-light-dark text-sm">
+                  <p>Your payment information is secure and encrypted</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -354,11 +321,5 @@ function PaymentContent() {
 }
 
 export default function Payment() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-dark-light flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-    </div>}>
-      <PaymentContent />
-    </Suspense>
-  );
+  return <PaymentContent />;
 } 

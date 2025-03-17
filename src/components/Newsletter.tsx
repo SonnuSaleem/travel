@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPaperPlane } from 'react-icons/fa';
+import { getApiUrl } from '@/lib/utils';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +24,11 @@ const Newsletter = () => {
     setError('');
     
     try {
-      const response = await fetch('/api/newsletter', {
+      // Use the dynamic API URL
+      const apiUrl = getApiUrl('/api/newsletter');
+      console.log('Submitting newsletter to:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

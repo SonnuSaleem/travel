@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaUser, FaPaperPlane } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
+import { getApiUrl } from '@/lib/utils';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -25,16 +26,32 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     setError('');
-
+    
     try {
-      const response = await fetch('/api/contact', {
+      // Use the dynamic API URL
+      const apiUrl = getApiUrl('/api/contact');
+      console.log('Submitting contact form to:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
       
       const data = await response.json();
@@ -43,7 +60,7 @@ export default function Contact() {
         throw new Error(data.error || 'Failed to send message');
       }
       
-      setIsSuccess(true);
+      // Reset form and show success message
       setFormData({
         name: '',
         email: '',
@@ -51,9 +68,15 @@ export default function Contact() {
         message: '',
         phone: ''
       });
+      setIsSuccess(true);
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while sending your message. Please try again.');
-      console.error('Contact form error:', err);
+      console.error('Contact form submission error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

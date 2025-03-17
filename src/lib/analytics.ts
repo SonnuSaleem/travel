@@ -2,6 +2,9 @@
  * Client-side analytics utility for tracking user activity
  */
 
+// Import the getApiUrl function
+import { getApiUrl } from './utils';
+
 // Track when a user joins (page load) or leaves (page unload)
 export const trackUserActivity = () => {
   // Only run on client side
@@ -58,4 +61,60 @@ export const trackUserActivity = () => {
   return () => {
     window.removeEventListener('beforeunload', notifyUserLeft);
   };
-}; 
+};
+
+// Track active users
+export async function trackActiveUser() {
+  try {
+    // Get the current page URL
+    const currentPage = window.location.pathname;
+    
+    // Get the referrer if available
+    const referrer = document.referrer || 'direct';
+    
+    // Get the user agent
+    const userAgent = navigator.userAgent;
+    
+    // Use the dynamic API URL
+    const apiUrl = getApiUrl('/api/analytics/active-users');
+    
+    await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page: currentPage,
+        referrer,
+        userAgent,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+  } catch (error) {
+    // Silently fail to not disrupt user experience
+    console.error('Failed to track active user:', error);
+  }
+}
+
+// Track page views
+export async function trackPageView(page: string) {
+  try {
+    // Use the dynamic API URL
+    const apiUrl = getApiUrl('/api/analytics/active-users');
+    
+    await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page,
+        timestamp: new Date().toISOString(),
+        type: 'pageview',
+      }),
+    });
+  } catch (error) {
+    // Silently fail to not disrupt user experience
+    console.error('Failed to track page view:', error);
+  }
+} 
