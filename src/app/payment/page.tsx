@@ -321,7 +321,6 @@ function PaymentContent() {
   );
 }
 
-// Wrap the component with Suspense to fix the error with useSearchParams()
 export default function Payment() {
   return (
     <Suspense fallback={<div className="min-h-screen pt-16 bg-dark-light flex items-center justify-center">
@@ -330,4 +329,4 @@ export default function Payment() {
       <PaymentContent />
     </Suspense>
   );
-} 
+}
