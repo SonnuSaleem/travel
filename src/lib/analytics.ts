@@ -13,7 +13,8 @@ export const trackUserActivity = () => {
   // Function to notify the server when a user joins
   const notifyUserJoined = async () => {
     try {
-      await fetch('/api/analytics/active-users', {
+      const apiUrl = getApiUrl('/api/analytics/active-users');
+      await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,16 +29,17 @@ export const trackUserActivity = () => {
   // Function to notify the server when a user leaves
   const notifyUserLeft = async () => {
     try {
+      const apiUrl = getApiUrl('/api/analytics/active-users');
       // Use sendBeacon for more reliable delivery during page unload
       if (navigator.sendBeacon) {
         const blob = new Blob(
           [JSON.stringify({ action: 'leave' })],
           { type: 'application/json' }
         );
-        navigator.sendBeacon('/api/analytics/active-users', blob);
+        navigator.sendBeacon(apiUrl, blob);
       } else {
         // Fallback to fetch if sendBeacon is not available
-        await fetch('/api/analytics/active-users', {
+        await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

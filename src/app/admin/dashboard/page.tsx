@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -39,7 +39,9 @@ export default function AdminDashboard() {
   });
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [bookingsError, setBookingsError] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingBookings, setIsLoadingBookings] = useState(false);
 
   // Function to fetch dashboard data
@@ -105,7 +107,7 @@ export default function AdminDashboard() {
 
     fetchDashboardData();
     fetchBookings();
-  }, [router, fetchDashboardData, fetchBookings]);
+  }, [router]);
 
   // Function to handle logout
   const handleLogout = () => {
@@ -159,27 +161,33 @@ export default function AdminDashboard() {
         )}
         
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-gray-500 text-sm font-medium mb-2">Total Revenue</h3>
-            <p className="text-3xl font-bold text-gray-800">${dashboardData.totalRevenue.toLocaleString()}</p>
+        {isLoading ? (
+          <div className="flex justify-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
           </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-gray-500 text-sm font-medium mb-2">Total Bookings</h3>
-            <p className="text-3xl font-bold text-gray-800">{dashboardData.totalBookings}</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-gray-500 text-sm font-medium mb-2">Total Revenue</h3>
+              <p className="text-3xl font-bold text-gray-800">${dashboardData.totalRevenue.toLocaleString()}</p>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-gray-500 text-sm font-medium mb-2">Total Bookings</h3>
+              <p className="text-3xl font-bold text-gray-800">{dashboardData.totalBookings}</p>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-gray-500 text-sm font-medium mb-2">Destinations</h3>
+              <p className="text-3xl font-bold text-gray-800">{dashboardData.totalDestinations}</p>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-gray-500 text-sm font-medium mb-2">Active Users</h3>
+              <p className="text-3xl font-bold text-gray-800">{dashboardData.activeUsers}</p>
+            </div>
           </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-gray-500 text-sm font-medium mb-2">Destinations</h3>
-            <p className="text-3xl font-bold text-gray-800">{dashboardData.totalDestinations}</p>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-gray-500 text-sm font-medium mb-2">Active Users</h3>
-            <p className="text-3xl font-bold text-gray-800">{dashboardData.activeUsers}</p>
-          </div>
-        </div>
+        )}
         
         {/* Bookings Section */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -195,6 +203,12 @@ export default function AdminDashboard() {
               Refresh
             </button>
           </div>
+          
+          {bookingsError && (
+            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">
+              {bookingsError}
+            </div>
+          )}
           
           {isLoadingBookings ? (
             <div className="flex justify-center py-8">

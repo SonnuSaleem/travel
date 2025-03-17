@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { FaCreditCard, FaLock, FaCheckCircle } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
 import { getApiUrl } from '@/lib/utils';
+import { Suspense } from 'react';
 
 function PaymentContent() {
   const searchParams = useSearchParams();
@@ -320,6 +321,13 @@ function PaymentContent() {
   );
 }
 
+// Wrap the component with Suspense to fix the error with useSearchParams()
 export default function Payment() {
-  return <PaymentContent />;
+  return (
+    <Suspense fallback={<div className="min-h-screen pt-16 bg-dark-light flex items-center justify-center">
+      <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+    </div>}>
+      <PaymentContent />
+    </Suspense>
+  );
 } 
