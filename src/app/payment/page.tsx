@@ -8,12 +8,9 @@ import BackButton from '@/components/BackButton';
 import { getApiUrl } from '@/lib/utils';
 import { Suspense } from 'react';
 
-function PaymentContent() {
+// Client component that safely uses useSearchParams
+function PaymentWithSearchParams() {
   const searchParams = useSearchParams();
-  
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [error, setError] = useState('');
   
   // Get booking details from URL params
   const destination = searchParams.get('destination');
@@ -23,6 +20,41 @@ function PaymentContent() {
   const name = searchParams.get('name');
   const email = searchParams.get('email');
   const phone = searchParams.get('phone');
+  
+  return (
+    <PaymentContent 
+      destination={destination || ''}
+      price={price || ''}
+      travelers={travelers || ''}
+      date={date || ''}
+      name={name || ''}
+      email={email || ''}
+      phone={phone || ''}
+    />
+  );
+}
+
+// Component that accepts props instead of using useSearchParams directly
+function PaymentContent({
+  destination,
+  price,
+  travelers,
+  date,
+  name,
+  email,
+  phone
+}: {
+  destination: string;
+  price: string;
+  travelers: string;
+  date: string;
+  name: string;
+  email: string;
+  phone: string;
+}) {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [error, setError] = useState('');
   
   const [cardDetails, setCardDetails] = useState({
     cardNumber: '',
@@ -321,12 +353,13 @@ function PaymentContent() {
   );
 }
 
+// Main page component with proper Suspense boundary
 export default function Payment() {
   return (
     <Suspense fallback={<div className="min-h-screen pt-16 bg-dark-light flex items-center justify-center">
       <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
     </div>}>
-      <PaymentContent />
+      <PaymentWithSearchParams />
     </Suspense>
   );
 }
