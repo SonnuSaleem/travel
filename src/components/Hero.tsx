@@ -93,7 +93,7 @@ const Hero = () => {
             variants={itemVariants}
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-lg"
           >
-            <span className="block"><span className="bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">Phool Nagar</span> Travels</span>
+            <span className="block"><span className="bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">SafarNama</span></span>
             <span className="text-primary-light drop-shadow-[0_2px_4px_rgba(255,107,107,0.6)]">Your Trusted </span>
             <span className="text-secondary drop-shadow-[0_2px_4px_rgba(255,183,3,0.6)]">Travel Agency</span>
           </motion.h1>
@@ -101,7 +101,7 @@ const Hero = () => {
             variants={itemVariants}
             className="text-xl md:text-2xl mb-12 text-secondary-light drop-shadow-md"
           >
-            Best travel agency in Phool Nagar offering affordable tour packages and visa services
+            Best travel agency in Pakistan offering affordable tour packages and visa services
           </motion.p>
           
           <motion.div
