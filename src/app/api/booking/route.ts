@@ -7,8 +7,10 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
+    console.log('Received booking data:', JSON.stringify(body, null, 2));
+    
     // Validate required fields
-    const requiredFields = ['firstName', 'lastName', 'email', 'destination', 'travelDate', 'travelers', 'totalAmount'];
+    const requiredFields = ['firstName', 'lastName', 'email', 'destination', 'travelers', 'totalAmount'];
     for (const field of requiredFields) {
       if (!body[field]) {
         return NextResponse.json(
@@ -18,8 +20,19 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Check if we have a date in either date or travelDate field
+    if (!body.date && !body.travelDate) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required field: travel date' },
+        { status: 400 }
+      );
+    }
+
     // Generate a unique booking ID
     const bookingId = `BK-${uuidv4().substring(0, 8).toUpperCase()}`;
+    
+    // Use whichever date field is available
+    const travelDate = body.travelDate || body.date;
     
     // Create booking object with all data
     const bookingData = {
@@ -29,7 +42,7 @@ export async function POST(request: NextRequest) {
       email: body.email,
       phone: body.phone || '',
       destination: body.destination,
-      travelDate: body.travelDate,
+      travelDate: travelDate,
       travelers: parseInt(body.travelers) || 1,
       totalAmount: body.totalAmount,
       paymentMethod: 'Credit Card',
@@ -51,31 +64,20 @@ export async function POST(request: NextRequest) {
       adminEmail: 'Not attempted'
     };
 
-    // Try to store in database if we have a valid DATABASE_URL
-    if (!process.env.DATABASE_URL || 
-        !(process.env.DATABASE_URL.startsWith('mongodb://') || 
-          process.env.DATABASE_URL.startsWith('mongodb+srv://'))) {
-      console.log('No valid DATABASE_URL found, skipping database storage');
-      operationResults.database = 'Skipped - No valid DATABASE_URL';
-    } else {
-      try {
-        // Connect to database
-        const db = await connectToDatabase();
-        
-        // Insert booking into database
-        const result = await db.collection('bookings').insertOne(bookingData);
-        
-        if (result.acknowledged) {
-          // Successfully stored in database
-          dbSuccess = true;
-          operationResults.database = 'Success';
-        } else {
-          operationResults.database = 'Failed - Not acknowledged';
-        }
-      } catch (dbError) {
-        console.error('Database error:', dbError);
-        operationResults.database = `Failed - ${dbError.message}`;
+    // Try to store in database if connected
+    try {
+      if (process.env.DATABASE_URL) {
+        const { db } = await connectToDatabase();
+        await db.collection('bookings').insertOne(bookingData);
+        dbSuccess = true;
+        operationResults.database = 'Success';
+      } else {
+        console.log('No database connection, skipping database storage');
+        operationResults.database = 'Skipped - No database connection';
       }
+    } catch (dbError) {
+      console.error('Database error:', dbError);
+      operationResults.database = `Failed - ${dbError instanceof Error ? dbError.message : 'Unknown database error'}`;
     }
 
     // Try to send confirmation emails
@@ -92,7 +94,7 @@ export async function POST(request: NextRequest) {
         email: body.email,
         phone: body.phone || '',
         destination: body.destination,
-        travelDate: body.travelDate,
+        travelDate: travelDate,
         travelers: parseInt(body.travelers) || 1,
         totalAmount: body.totalAmount,
         packageName: body.destination, // Using destination as package name
@@ -114,7 +116,7 @@ export async function POST(request: NextRequest) {
         }
       } catch (emailError) {
         console.error('Error sending user email:', emailError);
-        operationResults.userEmail = `Failed - ${emailError.message}`;
+        operationResults.userEmail = `Failed - ${emailError instanceof Error ? emailError.message : 'Unknown email error'}`;
       }
 
       // Send notification to admin
@@ -133,7 +135,7 @@ export async function POST(request: NextRequest) {
         }
       } catch (emailError) {
         console.error('Error sending admin email:', emailError);
-        operationResults.adminEmail = `Failed - ${emailError.message}`;
+        operationResults.adminEmail = `Failed - ${emailError instanceof Error ? emailError.message : 'Unknown email error'}`;
       }
     }
 

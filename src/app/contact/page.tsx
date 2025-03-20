@@ -24,6 +24,35 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    // Name validation
+    if (!formData.name.trim()) {
+      setError('Please enter your name');
+      return false;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    
+    // Subject validation
+    if (!formData.subject.trim()) {
+      setError('Please enter a subject for your message');
+      return false;
+    }
+    
+    // Message validation
+    if (!formData.message.trim()) {
+      setError('Please enter your message');
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -34,6 +63,8 @@ export default function Contact() {
     
     setIsSubmitting(true);
     setError('');
+    
+    console.log('Submitting contact form...');
     
     try {
       // Use the dynamic API URL
@@ -54,7 +85,9 @@ export default function Contact() {
         }),
       });
       
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Failed to send message');
@@ -295,12 +328,19 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`bg-gradient-secondary hover:opacity-90 text-dark font-bold py-3 px-6 rounded-md transition-all flex items-center justify-center ${
-                        isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                      }`}
+                      className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3 px-6 rounded-md transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      <FaPaperPlane className="mr-2" />
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {isSubmitting ? (
+                        <>
+                          <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <FaPaperPlane className="mr-2" />
+                          Send Message
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
