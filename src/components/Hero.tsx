@@ -93,7 +93,7 @@ const Hero = () => {
             variants={itemVariants}
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-lg"
           >
-            <span className="block"><span className="bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">SafarNama</span></span>
+            <span className="block"><span className="styling bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">SafarNama</span></span>
             <span className="text-primary-light drop-shadow-[0_2px_4px_rgba(255,107,107,0.6)]">Your Trusted </span>
             <span className="text-secondary drop-shadow-[0_2px_4px_rgba(255,183,3,0.6)]">Travel Agency</span>
           </motion.h1>

@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { getApiUrl } from '@/lib/utils';
 import BackButton from '@/components/BackButton';
+import Logo from '@/components/Logo';
 
 // Define types for the test results
 interface EnvironmentInfo {
@@ -90,7 +91,11 @@ export default function TestEmail() {
     <div className="min-h-screen bg-dark-light pt-16">
       <BackButton />
       
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex justify-center mb-8">
+          <Logo size="large" animated={true} className="text-white" />
+        </div>
+        
         <div className="max-w-3xl mx-auto bg-dark rounded-lg shadow-lg overflow-hidden">
           <div className="bg-gradient-to-r from-primary to-secondary py-4 px-6">
             <h1 className="text-xl font-bold text-white">Email System Diagnostic</h1>

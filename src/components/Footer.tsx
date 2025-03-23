@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import Logo from './Logo';
 
 const Footer = () => {
   return (
@@ -9,10 +10,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">
-              <span className="text-primary-light">Travel</span>
-              <span className="text-secondary">Ease</span>
-            </h3>
+            <div className="mb-4">
+              <Logo size="small" animated={false} className="text-white" />
+            </div>
             <p className="mb-4 text-light/80">
               Your trusted partner for unforgettable travel experiences. We specialize in creating personalized journeys that match your dreams and preferences.
             </p>
@@ -117,7 +117,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-accent/10 mt-10 pt-6 text-center text-light/60">
-          <p>&copy; {new Date().getFullYear()} TravelEase. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Safarnama. All rights reserved.</p>
         </div>
       </div>
     </footer>

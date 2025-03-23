@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from './Logo';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,10 +35,11 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold">
-            <span className="text-primary">Safar</span>
-            <span className="text-secondary">Nama</span>
-          </Link>
+          <Logo 
+            size={scrolled ? 'small' : 'medium'} 
+            animated={false}
+            className="text-white"
+          />
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
