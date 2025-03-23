@@ -10,11 +10,26 @@ interface NodemailerError extends Error {
 // Check if email credentials are available
 const hasEmailCredentials = process.env.EMAIL_USER && process.env.EMAIL_PASS;
 
+// Check for common issues with Gmail app passwords
+if (hasEmailCredentials) {
+  // Check for spaces in EMAIL_PASS (common issue with Gmail app passwords)
+  if (process.env.EMAIL_PASS?.includes(' ')) {
+    console.warn('⚠️ WARNING: Your EMAIL_PASS contains spaces. This will likely cause Gmail authentication issues.');
+    console.warn('Please remove all spaces from your Gmail app password in your environment variables.');
+    console.warn('Current EMAIL_PASS with spaces: ', process.env.EMAIL_PASS);
+    console.warn('EMAIL_PASS without spaces would be: ', process.env.EMAIL_PASS.replace(/\s+/g, ''));
+  }
+}
+
 // Create a transporter using the Gmail SMTP if credentials are available
 let transporter: nodemailer.Transporter | undefined;
 
 if (hasEmailCredentials) {
   try {
+    // Remove any spaces from the password - this is a common issue with Gmail app passwords
+    // as they're often copied with spaces but should be used without spaces
+    const cleanedPassword = process.env.EMAIL_PASS?.replace(/\s+/g, '');
+    
     // Create a more reliable Gmail transporter with explicit settings
     transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -22,7 +37,7 @@ if (hasEmailCredentials) {
       secure: true, // Use SSL
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        pass: cleanedPassword, // Use the cleaned password without spaces
       },
       tls: {
         // Do not fail on invalid certificates
