@@ -12,14 +12,16 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 50);
     };
 
+    // Add scroll event listener
     window.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -28,8 +30,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      scrolled 
+    <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+      scrolled || isOpen
         ? 'bg-dark/95 backdrop-blur-md border-b border-accent/10 text-light shadow-lg shadow-accent/5 py-2' 
         : 'bg-transparent py-4'
     }`}>
@@ -67,14 +69,14 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-accent hover:text-secondary transition-colors duration-300 focus:outline-none relative group"
+            className="block md:hidden text-light hover:text-accent transition-colors duration-300 focus:outline-none relative z-50"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
             {isOpen ? (
-              <FiX size={24} className="transform transition-transform duration-300 group-hover:rotate-90" />
+              <FiX size={28} className="transform transition-transform duration-300" />
             ) : (
-              <FiMenu size={24} className="transform transition-transform duration-300 group-hover:scale-110" />
+              <FiMenu size={28} className="transform transition-transform duration-300" />
             )}
           </button>
         </div>
