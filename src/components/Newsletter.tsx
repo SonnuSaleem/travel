@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPaperPlane } from 'react-icons/fa';
-import { getApiUrl } from '@/lib/utils';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
@@ -24,11 +23,8 @@ const Newsletter = () => {
     setError('');
     
     try {
-      // Use the dynamic API URL
-      const apiUrl = getApiUrl('/api/newsletter');
-      console.log('Submitting newsletter to:', apiUrl);
-      
-      const response = await fetch(apiUrl, {
+      // Use a relative URL for the API endpoint
+      const response = await fetch('/api/newsletter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,11 +32,12 @@ const Newsletter = () => {
         body: JSON.stringify({ email }),
       });
       
-      const data = await response.json();
-      
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to subscribe');
+        const errorData = await response.json().catch(() => ({ error: 'Failed to subscribe' }));
+        throw new Error(errorData.error || 'Failed to subscribe');
       }
+      
+      const data = await response.json();
       
       setIsSubmitted(true);
       setEmail('');

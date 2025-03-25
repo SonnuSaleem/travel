@@ -5,7 +5,7 @@
 export function getBaseUrl() {
   // Check if NEXT_PUBLIC_SITE_URL is available (should be set in production)
   if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return process.env.NEXT_PUBLIC_SITE_URL;
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, ''); // Remove trailing slash if present
   }
   
   // For Vercel deployments, use the VERCEL_URL environment variable
