@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaCreditCard, FaLock, FaCheckCircle } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
-import { getApiUrl } from '@/lib/utils';
 import { Suspense } from 'react';
 
 // Client component that safely uses useSearchParams
@@ -97,11 +96,9 @@ function PaymentContent({
     setError('');
     
     try {
-      // Use the dynamic API URL
-      const apiUrl = getApiUrl('/api/booking');
-      console.log('Submitting booking to:', apiUrl);
+      console.log('Processing payment...');
       
-      const response = await fetch(apiUrl, {
+      const response = await fetch('/api/booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,17 +109,21 @@ function PaymentContent({
           email,
           phone,
           destination,
-          date,
+          travelDate: date,
           travelers: parseInt(travelers || '1'),
           totalAmount: price || '0',
           cardNumber: cardDetails.cardNumber.replace(/\s/g, ''),
-          cardName: cardDetails.cardHolder,
+          cardHolder: cardDetails.cardHolder,
           expiryDate: cardDetails.expiryDate,
           cvv: cardDetails.cvv,
         }),
       });
       
+      console.log('Payment API Response Status:', response.status);
+      console.log('Payment API Response Status Text:', response.statusText);
+      
       const data = await response.json();
+      console.log('Payment API Response Data:', data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Failed to process payment');

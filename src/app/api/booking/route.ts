@@ -10,8 +10,14 @@ const corsHeaders = {
 };
 
 // Handle OPTIONS request for CORS
-export async function OPTIONS() {
-  return NextResponse.json({}, { headers: corsHeaders });
+export async function OPTIONS(request: NextRequest) {
+  // Handle preflight request
+  if (request.method === 'OPTIONS') {
+    return new NextResponse(null, {
+      status: 200,
+      headers: corsHeaders,
+    });
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -20,7 +26,11 @@ export async function POST(request: NextRequest) {
     console.log('Request headers:', Object.fromEntries(request.headers.entries()));
     
     const body = await request.json();
-    console.log('Request body:', body);
+    console.log('Request body:', {
+      ...body,
+      cardNumber: body.cardNumber ? '****' + body.cardNumber.slice(-4) : undefined,
+      cvv: body.cvv ? '***' : undefined
+    });
     
     // Generate a unique booking ID
     const bookingId = `BK-${uuidv4().substring(0, 8).toUpperCase()}`;
@@ -76,7 +86,9 @@ export async function POST(request: NextRequest) {
         travelDate: body.travelDate,
         travelers: parseInt(body.travelers) || 1,
         totalAmount: body.totalAmount || '0',
-        packageName: body.destination
+        packageName: body.destination,
+        paymentMethod: 'Credit Card',
+        cardLastFour: body.cardNumber ? body.cardNumber.slice(-4) : '****'
       };
 
       // Send confirmation email to user
