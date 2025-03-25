@@ -30,11 +30,10 @@ if (hasEmailCredentials) {
     // as they're often copied with spaces but should be used without spaces
     const cleanedPassword = process.env.EMAIL_PASS?.replace(/\s+/g, '');
     
-    // Create a more reliable Gmail transporter with explicit settings
+    // Try the most compatible Gmail configuration for Vercel serverless functions
+    // Note: Using port 587 with STARTTLS instead of 465 with SSL can be more reliable
     transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // Use SSL
+      service: 'gmail', // Use Gmail service predefined settings
       auth: {
         user: process.env.EMAIL_USER,
         pass: cleanedPassword, // Use the cleaned password without spaces
@@ -43,13 +42,10 @@ if (hasEmailCredentials) {
         // Do not fail on invalid certificates
         rejectUnauthorized: false
       },
-      connectionTimeout: 5000, // 5 seconds timeout
-      greetingTimeout: 5000,
-      socketTimeout: 10000, // 10 seconds timeout for socket connection
       debug: process.env.NODE_ENV !== 'production', // Enable debug mode in non-production
       pool: true, // Use connection pooling in production
-      maxConnections: 5, // Maximum number of connections to make
-      maxMessages: 100 // Maximum number of messages to send per connection
+      maxConnections: 3, // Reduce number of connections to prevent rate limiting
+      maxMessages: 50 // Reduce number of messages per connection
     });
     
     // Log that the transporter was successfully initialized
