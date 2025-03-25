@@ -4,8 +4,12 @@ import { sendUserEmail, sendAdminEmail, emailTemplates } from '@/lib/email';
 export async function POST(request: NextRequest) {
   try {
     console.log('=== Newsletter submission started ===');
+    console.log('Request headers:', Object.fromEntries(request.headers.entries()));
     
-    const { email } = await request.json(); // This is the user's email from the newsletter form
+    const body = await request.json();
+    console.log('Request body:', body);
+    
+    const { email } = body;
     console.log('Newsletter subscription request for:', email);
 
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
@@ -21,7 +25,12 @@ export async function POST(request: NextRequest) {
     let adminEmailSuccess = false;
     const operationResults = {
       userEmail: 'Not attempted',
-      adminEmail: 'Not attempted'
+      adminEmail: 'Not attempted',
+      emailConfig: {
+        userSet: Boolean(process.env.EMAIL_USER),
+        passSet: Boolean(process.env.EMAIL_PASS),
+        adminSet: Boolean(process.env.ADMIN_EMAIL)
+      }
     };
 
     // Check if email credentials are available
@@ -41,10 +50,12 @@ export async function POST(request: NextRequest) {
       try {
         console.log(`Sending confirmation email to user: ${email}`);
         const userEmailResult = await sendUserEmail(
-          email, // Send to the user's email from the form
+          email,
           'Newsletter Subscription Confirmation',
-          emailTemplates.newsletterSubscription({ email }) // Pass an object with email property
+          emailTemplates.newsletterSubscription({ email })
         );
+        
+        console.log('User email result:', userEmailResult);
         
         if (userEmailResult.success) {
           userEmailSuccess = true;
@@ -66,8 +77,10 @@ export async function POST(request: NextRequest) {
           const adminEmailResult = await sendAdminEmail(
             'New Newsletter Subscription',
             emailTemplates.newsletterAdminNotification(email),
-            email // Set the user's email as the reply-to address
+            email
           );
+          
+          console.log('Admin email result:', adminEmailResult);
           
           if (adminEmailResult.success) {
             adminEmailSuccess = true;
@@ -97,14 +110,17 @@ export async function POST(request: NextRequest) {
         message: 'Successfully subscribed to newsletter',
         emailSent: userEmailSuccess,
         adminNotified: adminEmailSuccess,
-        operationResults: process.env.NODE_ENV === 'development' ? operationResults : undefined
+        operationResults
       },
       { status: 200 }
     );
   } catch (error) {
     console.error('Newsletter subscription error:', error);
     return NextResponse.json(
-      { error: 'Failed to process newsletter subscription' },
+      { 
+        error: 'Failed to process newsletter subscription',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }

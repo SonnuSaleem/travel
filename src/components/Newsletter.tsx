@@ -12,6 +12,7 @@ const Newsletter = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Newsletter form submission started');
     
     // Simple email validation
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
@@ -23,6 +24,7 @@ const Newsletter = () => {
     setError('');
     
     try {
+      console.log('Attempting to send newsletter subscription request...');
       // Use a relative URL for the API endpoint
       const response = await fetch('/api/newsletter', {
         method: 'POST',
@@ -32,20 +34,34 @@ const Newsletter = () => {
         body: JSON.stringify({ email }),
       });
       
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Failed to subscribe' }));
-        throw new Error(errorData.error || 'Failed to subscribe');
-      }
+      console.log('Newsletter API Response Status:', response.status);
+      console.log('Newsletter API Response Status Text:', response.statusText);
       
       const data = await response.json();
+      console.log('Newsletter API Response Data:', data);
       
-      setIsSubmitted(true);
-      setEmail('');
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
       
-      // Reset the success message after 5 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
+      if (data.success) {
+        console.log('Newsletter subscription successful');
+        console.log('Email sent status:', data.emailSent);
+        console.log('Admin notified status:', data.adminNotified);
+        if (data.operationResults) {
+          console.log('Operation results:', data.operationResults);
+        }
+        
+        setIsSubmitted(true);
+        setEmail('');
+        
+        // Reset the success message after 5 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      } else {
+        throw new Error('Subscription failed');
+      }
     } catch (err) {
       console.error('Newsletter subscription error:', err);
       setError(err instanceof Error ? err.message : 'Failed to subscribe. Please try again.');
