@@ -42,7 +42,14 @@ if (hasEmailCredentials) {
       tls: {
         // Do not fail on invalid certificates
         rejectUnauthorized: false
-      }
+      },
+      connectionTimeout: 5000, // 5 seconds timeout
+      greetingTimeout: 5000,
+      socketTimeout: 10000, // 10 seconds timeout for socket connection
+      debug: process.env.NODE_ENV !== 'production', // Enable debug mode in non-production
+      pool: true, // Use connection pooling in production
+      maxConnections: 5, // Maximum number of connections to make
+      maxMessages: 100 // Maximum number of messages to send per connection
     });
     
     // Log that the transporter was successfully initialized
@@ -84,10 +91,66 @@ export async function sendUserEmail(
       html: htmlContent,
     };
     
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent to user successfully:', info.response);
+    // Implement retry logic for serverless functions which may time out
+    let attempts = 0;
+    const maxAttempts = 3;
+    let lastError = null;
     
-    return { success: true };
+    while (attempts < maxAttempts) {
+      attempts++;
+      try {
+        console.log(`Email attempt ${attempts} of ${maxAttempts}`);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent to user successfully:', info.response);
+        return { success: true };
+      } catch (err) {
+        lastError = err;
+        console.error(`Email attempt ${attempts} failed:`, err);
+        
+        // Don't retry certain errors like authentication failures
+        if (err instanceof Error) {
+          const nodeError = err as NodemailerError;
+          if (nodeError.code === 'EAUTH') {
+            break; // Break immediately for auth errors
+          }
+        }
+        
+        if (attempts < maxAttempts) {
+          // Exponential backoff: 1s, 2s, 4s, etc.
+          const backoffTime = Math.pow(2, attempts - 1) * 1000;
+          console.log(`Retrying in ${backoffTime}ms...`);
+          await new Promise(resolve => setTimeout(resolve, backoffTime));
+        }
+      }
+    }
+    
+    // If we get here, all attempts failed
+    console.error('All email sending attempts failed:', lastError);
+    
+    // Provide more helpful error messages for common Gmail authentication issues
+    if (lastError instanceof Error) {
+      const nodeError = lastError as NodemailerError;
+      
+      if (nodeError.code === 'EAUTH') {
+        console.error('Gmail authentication failed. Make sure you are using an App Password if you have 2-Step Verification enabled.');
+        return {
+          success: false,
+          error: 'Gmail authentication failed. Please check your EMAIL_USER and EMAIL_PASS. If you have 2-Step Verification enabled, you need to use an App Password.'
+        };
+      }
+      
+      if (nodeError.code === 'ESOCKET') {
+        return {
+          success: false,
+          error: 'Connection to Gmail SMTP server failed. Please check your network connection.'
+        };
+      }
+    }
+    
+    return {
+      success: false,
+      error: lastError instanceof Error ? lastError.message : 'Unknown error sending email'
+    };
   } catch (error) {
     console.error('Error sending email to user:', error);
     
@@ -153,10 +216,66 @@ export async function sendAdminEmail(
       html: htmlContent,
     };
     
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent to admin successfully:', info.response);
+    // Implement retry logic for serverless functions which may time out
+    let attempts = 0;
+    const maxAttempts = 3;
+    let lastError = null;
     
-    return { success: true };
+    while (attempts < maxAttempts) {
+      attempts++;
+      try {
+        console.log(`Admin email attempt ${attempts} of ${maxAttempts}`);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent to admin successfully:', info.response);
+        return { success: true };
+      } catch (err) {
+        lastError = err;
+        console.error(`Admin email attempt ${attempts} failed:`, err);
+        
+        // Don't retry certain errors like authentication failures
+        if (err instanceof Error) {
+          const nodeError = err as NodemailerError;
+          if (nodeError.code === 'EAUTH') {
+            break; // Break immediately for auth errors
+          }
+        }
+        
+        if (attempts < maxAttempts) {
+          // Exponential backoff
+          const backoffTime = Math.pow(2, attempts - 1) * 1000;
+          console.log(`Retrying in ${backoffTime}ms...`);
+          await new Promise(resolve => setTimeout(resolve, backoffTime));
+        }
+      }
+    }
+    
+    // If we get here, all attempts failed
+    console.error('All admin email sending attempts failed:', lastError);
+    
+    // Provide more helpful error messages for common Gmail authentication issues
+    if (lastError instanceof Error) {
+      const nodeError = lastError as NodemailerError;
+      
+      if (nodeError.code === 'EAUTH') {
+        console.error('Gmail authentication failed. Make sure you are using an App Password if you have 2-Step Verification enabled.');
+        return {
+          success: false,
+          error: 'Gmail authentication failed. Please check your EMAIL_USER and EMAIL_PASS. If you have 2-Step Verification enabled, you need to use an App Password.'
+        };
+      }
+      
+      if (nodeError.code === 'ESOCKET') {
+        return {
+          success: false,
+          error: 'Connection to Gmail SMTP server failed. Please check your network connection.'
+        };
+      }
+    }
+    
+    return {
+      success: false,
+      error: lastError instanceof Error ? lastError.message : 'Unknown error sending email'
+    };
   } catch (error) {
     console.error('Error sending email to admin:', error);
     
@@ -214,6 +333,48 @@ export async function verifyEmailTransporter() {
       code: nodeError?.code || 'UNKNOWN'
     };
   }
+}
+
+// Function to test email connectivity on startup
+export async function testEmailOnStartup() {
+  console.log('===== EMAIL SERVICE STARTUP DIAGNOSTICS =====');
+  console.log('Environment:', process.env.NODE_ENV);
+  console.log('Running on Vercel:', Boolean(process.env.VERCEL));
+  
+  if (!hasEmailCredentials) {
+    console.error('❌ Missing email credentials. EMAIL_USER and/or EMAIL_PASS not set.');
+    return;
+  }
+  
+  console.log('✅ Email credentials found');
+  console.log('Email User:', process.env.EMAIL_USER);
+  
+  try {
+    console.log('Attempting to verify email transporter...');
+    const verifyResult = await verifyEmailTransporter();
+    
+    if (verifyResult.success) {
+      console.log('✅ Email transporter verified successfully!');
+    } else {
+      console.error('❌ Email transporter verification failed:', verifyResult.error);
+      console.error('Error code:', verifyResult.code);
+    }
+    
+    // Additional checks for Gmail configuration
+    if (process.env.EMAIL_USER?.includes('@gmail.com')) {
+      console.log('📧 Gmail account detected. Ensure you are using an App Password if 2FA is enabled.');
+    }
+  } catch (error) {
+    console.error('❌ Error during email startup test:', error);
+  }
+  
+  console.log('===== END EMAIL DIAGNOSTICS =====');
+}
+
+// Run the test on module import in production
+if (process.env.NODE_ENV === 'production') {
+  // Delay the test to let the server initialize fully on Vercel
+  setTimeout(testEmailOnStartup, 2000);
 }
 
 // Interface definitions

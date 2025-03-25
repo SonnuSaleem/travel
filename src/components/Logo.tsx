@@ -33,12 +33,12 @@ const Logo = ({
   const imageSize = useMemo(() => {
     switch (size) {
       case 'small':
-        return { width: 42, height: 42 };
+        return { width: 28, height: 28 };
       case 'large':
-        return { width: 44, height: 44 };
+        return { width: 40, height: 40 };
       case 'medium':
       default:
-        return { width: 35, height: 35 };
+        return { width: 32, height: 32 };
     }
   }, [size]);
 
@@ -98,7 +98,7 @@ const Logo = ({
             className="text-white font-light tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
             variants={letterVariants}
           >
-            Safarnama
+            Safarnama 2.0
           </motion.span>
         </motion.div>
       </Link>
