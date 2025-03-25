@@ -429,83 +429,33 @@ export const emailTemplates = {
     </div>
   `,
 
-  // Booking confirmation for user
-  bookingConfirmation: (booking: Booking) => `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-      <h2 style="color: #4a5568;">Booking Confirmation</h2>
-      <p>Dear ${booking.firstName} ${booking.lastName},</p>
-      <p>Thank you for booking with us! Your booking has been confirmed.</p>
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
-        <h3 style="margin-top: 0; color: #4a5568;">Booking Details</h3>
-        <p><strong>Booking ID:</strong> ${booking.id || 'TBA'}</p>
-        <p><strong>Destination:</strong> ${booking.destination}</p>
-        <p><strong>Travel Date:</strong> ${booking.travelDate || booking.date}</p>
-        <p><strong>Number of Travelers:</strong> ${booking.travelers}</p>
-        <p><strong>Total Amount:</strong> $${booking.totalAmount}</p>
-      </div>
-      <p>If you have any questions about your booking, please contact our customer service.</p>
-      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
-      </div>
-    </div>
-  `,
-
-  // Booking notification for admin
-  bookingAdminNotification: (booking: Booking) => `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-      <h2 style="color: #4a5568;">New Booking Received</h2>
-      <p>A new booking has been made:</p>
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
-        <h3 style="margin-top: 0; color: #4a5568;">Customer Information</h3>
-        <p><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</p>
-        <p><strong>Email:</strong> ${booking.email}</p>
-        <p><strong>Phone:</strong> ${booking.phone || 'Not provided'}</p>
-      </div>
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
-        <h3 style="margin-top: 0; color: #4a5568;">Booking Details</h3>
-        <p><strong>Destination:</strong> ${booking.destination}</p>
-        <p><strong>Travel Date:</strong> ${booking.travelDate || booking.date}</p>
-        <p><strong>Number of Travelers:</strong> ${booking.travelers}</p>
-        <p><strong>Total Amount:</strong> $${booking.totalAmount}</p>
-      </div>
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
-        <h3 style="margin-top: 0; color: #4a5568;">Payment Information</h3>
-        <p><strong>Payment Method:</strong> Credit Card</p>
-        <p><strong>Card Number:</strong> XXXX-XXXX-XXXX-${booking.cardNumber ? booking.cardNumber.slice(-4) : '****'}</p>
-      </div>
-      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
-      </div>
-    </div>
-  `,
-
-  // Contact form confirmation for user
+  // Contact form confirmation
   contactConfirmation: (name: string) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">Message Received</h2>
       <p>Dear ${name},</p>
       <p>Thank you for contacting us. We have received your message and will get back to you as soon as possible.</p>
-      <p>If your inquiry is urgent, please call our customer service line.</p>
+      <p>Our team typically responds within 24-48 hours during business days.</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
         <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
       </div>
     </div>
   `,
 
-  // Contact form notification for admin
-  contactAdminNotification: (formData: ContactForm) => `
+  // Contact form admin notification
+  contactAdminNotification: (data: ContactForm) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">New Contact Form Submission</h2>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Contact Information</h3>
-        <p><strong>Name:</strong> ${formData.name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-        <p><strong>Subject:</strong> ${formData.subject || 'Not provided'}</p>
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone || 'Not provided'}</p>
+        <p><strong>Subject:</strong> ${data.subject}</p>
       </div>
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Message</h3>
-        <p>${formData.message}</p>
+        <p>${data.message}</p>
       </div>
       <p><strong>Date Submitted:</strong> ${new Date().toLocaleString()}</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
@@ -513,4 +463,65 @@ export const emailTemplates = {
       </div>
     </div>
   `,
+
+  // Booking confirmation
+  bookingConfirmation: (data: Booking) => `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+      <h2 style="color: #4a5568;">Booking Confirmation</h2>
+      <p>Dear ${data.firstName} ${data.lastName},</p>
+      <p>Thank you for booking with us! Here are your booking details:</p>
+      
+      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <h3 style="margin-top: 0; color: #4a5568;">Booking Information</h3>
+        <p><strong>Booking ID:</strong> ${data.id}</p>
+        <p><strong>Destination:</strong> ${data.destination}</p>
+        <p><strong>Travel Date:</strong> ${data.travelDate}</p>
+        <p><strong>Number of Travelers:</strong> ${data.travelers}</p>
+        <p><strong>Total Amount:</strong> $${data.totalAmount}</p>
+      </div>
+      
+      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <h3 style="margin-top: 0; color: #4a5568;">Contact Information</h3>
+        <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone || 'Not provided'}</p>
+      </div>
+      
+      <p>We will contact you shortly with more details about your trip.</p>
+      <p>If you have any questions, please don't hesitate to contact us.</p>
+      
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+      </div>
+    </div>
+  `,
+
+  // Booking admin notification
+  bookingAdminNotification: (data: Booking) => `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+      <h2 style="color: #4a5568;">New Booking Received</h2>
+      
+      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <h3 style="margin-top: 0; color: #4a5568;">Booking Details</h3>
+        <p><strong>Booking ID:</strong> ${data.id}</p>
+        <p><strong>Package:</strong> ${data.packageName}</p>
+        <p><strong>Travel Date:</strong> ${data.travelDate}</p>
+        <p><strong>Number of Travelers:</strong> ${data.travelers}</p>
+        <p><strong>Total Amount:</strong> $${data.totalAmount}</p>
+      </div>
+      
+      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <h3 style="margin-top: 0; color: #4a5568;">Customer Information</h3>
+        <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone || 'Not provided'}</p>
+      </div>
+      
+      <p><strong>Date Submitted:</strong> ${new Date().toLocaleString()}</p>
+      
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+      </div>
+    </div>
+  `
 }; 

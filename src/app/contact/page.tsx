@@ -25,36 +25,20 @@ export default function Contact() {
   };
 
   const validateForm = () => {
-    // Name validation
-    if (!formData.name.trim()) {
-      setError('Please enter your name');
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setError('Please fill in all required fields');
       return false;
     }
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       setError('Please enter a valid email address');
       return false;
     }
-    
-    // Subject validation
-    if (!formData.subject.trim()) {
-      setError('Please enter a subject for your message');
-      return false;
-    }
-    
-    // Message validation
-    if (!formData.message.trim()) {
-      setError('Please enter your message');
-      return false;
-    }
-    
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Contact form submission started');
     
     // Validate form
     if (!validateForm()) {
@@ -67,46 +51,49 @@ export default function Contact() {
     console.log('Submitting contact form...');
     
     try {
-      // Use the dynamic API URL
-      const apiUrl = getApiUrl('/api/contact');
-      console.log('Submitting contact form to:', apiUrl);
-      
-      const response = await fetch(apiUrl, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          subject: formData.subject,
-          message: formData.message,
-        }),
+        body: JSON.stringify(formData),
       });
       
-      console.log('Response status:', response.status);
+      console.log('Contact API Response Status:', response.status);
+      console.log('Contact API Response Status Text:', response.statusText);
+      
       const data = await response.json();
-      console.log('Response data:', data);
+      console.log('Contact API Response Data:', data);
       
       if (!response.ok) {
         throw new Error(data.error || 'Failed to send message');
       }
       
-      // Reset form and show success message
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        phone: ''
-      });
-      setIsSuccess(true);
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
+      if (data.success) {
+        console.log('Contact form submission successful');
+        console.log('Email sent status:', data.emailSent);
+        console.log('Admin notified status:', data.adminNotified);
+        if (data.operationResults) {
+          console.log('Operation results:', data.operationResults);
+        }
+        
+        // Reset form and show success message
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          phone: ''
+        });
+        setIsSuccess(true);
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 5000);
+      } else {
+        throw new Error('Message sending failed');
+      }
     } catch (err) {
       console.error('Contact form submission error:', err);
       setError(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
