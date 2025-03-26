@@ -96,8 +96,8 @@ export async function sendUserEmail(
       attempts++;
       try {
         console.log(`Email attempt ${attempts} of ${maxAttempts}`);
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent to user successfully:', info.response);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent to user successfully:', info.response);
         return { success: true };
       } catch (err) {
         lastError = err;
@@ -221,8 +221,8 @@ export async function sendAdminEmail(
       attempts++;
       try {
         console.log(`Admin email attempt ${attempts} of ${maxAttempts}`);
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent to admin successfully:', info.response);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent to admin successfully:', info.response);
         return { success: true };
       } catch (err) {
         lastError = err;

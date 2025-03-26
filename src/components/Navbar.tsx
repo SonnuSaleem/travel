@@ -32,51 +32,53 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
       scrolled || isOpen
-        ? 'bg-dark/95 backdrop-blur-md border-b border-accent/10 text-light shadow-lg shadow-accent/5 py-2' 
-        : 'bg-transparent py-4'
+        ? 'bg-dark/95 backdrop-blur-md border-b border-orange-500/10 text-light shadow-lg shadow-orange-500/5 py-2' 
+        : 'bg-transparent py-2 sm:py-4'
     }`}>
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex justify-between items-center">
-          <Logo 
-            size={scrolled ? 'small' : 'medium'} 
-            animated={false}
-            className="text-white"
-          />
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex-shrink-0">
+            <Logo 
+              size={scrolled ? 'small' : 'medium'} 
+              animated={false}
+              className="text-white"
+            />
+          </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-8">
-            <Link href="/" className="text-light hover:text-accent relative group transition-colors duration-300">
+          <div className="hidden md:flex space-x-4 lg:space-x-8">
+            <Link href="/" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
               <span>Home</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
             </Link>
-            <Link href="/destinations" className="text-light hover:text-accent relative group transition-colors duration-300">
+            <Link href="/destinations" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
               <span>Destinations</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
             </Link>
-            <Link href="/packages" className="text-light hover:text-accent relative group transition-colors duration-300">
+            <Link href="/packages" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
               <span>Packages</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
             </Link>
-            <Link href="/about" className="text-light hover:text-accent relative group transition-colors duration-300">
+            <Link href="/about" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
               <span>About Us</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
             </Link>
-            <Link href="/contact" className="text-light hover:text-accent relative group transition-colors duration-300">
+            <Link href="/contact" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
               <span>Contact</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button 
-            className="block md:hidden text-light hover:text-accent transition-colors duration-300 focus:outline-none relative z-50"
+            className="block md:hidden text-light hover:text-orange-400 transition-colors duration-300 focus:outline-none relative z-50 p-1"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
             {isOpen ? (
-              <FiX size={28} className="transform transition-transform duration-300" />
+              <FiX size={22} className="transform transition-transform duration-300" />
             ) : (
-              <FiMenu size={28} className="transform transition-transform duration-300" />
+              <FiMenu size={22} className="transform transition-transform duration-300" />
             )}
           </button>
         </div>
@@ -90,48 +92,48 @@ const Navbar = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-dark/95 backdrop-blur-md border-t border-accent/10"
+            className="md:hidden fixed top-[48px] sm:top-[56px] left-0 right-0 bg-dark/95 backdrop-blur-md border-t border-orange-500/10 max-h-[calc(100vh-48px)] overflow-y-auto"
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+            <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
               <Link 
                 href="/" 
-                className="text-light hover:text-accent transition-all duration-300 py-2 border-b border-accent/10 relative group"
+                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Home</span>
-                <span className="absolute inset-0 bg-accent/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/destinations" 
-                className="text-light hover:text-accent transition-all duration-300 py-2 border-b border-accent/10 relative group"
+                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Destinations</span>
-                <span className="absolute inset-0 bg-accent/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/packages" 
-                className="text-light hover:text-accent transition-all duration-300 py-2 border-b border-accent/10 relative group"
+                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Packages</span>
-                <span className="absolute inset-0 bg-accent/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/about" 
-                className="text-light hover:text-accent transition-all duration-300 py-2 border-b border-accent/10 relative group"
+                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">About Us</span>
-                <span className="absolute inset-0 bg-accent/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/contact" 
-                className="text-light hover:text-accent transition-all duration-300 py-2 relative group"
+                className="text-light hover:text-orange-400 transition-all duration-300 py-2 relative group text-sm"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Contact</span>
-                <span className="absolute inset-0 bg-accent/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
             </div>
           </motion.div>

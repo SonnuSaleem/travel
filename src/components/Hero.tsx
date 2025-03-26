@@ -87,19 +87,27 @@ const Hero = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center max-w-4xl mb-12"
+          className="text-center max-w-4xl mb-12 px-2 sm:px-4"
         >
           <motion.h1 
             variants={itemVariants}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white drop-shadow-lg"
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg"
           >
-            <span className="block"><span className="styling bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent">SafarNama 2</span></span>
-            <span className="text-primary-light drop-shadow-[0_2px_4px_rgba(255,107,107,0.6)]">Your Trusted </span>
-            <span className="text-secondary drop-shadow-[0_2px_4px_rgba(255,183,3,0.6)]">Travel Agency</span>
+            <span className="block mt-10 ">
+              <span className="width styling bg-gradient-to-r from-purple-800 via-pink-500 to-red-400 bg-clip-text text-transparent break-words inline-block" >
+                SafarNama
+              </span>
+            </span>
+            <span className="text-primary-light drop-shadow-[0_2px_4px_rgba(255,107,107,0.6)] inline-block">
+              Your Trusted Travel
+            </span>
+            <span className="text-secondary drop-shadow-[0_2px_4px_rgba(255,183,3,0.6)] block ">
+              Agency
+            </span>
           </motion.h1>
           <motion.p 
             variants={itemVariants}
-            className="text-xl md:text-2xl mb-12 text-secondary-light drop-shadow-md"
+            className="text-lg sm:text-xl md:text-2xl mb-12 text-secondary-light drop-shadow-md px-2"
           >
             Best travel agency in Pakistan offering affordable tour packages and visa services
           </motion.p>

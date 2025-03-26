@@ -133,11 +133,39 @@ input:-webkit-autofill:active {
 }
 
 .styling{
-    font-family: "Frijole", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 4rem;
+  font-family: "Frijole", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 4.5rem;
+}
+
+@media (max-width: 1250px) {
+  .styling {
+     font-size: 3.8rem;
   }
-  .object-contain{
-    width:100%;
+}
+@media (max-width: 941px) {
+  .styling {
+     font-size: 3.3rem;
   }
+}
+@media (max-width: 637px) {
+  .styling {
+     font-size: 3rem;
+  }
+}
+@media (max-width: 434px) {
+  .styling {
+     font-size: 2.7rem;
+  }
+}
+@media (max-width: 344px) {
+  .styling {
+     font-size: 2.4rem;
+  }
+}
+@media (max-width: 304px) {
+  .styling {
+     font-size: 2.1rem;
+  }
+}

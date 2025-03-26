@@ -98,7 +98,7 @@ const Logo = ({
             className="text-white font-light tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
             variants={letterVariants}
           >
-            Safarnama 2.0
+            Safarnama
           </motion.span>
         </motion.div>
       </Link>
