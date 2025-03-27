@@ -141,31 +141,62 @@ input:-webkit-autofill:active {
   font-size: 4.5rem;
 }
 
+/* Consolidated navbar dimensions class */
+.navbardimensions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.navbardimensions nav {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 @media (max-width: 1250px) {
   .styling {
      font-size: 3.8rem;
   }
+  .navbardimensions nav {
+    width: 90%;
+  }
 }
+
 @media (max-width: 941px) {
   .styling {
      font-size: 3.3rem;
   }
 }
+
+@media (max-width: 768px) {
+  .navbardimensions nav {
+    width: 90%;
+  }
+}
+
 @media (max-width: 637px) {
   .styling {
      font-size: 3rem;
   }
 }
+
 @media (max-width: 434px) {
   .styling {
      font-size: 2.7rem;
   }
+  .navbardimensions nav {
+    width: 85%;
+  }
 }
+
 @media (max-width: 344px) {
   .styling {
      font-size: 2.4rem;
   }
 }
+
 @media (max-width: 304px) {
   .styling {
      font-size: 2.1rem;
@@ -185,4 +216,4 @@ input:-webkit-autofill:active {
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: auto;
   }
-}
+} 

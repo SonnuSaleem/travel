@@ -30,8 +30,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 w-full z-50 px-10 pt-4">
-      <nav className={`w-full rounded-xl border-2 transition-all duration-300 ${
+    <div className="fixed top-0 z-50 pt-4 navbardimensions">
+      <nav className={`rounded-xl border-2 transition-all duration-300 ${
         scrolled || isOpen
           ? 'bg-white/95 text-slate-800 shadow-lg shadow-slate-300/10 border-slate-200' 
           : 'bg-white/70 text-slate-800 border-slate-200/50'
@@ -94,7 +94,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden fixed top-[72px] left-10 right-10 bg-white/95 border-2 border-slate-200 rounded-b-xl max-h-[calc(100vh-80px)] overflow-y-auto shadow-lg shadow-slate-300/10"
+            className="md:hidden fixed top-[72px] bg-white/95 border-2 border-slate-200 rounded-b-xl max-h-[calc(100vh-80px)] overflow-y-auto shadow-lg shadow-slate-300/10 w-[85%] left-[50%] transform -translate-x-1/2"
           >
             <div className="container mx-auto px-4 py-2 flex flex-col space-y-2 antialiased">
               <Link 
