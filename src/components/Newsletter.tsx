@@ -71,7 +71,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-primary text-light">
+    <section className="py-16 bg-gradient-to-r from-yellow-50 to-amber-100 text-slate-800">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -80,10 +80,10 @@ const Newsletter = () => {
           viewport={{ once: true }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-yellow-800">
             Subscribe to Our Newsletter
           </h2>
-          <p className="text-light-dark max-w-2xl mx-auto">
+          <p className="text-slate-600 max-w-2xl mx-auto">
             Stay updated with our latest travel deals, new destinations, and travel tips delivered directly to your inbox.
           </p>
         </motion.div>
@@ -100,20 +100,20 @@ const Newsletter = () => {
               <input
                 type="email"
                 placeholder="Your email address"
-                className="w-full px-4 py-3 rounded-md bg-dark border border-dark-light text-light focus:outline-none focus:ring-2 focus:ring-secondary"
+                className="w-full px-4 py-3 rounded-md bg-white border border-slate-300 text-slate-800 focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isSubmitting}
               />
-              {error && <p className="text-light text-sm mt-1 bg-primary/50 p-1 rounded">{error}</p>}
+              {error && <p className="text-red-600 text-sm mt-1 bg-red-100 p-1 rounded">{error}</p>}
             </div>
             <button
               type="submit"
-              className="bg-secondary text-dark hover:bg-secondary-light px-6 py-3 rounded-md font-semibold transition-colors flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+              className="bg-yellow-500 text-white hover:bg-yellow-600 px-6 py-3 rounded-md font-semibold transition-colors flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed shadow-md"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <span className="inline-block w-5 h-5 border-2 border-dark border-t-transparent rounded-full animate-spin mr-2"></span>
+                <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
               ) : (
                 <FaPaperPlane className="mr-2" />
               )}
@@ -125,13 +125,13 @@ const Newsletter = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center text-light mt-4 bg-secondary/20 p-2 rounded"
+              className="text-center text-yellow-800 mt-4 bg-yellow-100 p-2 rounded"
             >
               Thank you for subscribing! We&apos;ve sent a confirmation email to your inbox.
             </motion.p>
           )}
 
-          <p className="text-light-dark text-sm text-center mt-4">
+          <p className="text-slate-500 text-sm text-center mt-4">
             We respect your privacy. Unsubscribe at any time.
           </p>
         </motion.div>

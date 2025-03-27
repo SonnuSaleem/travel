@@ -93,9 +93,9 @@ const Logo = ({
             </motion.div>
           </div>
 
-          {/* Safarnama text in shiny white */}
+          {/* Safarnama text in elegant yellow */}
           <motion.span 
-            className="text-white font-light tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+            className="bg-gradient-to-r from-yellow-600 to-amber-500 bg-clip-text text-transparent font-semibold tracking-wide sm:tracking-wider drop-shadow-none sm:drop-shadow-[0_0_3px_rgba(234,179,8,0.2)]"
             variants={letterVariants}
           >
             Safarnama

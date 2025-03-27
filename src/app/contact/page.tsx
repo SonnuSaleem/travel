@@ -222,7 +222,7 @@ export default function Contact() {
                   </p>
                   <button
                     onClick={() => setIsSuccess(false)}
-                    className="bg-gradient-secondary hover:opacity-90 text-dark font-semibold py-2 px-4 rounded-md transition-colors"
+                    className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:opacity-90 text-white font-semibold py-2 px-4 rounded-md transition-colors"
                   >
                     Send Another Message
                   </button>
@@ -315,7 +315,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3 px-6 rounded-md transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:opacity-90 text-white font-bold py-3 px-6 rounded-md transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>

@@ -30,59 +30,61 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-      scrolled || isOpen
-        ? 'bg-dark/95 backdrop-blur-md border-b border-orange-500/10 text-light shadow-lg shadow-orange-500/5 py-2' 
-        : 'bg-transparent py-2 sm:py-4'
-    }`}>
-      <div className="container mx-auto px-2 sm:px-4 md:px-6">
-        <div className="flex justify-between items-center w-full">
-          <div className="flex-shrink-0">
-            <Logo 
-              size={scrolled ? 'small' : 'medium'} 
-              animated={false}
-              className="text-white"
-            />
-          </div>
+    <div className="fixed top-0 left-0 right-0 w-full z-50 px-10 pt-4">
+      <nav className={`w-full rounded-xl border-2 transition-all duration-300 ${
+        scrolled || isOpen
+          ? 'bg-white/95 text-slate-800 shadow-lg shadow-slate-300/10 border-slate-200' 
+          : 'bg-white/70 text-slate-800 border-slate-200/50'
+      }`}>
+        <div className="container mx-auto px-4 h-14 flex items-center">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex-shrink-0 text-rendering-auto antialiased">
+              <Logo 
+                size={scrolled ? 'small' : 'medium'} 
+                animated={false}
+                className="text-slate-800"
+              />
+            </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-4 lg:space-x-8">
-            <Link href="/" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
-              <span>Home</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-            <Link href="/destinations" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
-              <span>Destinations</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-            <Link href="/packages" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
-              <span>Packages</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-            <Link href="/about" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
-              <span>About Us</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-            <Link href="/contact" className="text-light hover:text-orange-400 relative group transition-colors duration-300 text-sm lg:text-base">
-              <span>Contact</span>
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-          </div>
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-4 lg:space-x-8 text-rendering-auto antialiased">
+              <Link href="/" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
+                <span>Home</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+              <Link href="/destinations" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
+                <span>Destinations</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+              <Link href="/packages" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
+                <span>Packages</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+              <Link href="/about" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
+                <span>About Us</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+              <Link href="/contact" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
+                <span>Contact</span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+            </div>
 
-          {/* Mobile Menu Button */}
-          <button 
-            className="block md:hidden text-light hover:text-orange-400 transition-colors duration-300 focus:outline-none relative z-50 p-1"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? (
-              <FiX size={22} className="transform transition-transform duration-300" />
-            ) : (
-              <FiMenu size={22} className="transform transition-transform duration-300" />
-            )}
-          </button>
+            {/* Mobile Menu Button */}
+            <button 
+              className="block md:hidden text-slate-800 hover:text-yellow-500 transition-colors duration-300 focus:outline-none relative z-50 p-1 rounded-lg font-medium"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? (
+                <FiX size={22} className="transform transition-transform duration-300" />
+              ) : (
+                <FiMenu size={22} className="transform transition-transform duration-300" />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -92,54 +94,54 @@ const Navbar = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden fixed top-[48px] sm:top-[56px] left-0 right-0 bg-dark/95 backdrop-blur-md border-t border-orange-500/10 max-h-[calc(100vh-48px)] overflow-y-auto"
+            className="md:hidden fixed top-[72px] left-10 right-10 bg-white/95 border-2 border-slate-200 rounded-b-xl max-h-[calc(100vh-80px)] overflow-y-auto shadow-lg shadow-slate-300/10"
           >
-            <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
+            <div className="container mx-auto px-4 py-2 flex flex-col space-y-2 antialiased">
               <Link 
                 href="/" 
-                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
+                className="text-slate-800 hover:text-yellow-500 transition-all duration-300 py-2 border-b border-slate-200/30 relative group text-sm rounded-md font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Home</span>
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/destinations" 
-                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
+                className="text-slate-800 hover:text-yellow-500 transition-all duration-300 py-2 border-b border-slate-200/30 relative group text-sm rounded-md font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Destinations</span>
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/packages" 
-                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
+                className="text-slate-800 hover:text-yellow-500 transition-all duration-300 py-2 border-b border-slate-200/30 relative group text-sm rounded-md font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Packages</span>
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/about" 
-                className="text-light hover:text-orange-400 transition-all duration-300 py-2 border-b border-orange-500/10 relative group text-sm"
+                className="text-slate-800 hover:text-yellow-500 transition-all duration-300 py-2 border-b border-slate-200/30 relative group text-sm rounded-md font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">About Us</span>
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <Link 
                 href="/contact" 
-                className="text-light hover:text-orange-400 transition-all duration-300 py-2 relative group text-sm"
+                className="text-slate-800 hover:text-yellow-500 transition-all duration-300 py-2 relative group text-sm rounded-md font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="relative z-10">Contact</span>
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </div>
   );
 };
 
