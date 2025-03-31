@@ -134,6 +134,28 @@ input:-webkit-autofill:active {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Shiny white text for overlay on images */
+.text-shiny-white {
+  color: white;
+  text-shadow: 
+    0 0 5px rgba(255, 255, 255, 0.5),
+    0 0 10px rgba(255, 255, 255, 0.3),
+    0 2px 10px rgba(0, 0, 0, 0.8);
+  font-weight: 600;
+}
+
+/* Feature badge with glowing effect */
+.feature-badge {
+  background: linear-gradient(to right, #eab308, #f59e0b);
+  color: white; 
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.5);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
 .styling{
   font-family: "Frijole", system-ui;
   font-weight: 400;

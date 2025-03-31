@@ -74,12 +74,12 @@ export default function DestinationDetails() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-dark to-dark/50" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-light px-4">
+          <div className="text-center px-4">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl md:text-5xl font-bold mb-4"
+              className="text-4xl md:text-5xl font-bold mb-4 text-shiny-white"
             >
               {destination.name}
             </motion.h1>
@@ -89,8 +89,8 @@ export default function DestinationDetails() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex items-center justify-center mb-4"
             >
-              <FaMapMarkerAlt className="mr-2 text-primary" />
-              <span>{destination.location}</span>
+              <FaMapMarkerAlt className="mr-2 text-yellow-400" />
+              <span className="text-shiny-white">{destination.location}</span>
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
@@ -102,12 +102,23 @@ export default function DestinationDetails() {
                 <FaStar
                   key={i}
                   className={`${
-                    i < Math.floor(destination.rating) ? 'text-secondary' : 'text-dark-lighter'
+                    i < Math.floor(destination.rating) ? 'text-yellow-400' : 'text-dark-lighter'
                   } mx-0.5`}
                 />
               ))}
-              <span className="ml-2">{destination.rating.toFixed(1)}</span>
+              <span className="ml-2 text-shiny-white">{destination.rating.toFixed(1)}</span>
             </motion.div>
+            
+            {destination.featured && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="mt-6"
+              >
+                <span className="feature-badge">Featured Destination</span>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>

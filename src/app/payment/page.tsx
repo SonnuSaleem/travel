@@ -327,12 +327,12 @@ function PaymentContent({
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="w-full bg-yellow-300 hover:bg-yellow-400 text-black hover:text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed transform hover:scale-[1.02] hover:shadow-lg group"
                       disabled={isProcessing}
                     >
                       {isProcessing ? (
                         <>
-                          <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                          <span className="inline-block w-5 h-5 border-2 border-black group-hover:border-white border-t-transparent rounded-full animate-spin mr-2"></span>
                           Processing...
                         </>
                       ) : (
