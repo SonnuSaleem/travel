@@ -6,6 +6,7 @@ import { FaSearch, FaFilter, FaStar } from 'react-icons/fa';
 import DestinationCard from '@/components/DestinationCard';
 import { destinations } from '@/data/destinations';
 import BackButton from '@/components/BackButton';
+import Link from 'next/link';
 
 export default function Destinations() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -280,7 +281,8 @@ export default function Destinations() {
                 {filteredAndSortedDestinations.map((destination, index) => (
                   <motion.div
                     key={destination.id}
-                    initial={{ opacity: 0, y: 30 }}
+                    className="h-full"
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >

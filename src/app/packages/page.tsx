@@ -1,204 +1,400 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaSort } from 'react-icons/fa';
-import DestinationCard from '@/components/DestinationCard';
-import { destinations } from '@/data/destinations';
+import { 
+  FaCalendarAlt, FaStar, FaMapMarkerAlt, 
+  FaUsers, FaArrowRight, FaShieldAlt, FaHeart, FaSearch
+} from 'react-icons/fa';
+import Image from 'next/image';
+import Link from 'next/link';
 import BackButton from '@/components/BackButton';
+import { destinations } from '@/data/destinations';
 
 export default function Packages() {
-  const [sortBy, setSortBy] = useState('price-low');
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 3000]);
-  const [durationFilter, setDurationFilter] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('all');
+  const [sortBy, setSortBy] = useState('featured');
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<typeof premiumPackages>([]);
 
-  // Filter and sort destinations
-  const filteredDestinations = destinations
-    .filter((destination) => {
-      const matchesPrice = destination.price >= priceRange[0] && destination.price <= priceRange[1];
-      const matchesDuration = !durationFilter || destination.duration.includes(durationFilter);
-      return matchesPrice && matchesDuration;
-    })
-    .sort((a, b) => {
-      if (sortBy === 'price-low') return a.price - b.price;
-      if (sortBy === 'price-high') return b.price - a.price;
-      if (sortBy === 'rating') return b.rating - a.rating;
-      return 0;
-    });
+  // Categories
+  const categories = [
+    { id: 'all', name: 'All Packages' },
+    { id: 'luxury', name: 'Luxury Escapes' },
+    { id: 'adventure', name: 'Adventure Trips' },
+    { id: 'family', name: 'Family Friendly' },
+    { id: 'honeymoon', name: 'Honeymoon Specials' },
+  ];
+
+  // Transform destinations to premium packages
+  const premiumPackages = destinations.map((dest, index) => {
+    // Assign fixed categories based on index to prevent re-renders
+    const categoryIndex = index % 4;
+    const categories = ['luxury', 'adventure', 'family', 'honeymoon'];
+    
+    // Use a seed based on ID to ensure consistent benefits
+    const benefitSeed = parseInt(dest.id) || index;
+    const allBenefits = [
+      'Personal Concierge',
+      'Luxury Transportation',
+      'Premium Accommodations', 
+      'Exclusive Experiences',
+      'Gourmet Dining'
+    ];
+    
+    // Select benefits deterministically
+    const benefits = allBenefits.slice(benefitSeed % 3, (benefitSeed % 3) + 3);
+    
+    // Calculate fixed discount
+    const hasDiscount = benefitSeed % 2 === 0;
+    const discount = hasDiscount ? (benefitSeed % 3) * 10 + 10 : 0;
+    
+    // Fixed spots available
+    const availableSpots = (benefitSeed % 10) + 1;
+    
+    return {
+      ...dest,
+      category: categories[categoryIndex],
+      benefits,
+      discount,
+      availableSpots
+    };
+  });
+
+  // Filter and sort packages based on search button click, category and sort
+  useEffect(() => {
+    const filtered = premiumPackages
+      .filter(pkg => {
+        const matchesCategory = activeTab === 'all' || pkg.category === activeTab;
+        const matchesSearch = searchQuery === '' || 
+          pkg.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          pkg.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          pkg.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'featured') return b.rating - a.rating;
+        if (sortBy === 'price-low') return a.price - b.price;
+        if (sortBy === 'price-high') return b.price - a.price;
+        return 0;
+      });
+      
+    setSearchResults(filtered);
+  }, [searchQuery, activeTab, sortBy]);
+
+  // Initial load
+  useEffect(() => {
+    setSearchResults(premiumPackages);
+  }, []);
+
+  const toggleFavorite = (id: string) => {
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter(fav => fav !== id));
+    } else {
+      setFavorites([...favorites, id]);
+    }
+  };
+
+  const getDiscountedPrice = (price: number, discount: number) => {
+    return Math.round(price * (1 - discount / 100));
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    
+    // If search is cleared, reset all filters
+    if (value === '') {
+      setSearchQuery('');
+    }
+  };
+
+  // Handle search submission
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchQuery(searchTerm);
+  };
 
   return (
-    <div className="pt-16 bg-dark-light min-h-screen">
+    <div className="pt-16 min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       <BackButton />
       
-      {/* Hero Section */}
-      <div className="bg-gradient-primary text-light py-16">
-        <div className="container mx-auto px-4">
-          <motion.h1
+      {/* Hero Section with Video Background */}
+      <div className="relative h-[50vh] overflow-hidden">
+        {/* Video or Image Background */}
+        <div className="absolute inset-0">
+          <Image 
+            src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Travel Luxury"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+        
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold mb-4 text-center"
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto"
           >
-            Travel Packages
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl text-center max-w-3xl mx-auto mb-8"
-          >
-            Discover our carefully curated travel packages for unforgettable experiences
-          </motion.p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+              Exclusive <span className="text-yellow-400">Premium</span> Packages
+            </h1>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Discover handcrafted experiences curated by travel experts for the discerning traveler
+            </p>
+            
+            <motion.div 
+              className="rounded-full bg-white/10 backdrop-blur-md p-1 inline-flex"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              <form onSubmit={handleSearch} className="flex w-full">
+                <div className="relative flex items-center flex-1">
+                  <FaSearch className="absolute left-4 text-white/60" />
+                  <input 
+                    type="text" 
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    placeholder="Where do you want to go?" 
+                    className="bg-transparent text-white placeholder-white/60 border-none outline-none focus:ring-0 focus:outline-none px-10 py-3 w-full min-w-[300px] md:min-w-[400px]"
+                    style={{ 
+                      WebkitAppearance: 'none',
+                      boxShadow: 'none'
+                    }}
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full transition-all"
+                >
+                  Explore Now
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Premium Badge Section */}
+      <div className="bg-white">
+        <div className="container mx-auto py-8">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+            {['Certified Experts', 'Exclusive Benefits', 'Best Price Guarantee', '24/7 Support'].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + index * 0.1 }}
+                className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full shadow-sm"
+              >
+                <FaShieldAlt className="text-yellow-500" />
+                <span className="text-slate-700 font-medium">{feature}</span>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Content Section */}
       <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Filters */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="md:w-64 bg-dark rounded-lg shadow-md p-6 h-fit"
-          >
-            <h2 className="text-xl font-bold text-light mb-6">Filters</h2>
-            
-            {/* Price Range Filter */}
-            <div className="mb-6">
-              <h3 className="font-semibold text-light mb-3">Price Range</h3>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-light-dark">${priceRange[0]}</span>
-                <span className="text-light-dark">${priceRange[1]}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="3000"
-                step="100"
-                value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                className="w-full h-2 bg-dark-light rounded-lg appearance-none cursor-pointer"
-              />
+        {/* Category Tabs */}
+        <div className="mb-12">
+          <div className="flex overflow-x-auto pb-4 hide-scrollbar">
+            <div className="flex space-x-2 md:space-x-4 mx-auto">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveTab(category.id)}
+                  className={`px-5 py-3 rounded-full font-medium whitespace-nowrap transition-all ${
+                    activeTab === category.id
+                      ? 'bg-slate-800 text-white shadow-lg'
+                      : 'bg-white text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {category.name}
+                </button>
+              ))}
             </div>
-            
-            {/* Duration Filter */}
-            <div className="mb-6">
-              <h3 className="font-semibold text-light mb-3">Duration</h3>
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="duration-all"
-                    name="duration"
-                    checked={durationFilter === null}
-                    onChange={() => setDurationFilter(null)}
-                    className="mr-2"
-                  />
-                  <label htmlFor="duration-all" className="text-light-dark">
-                    All Durations
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="duration-short"
-                    name="duration"
-                    checked={durationFilter === '5 days'}
-                    onChange={() => setDurationFilter('5 days')}
-                    className="mr-2"
-                  />
-                  <label htmlFor="duration-short" className="text-light-dark">
-                    Short (5-6 days)
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="duration-medium"
-                    name="duration"
-                    checked={durationFilter === '7 days'}
-                    onChange={() => setDurationFilter('7 days')}
-                    className="mr-2"
-                  />
-                  <label htmlFor="duration-medium" className="text-light-dark">
-                    Medium (7-9 days)
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="duration-long"
-                    name="duration"
-                    checked={durationFilter === '10 days'}
-                    onChange={() => setDurationFilter('10 days')}
-                    className="mr-2"
-                  />
-                  <label htmlFor="duration-long" className="text-light-dark">
-                    Long (10+ days)
-                  </label>
-                </div>
+          </div>
+          
+          {/* Sort and Filter Controls */}
+          <div className="flex flex-wrap justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-sm">
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-bold text-slate-800">
+                {activeTab === 'all' 
+                  ? (searchQuery ? `Search Results: "${searchQuery}"` : 'All Premium Packages')
+                  : categories.find(c => c.id === activeTab)?.name}
+              </h2>
+              <div className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                {searchResults.length} packages
               </div>
             </div>
             
-            {/* Sort By */}
-            <div>
-              <h3 className="font-semibold text-light mb-3">Sort By</h3>
+            <div className="flex items-center mt-4 sm:mt-0">
+              <label className="text-slate-600 mr-3">Sort by:</label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full p-2 bg-dark-light border border-dark-lighter rounded-md text-light"
+                className="bg-slate-50 border border-slate-200 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               >
+                <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
-                <option value="rating">Rating</option>
               </select>
             </div>
-          </motion.div>
-
-          {/* Packages Grid */}
-          <div className="flex-1">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-dark">Available Packages</h2>
-              <div className="flex items-center text-dark">
-                <FaSort className="mr-2" />
-                <span>{filteredDestinations.length} packages found</span>
-              </div>
-            </div>
-
-            {filteredDestinations.length === 0 ? (
-              <div className="text-center py-12 bg-dark-light/20 rounded-lg">
-                <h3 className="text-xl font-bold text-dark mb-2">No packages found</h3>
-                <p className="text-dark-lighter">
-                  Try adjusting your filters to see more options.
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredDestinations.map((destination, index) => (
-                  <motion.div
-                    key={destination.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <DestinationCard
-                      id={destination.id}
-                      name={destination.name}
-                      description={destination.description}
-                      location={destination.location}
-                      price={destination.price}
-                      rating={destination.rating}
-                      imageUrl={destination.imageUrl}
-                      duration={destination.duration}
-                      featured={destination.featured}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
+
+        {/* Display message when no results */}
+        {searchResults.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-lg shadow-sm">
+            <div className="text-5xl mb-4">🔍</div>
+            <h3 className="text-2xl font-bold text-slate-800 mb-2">No packages found</h3>
+            <p className="text-slate-600 mb-4">
+              Try adjusting your search or explore different categories
+            </p>
+            <button 
+              onClick={() => {
+                setSearchTerm('');
+                setSearchQuery('');
+              }}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-5 py-2 rounded-lg transition-colors"
+            >
+              Clear search
+            </button>
+          </div>
+        ) : (
+          /* Packages Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {searchResults.map((pkg) => (
+              <motion.div
+                key={pkg.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] ${
+                  selectedPackage === pkg.id ? 'ring-2 ring-yellow-500' : ''
+                }`}
+                onClick={() => setSelectedPackage(pkg.id === selectedPackage ? null : pkg.id)}
+              >
+                {/* Image Container */}
+                <div className="relative h-56">
+                  <Image
+                    src={pkg.imageUrl}
+                    alt={pkg.name}
+                    fill
+                    className="object-cover"
+                  />
+                  
+                  {/* Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  
+                  {/* Top badges */}
+                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
+                    <div className="px-3 py-1 bg-yellow-500 text-white rounded-lg text-sm font-medium">
+                      {pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)}
+                    </div>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorite(pkg.id);
+                      }}
+                      className="w-8 h-8 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full"
+                    >
+                      <FaHeart className={favorites.includes(pkg.id) ? "text-red-500" : "text-white"} />
+                    </button>
+                  </div>
+                  
+                  {/* Bottom info */}
+                  <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+                    <div>
+                      <h3 className="text-white font-bold text-xl mb-1 drop-shadow-md">{pkg.name}</h3>
+                      <div className="flex items-center">
+                        <FaMapMarkerAlt className="text-yellow-400 mr-1" />
+                        <span className="text-white/90 text-sm">{pkg.location}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1">
+                      <FaStar className="text-yellow-400 mr-1" />
+                      <span className="text-white font-medium">{pkg.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-5">
+                  {/* Price */}
+                  <div className="flex justify-between items-center mb-4">
+                    <div>
+                      {pkg.discount > 0 ? (
+                        <>
+                          <span className="line-through text-slate-400 mr-2">${pkg.price}</span>
+                          <span className="text-2xl font-bold text-slate-800">
+                            ${getDiscountedPrice(pkg.price, pkg.discount)}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-2xl font-bold text-slate-800">${pkg.price}</span>
+                      )}
+                      <span className="text-slate-500 ml-1">per person</span>
+                    </div>
+                    
+                    {pkg.discount > 0 && (
+                      <div className="px-2 py-1 bg-red-100 text-red-700 rounded-lg text-sm font-medium">
+                        Save {pkg.discount}%
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Features */}
+                  <div className="space-y-3 mb-4">
+                    <div className="flex items-center">
+                      <FaCalendarAlt className="text-slate-400 mr-3" />
+                      <span className="text-slate-700">{pkg.duration}</span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <FaUsers className="text-slate-400 mr-3" />
+                      <span className="text-slate-700">
+                        <span className="font-medium">{pkg.availableSpots}</span> spots left
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Premium benefits */}
+                  <div className="mb-5">
+                    <h4 className="text-sm font-semibold text-slate-400 uppercase mb-2">Premium Benefits</h4>
+                    <div className="space-y-2">
+                      {pkg.benefits.map((benefit: string, idx: number) => (
+                        <div key={idx} className="flex items-center">
+                          <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
+                          <span className="text-slate-600">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* CTA */}
+                  <Link href={`/packages/${pkg.id}`} className="block w-full">
+                    <button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center group">
+                      <span>View Details</span>
+                      <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

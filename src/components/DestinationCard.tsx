@@ -34,7 +34,7 @@ const DestinationCard = ({
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/destinations/${id}`);
+    router.push(`/packages/${id}`);
   };
 
   return (
@@ -91,7 +91,7 @@ const DestinationCard = ({
             <span className="text-light-dark font-normal text-sm"> /person</span>
           </div>
           <Link
-            href={`/destinations/${id}`}
+            href={`/packages/${id}`}
             className="bg-gradient-primary hover:opacity-90 text-black px-4 py-2 rounded-md transition-all transform hover:scale-105 active:scale-95 shadow-md font-medium"
             onClick={(e) => e.stopPropagation()}
           >

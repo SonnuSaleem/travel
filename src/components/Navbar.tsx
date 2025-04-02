@@ -32,58 +32,58 @@ const Navbar = () => {
   return (
     <div className="fixed top-0 z-50 pt-4 navbardimensions">
       <nav className={`rounded-xl border-2 transition-all duration-300 ${
-        scrolled || isOpen
+      scrolled || isOpen
           ? 'bg-white/95 text-slate-800 shadow-lg shadow-slate-300/10 border-slate-200' 
           : 'bg-white/70 text-slate-800 border-slate-200/50'
-      }`}>
+    }`}>
         <div className="container mx-auto px-4 h-14 flex items-center">
-          <div className="flex justify-between items-center w-full">
+        <div className="flex justify-between items-center w-full">
             <div className="flex-shrink-0 text-rendering-auto antialiased">
-              <Logo 
-                size={scrolled ? 'small' : 'medium'} 
-                animated={false}
+            <Logo 
+              size={scrolled ? 'small' : 'medium'} 
+              animated={false}
                 className="text-slate-800"
-              />
-            </div>
+            />
+          </div>
 
-            {/* Desktop Menu */}
+          {/* Desktop Menu */}
             <div className="hidden md:flex space-x-4 lg:space-x-8 text-rendering-auto antialiased">
               <Link href="/" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
-                <span>Home</span>
+              <span>Home</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </Link>
+            </Link>
               <Link href="/destinations" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
-                <span>Destinations</span>
+              <span>Destinations</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </Link>
+            </Link>
               <Link href="/packages" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
-                <span>Packages</span>
+              <span>Packages</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </Link>
+            </Link>
               <Link href="/about" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
-                <span>About Us</span>
+              <span>About Us</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </Link>
+            </Link>
               <Link href="/contact" className="text-slate-800 hover:text-yellow-500 relative group transition-colors duration-300 text-sm lg:text-base font-medium">
-                <span>Contact</span>
+              <span>Contact</span>
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </Link>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button 
-              className="block md:hidden text-slate-800 hover:text-yellow-500 transition-colors duration-300 focus:outline-none relative z-50 p-1 rounded-lg font-medium"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? (
-                <FiX size={22} className="transform transition-transform duration-300" />
-              ) : (
-                <FiMenu size={22} className="transform transition-transform duration-300" />
-              )}
-            </button>
+            </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+              className="block md:hidden text-slate-800 hover:text-yellow-500 transition-colors duration-300 focus:outline-none relative z-50 p-1 rounded-lg font-medium"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? (
+              <FiX size={22} className="transform transition-transform duration-300" />
+            ) : (
+              <FiMenu size={22} className="transform transition-transform duration-300" />
+            )}
+          </button>
         </div>
+      </div>
       </nav>
 
       {/* Mobile Menu */}

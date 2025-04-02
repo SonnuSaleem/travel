@@ -1,8 +1,12 @@
 import Link from 'next/link';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import Logo from './Logo';
+import { destinations } from '@/data/destinations';
 
 const Footer = () => {
+  // Get featured destinations
+  const featuredDestinations = destinations.filter(dest => dest.featured);
+  
   return (
     <footer className="bg-white text-slate-700 relative border-t border-slate-200">
       <div className="absolute inset-0 bg-gradient-to-b from-yellow-50 via-white to-yellow-100/30 opacity-50" />
@@ -64,35 +68,24 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Popular Destinations */}
+          {/* Featured Destinations */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-yellow-600">Popular Destinations</h3>
+            <h3 className="text-xl font-bold mb-4 text-yellow-600">Featured Destinations</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/destinations/bali" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
-                  Bali, Indonesia
-                </Link>
-              </li>
-              <li>
-                <Link href="/destinations/swiss-alps" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
-                  Swiss Alps, Switzerland
-                </Link>
-              </li>
-              <li>
-                <Link href="/destinations/tokyo" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
-                  Tokyo, Japan
-                </Link>
-              </li>
-              <li>
-                <Link href="/destinations/santorini" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
-                  Santorini, Greece
-                </Link>
-              </li>
-              <li>
-                <Link href="/destinations/machu-picchu" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
-                  Machu Picchu, Peru
-                </Link>
-              </li>
+              {featuredDestinations.map((destination) => (
+                <li key={destination.id}>
+                  <Link href={`/packages/${destination.id}`} className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                    {destination.name}, {destination.location.split(',')[1]?.trim() || destination.location.split(',')[0]?.trim()}
+                  </Link>
+                </li>
+              ))}
+              {featuredDestinations.length < 5 && (
+                <li>
+                  <Link href="/packages" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                    View All Packages
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -102,15 +95,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <FaMapMarkerAlt className="mt-1 mr-3 text-yellow-500" />
-                <span className="text-slate-600">123 Travel Street, Tourism City, TC 12345</span>
+                <span className="text-slate-600">358 Travel Street, Phool Nagar Tourism City</span>
               </li>
               <li className="flex items-center">
                 <FaPhone className="mr-3 text-yellow-500" />
-                <span className="text-slate-600">+1 (555) 123-4567</span>
+                <span className="text-slate-600">+92 3258894708</span>
               </li>
               <li className="flex items-center">
                 <FaEnvelope className="mr-3 text-yellow-500" />
-                <span className="text-slate-600">info@travelease.com</span>
+                <span className="text-slate-600">muzammilsaleem709@gmail.com</span>
               </li>
             </ul>
           </div>

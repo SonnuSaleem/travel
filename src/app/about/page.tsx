@@ -13,8 +13,8 @@ export default function About() {
       {/* Hero Section */}
       <div className="relative h-[40vh] md:h-[50vh]">
         <Image
-          src="https://www.travelstourism.com/wp-content/uploads/2018/01/KAGHAN-2.jpg"
-          alt="About TravelEase"
+          src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          alt="About Safarnama"
           fill
           className="object-cover"
           priority
@@ -28,7 +28,7 @@ export default function About() {
               transition={{ duration: 0.5 }}
               className="text-4xl md:text-5xl font-bold mb-4"
             >
-              About <span className="text-primary">Travel</span><span className="text-secondary">Ease</span>
+              About <span className="text-primary">Safar</span><span className="text-secondary">nama</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -36,7 +36,7 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl max-w-3xl mx-auto"
             >
-              Your trusted partner for unforgettable travel experiences
+              Your trusted partner for unforgettable travel experiences in Pakistan
             </motion.p>
           </div>
         </div>
@@ -54,13 +54,13 @@ export default function About() {
             >
               <h2 className="text-3xl font-bold text-light mb-6">Our Story</h2>
               <p className="text-light-dark mb-4">
-                Founded in 2010, TravelEase began with a simple mission: to make extraordinary travel experiences accessible to everyone. What started as a small team of passionate travelers has grown into a leading travel agency with a global presence.
+                Founded in 2018, Safarnama began with a simple mission: to showcase the natural beauty and cultural richness of Pakistan to the world. What started as a small team of passionate local travelers has grown into a leading travel agency connecting visitors to Pakistan's hidden treasures.
               </p>
               <p className="text-light-dark mb-4">
-                Our founders, avid explorers themselves, were frustrated by the complexity and impersonal nature of travel planning. They envisioned a service that combined the convenience of modern technology with the personalized touch of a dedicated travel expert.
+                Our founders, avid explorers of Pakistan's diverse landscapes, were frustrated by the lack of comprehensive travel services that truly captured the essence of Pakistani hospitality and adventure. They envisioned a service that combined modern convenience with authentic local experiences.
               </p>
               <p className="text-light-dark">
-                Today, we&apos;re proud to have helped thousands of travelers create memories that last a lifetime. Our commitment to exceptional service, attention to detail, and passion for discovery remains at the heart of everything we do.
+                Today, we're proud to have helped thousands of travelers create memories that last a lifetime across Pakistan's breathtaking northern areas, historic sites, and coastal regions. Our commitment to exceptional service, cultural sensitivity, and passion for our homeland remains at the heart of everything we do.
               </p>
             </motion.div>
             <motion.div
@@ -102,7 +102,7 @@ export default function About() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="text-5xl font-bold mb-2 text-secondary">10K+</div>
+              <div className="text-5xl font-bold mb-2 text-secondary">5K+</div>
               <div className="text-xl">Happy Travelers</div>
             </motion.div>
             <motion.div
@@ -112,7 +112,7 @@ export default function About() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="text-5xl font-bold mb-2 text-secondary">100+</div>
+              <div className="text-5xl font-bold mb-2 text-secondary">50+</div>
               <div className="text-xl">Destinations</div>
             </motion.div>
             <motion.div
@@ -122,7 +122,7 @@ export default function About() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="text-5xl font-bold mb-2 text-secondary">12</div>
+              <div className="text-5xl font-bold mb-2 text-secondary">6</div>
               <div className="text-xl">Years of Experience</div>
             </motion.div>
             <motion.div
@@ -132,7 +132,7 @@ export default function About() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <div className="text-5xl font-bold mb-2 text-secondary">4.9</div>
+              <div className="text-5xl font-bold mb-2 text-secondary">4.8</div>
               <div className="text-xl">Average Rating</div>
             </motion.div>
           </div>
@@ -164,7 +164,7 @@ export default function About() {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-3">Customer First</h3>
               <p className="text-light-dark">
-                We prioritize your needs and preferences, crafting personalized experiences that exceed expectations.
+                We prioritize your needs and preferences, crafting personalized experiences that exceed expectations and showcase the best of Pakistani hospitality.
               </p>
             </motion.div>
             <motion.div
@@ -179,7 +179,7 @@ export default function About() {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-3">Responsible Travel</h3>
               <p className="text-light-dark">
-                We&apos;re committed to sustainable tourism practices that respect local cultures and protect the environment.
+                We're committed to sustainable tourism practices that respect local cultures, support communities, and protect Pakistan's natural environments.
               </p>
             </motion.div>
             <motion.div
@@ -194,7 +194,7 @@ export default function About() {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-3">Integrity</h3>
               <p className="text-light-dark">
-                We operate with honesty and transparency, building trust through every interaction and transaction.
+                We operate with honesty and transparency, building trust through every interaction and ensuring your journey through Pakistan is safe and reliable.
               </p>
             </motion.div>
             <motion.div
@@ -209,7 +209,7 @@ export default function About() {
               </div>
               <h3 className="text-xl font-bold text-secondary mb-3">Excellence</h3>
               <p className="text-light-dark">
-                We strive for excellence in every detail, continuously improving our services to deliver the best travel experiences.
+                We strive for excellence in every detail, continuously improving our services to deliver the best travel experiences across Pakistan's diverse landscapes.
               </p>
             </motion.div>
           </div>
@@ -235,50 +235,51 @@ export default function About() {
             viewport={{ once: true }}
             className="text-light-dark max-w-3xl mx-auto mb-12 text-center"
           >
-            Our diverse team of travel experts is passionate about creating unforgettable experiences for our clients.
+            Our diverse team of local travel experts is passionate about sharing Pakistan's beauty and cultural heritage with the world.
           </motion.p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                name: 'Sarah Johnson',
+                name: 'Sarah Malik',
                 title: 'CEO & Founder',
                 image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
               },
               {
-                name: 'Michael Chen',
+                name: 'Ahmed Khan',
                 title: 'Head of Operations',
                 image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
               },
               {
-                name: 'Emily Rodriguez',
-                title: 'Lead Travel Consultant',
-                image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                name: 'Fatima Hassan',
+                title: 'Lead Tour Guide',
+                image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
               },
               {
-                name: 'David Thompson',
-                title: 'Customer Experience Manager',
-                image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                name: 'Ali Raza',
+                title: 'Customer Experience',
+                image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
               }
             ].map((member, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
                 viewport={{ once: true }}
-                className="text-center"
+                className="bg-dark-lighter rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
               >
-                <div className="relative h-64 mb-4 rounded-lg overflow-hidden group">
+                <div className="relative h-56">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-70" />
                 </div>
-                <h3 className="text-xl font-bold text-light">{member.name}</h3>
-                <p className="text-primary">{member.title}</p>
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-semibold text-secondary mb-1">{member.name}</h3>
+                  <p className="text-light-dark">{member.title}</p>
+                </div>
               </motion.div>
             ))}
           </div>
