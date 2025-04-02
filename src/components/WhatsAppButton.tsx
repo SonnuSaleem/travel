@@ -13,7 +13,10 @@ const WhatsAppButton = ({ phoneNumber }: WhatsAppButtonProps) => {
   
   // Format the phone number for WhatsApp API
   const formattedNumber = phoneNumber.replace(/\D/g, '');
-  const whatsappUrl = `https://wa.me/${formattedNumber}`;
+  
+  // Add a predefined message that will appear in the chat
+  const predefinedMessage = encodeURIComponent("Hi! I'm interested in your travel packages. Can you provide more information?");
+  const whatsappUrl = `https://wa.me/${formattedNumber}?text=${predefinedMessage}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
