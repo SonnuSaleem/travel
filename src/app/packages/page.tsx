@@ -120,7 +120,7 @@ export default function Packages() {
   };
 
   return (
-    <div className="pt-16 min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 px-5 sm:px-8">
+    <div className="pt-16 min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       <BackButton />
       
       {/* Hero Section with Video Background */}
@@ -186,7 +186,7 @@ export default function Packages() {
 
       {/* Premium Badge Section */}
       <div className="bg-white">
-        <div className="container mx-auto py-4 sm:py-8 px-4 sm:px-8">
+        <div className="container mx-auto py-4 sm:py-8 px-4">
           <div className="flex flex-wrap justify-center gap-2 md:gap-8">
             {['Certified Experts', 'Exclusive Benefits', 'Best Price Guarantee', '24/7 Support'].map((feature, index) => (
               <motion.div

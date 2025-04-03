@@ -39,6 +39,15 @@ module.exports = {
         'gradient-secondary': 'linear-gradient(135deg, #FFB703 0%, #FB8500 100%)',
         'gradient-dark': 'linear-gradient(135deg, #1D1D1D 0%, #333333 100%)',
       },
+      animation: {
+        'shimmer': 'shimmer 2s infinite linear',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%) rotate(45deg)' },
+          '100%': { transform: 'translateX(200%) rotate(45deg)' },
+        },
+      },
     },
   },
   plugins: [],

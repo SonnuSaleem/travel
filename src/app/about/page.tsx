@@ -242,22 +242,26 @@ export default function About() {
               {
                 name: 'Muzammil Saleem',
                 title: 'CEO & Founder',
-                image: 'https://res.cloudinary.com/dfwbsedxv/image/upload/v1735480454/Untitled_design_18_snrdwk.png'
+                image: 'https://res.cloudinary.com/dfwbsedxv/image/upload/v1735480454/Untitled_design_18_snrdwk.png',
+                objectPosition: 'center top'
               },
               {
                 name: 'Ahmed Khan',
                 title: 'Head of Operations',
-                image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                objectPosition: 'center'
               },
               {
                 name: 'Fatima Hassan',
                 title: 'Lead Tour Guide',
-                image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                objectPosition: 'center'
               },
               {
                 name: 'Ali Raza',
                 title: 'Customer Experience',
-                image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                objectPosition: 'center'
               }
             ].map((member, index) => (
               <motion.div
@@ -266,19 +270,28 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
                 viewport={{ once: true }}
-                className="bg-dark-lighter rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+                className="relative bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all p-6 border border-amber-300 hover:scale-105 group"
               >
-                <div className="relative h-56">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className={`object-cover ${member.name === 'Muzammil Saleem' ? 'object-top' : ''}`}
-                  />
+                {/* Shimmer effect overlay */}
+                <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
+                  <div className="absolute -inset-[100%] top-0 opacity-30 bg-gradient-to-r from-transparent via-white to-transparent transform rotate-45 translate-x-[100%] group-hover:animate-shimmer"></div>
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-secondary mb-1">{member.name}</h3>
-                  <p className="text-light-dark">{member.title}</p>
+                
+                <div className="relative flex justify-center mb-4">
+                  <div className="w-28 h-28 rounded-full overflow-hidden border-3 border-amber-400 shadow-md bg-white">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      width={112}
+                      height={112}
+                      className="w-full h-full object-cover"
+                      style={{ objectPosition: member.objectPosition }}
+                    />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-amber-800 mb-1">{member.name}</h3>
+                  <p className="text-amber-700">{member.title}</p>
                 </div>
               </motion.div>
             ))}
