@@ -240,9 +240,9 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                name: 'Sarah Malik',
+                name: 'Muzammil Saleem',
                 title: 'CEO & Founder',
-                image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                image: 'https://res.cloudinary.com/dfwbsedxv/image/upload/v1735480454/Untitled_design_18_snrdwk.png'
               },
               {
                 name: 'Ahmed Khan',
@@ -273,7 +273,7 @@ export default function About() {
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover"
+                    className={`object-cover ${member.name === 'Muzammil Saleem' ? 'object-top' : ''}`}
                   />
                 </div>
                 <div className="p-6 text-center">
