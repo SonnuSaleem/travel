@@ -120,11 +120,11 @@ export default function Packages() {
   };
 
   return (
-    <div className="pt-16 min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="pt-16 min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 px-5 sm:px-8">
       <BackButton />
       
       {/* Hero Section with Video Background */}
-      <div className="relative h-[50vh] overflow-hidden">
+      <div className="relative h-[40vh] sm:h-[50vh] overflow-hidden">
         {/* Video or Image Background */}
         <div className="absolute inset-0">
           <Image 
@@ -144,28 +144,28 @@ export default function Packages() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 sm:mb-4 text-white drop-shadow-lg">
               Exclusive <span className="text-yellow-400">Premium</span> Packages
             </h1>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-white/90 mb-4 sm:mb-8 max-w-2xl mx-auto">
               Discover handcrafted experiences curated by travel experts for the discerning traveler
             </p>
             
             <motion.div 
-              className="rounded-full bg-white/10 backdrop-blur-md p-1 inline-flex"
+              className="rounded-full bg-white/10 backdrop-blur-md p-1 inline-flex w-full max-w-md sm:max-w-2xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
               <form onSubmit={handleSearch} className="flex w-full">
                 <div className="relative flex items-center flex-1">
-                  <FaSearch className="absolute left-4 text-white/60" />
+                  <FaSearch className="absolute left-2 sm:left-4 text-white/60" />
                   <input 
                     type="text" 
                     value={searchTerm}
                     onChange={handleSearchChange}
                     placeholder="Where do you want to go?" 
-                    className="bg-transparent text-white placeholder-white/60 border-none outline-none focus:ring-0 focus:outline-none px-10 py-3 w-full min-w-[300px] md:min-w-[400px]"
+                    className="bg-transparent text-white placeholder-white/60 border-none outline-none focus:ring-0 focus:outline-none pl-7 pr-2 sm:px-10 py-2 sm:py-3 w-full min-w-0 text-sm sm:text-base"
                     style={{ 
                       WebkitAppearance: 'none',
                       boxShadow: 'none'
@@ -174,7 +174,7 @@ export default function Packages() {
                 </div>
                 <button 
                   type="submit"
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full transition-all"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-3 sm:px-6 py-2 sm:py-3 rounded-full transition-all text-sm sm:text-base whitespace-nowrap"
                 >
                   Explore Now
                 </button>
@@ -186,15 +186,15 @@ export default function Packages() {
 
       {/* Premium Badge Section */}
       <div className="bg-white">
-        <div className="container mx-auto py-8">
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+        <div className="container mx-auto py-4 sm:py-8 px-4 sm:px-8">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-8">
             {['Certified Experts', 'Exclusive Benefits', 'Best Price Guarantee', '24/7 Support'].map((feature, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + index * 0.1 }}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full shadow-sm"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 bg-slate-50 rounded-full shadow-sm text-xs sm:text-sm"
               >
                 <FaShieldAlt className="text-yellow-500" />
                 <span className="text-slate-700 font-medium">{feature}</span>
@@ -205,16 +205,16 @@ export default function Packages() {
       </div>
 
       {/* Content Section */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-6 sm:py-12">
         {/* Category Tabs */}
-        <div className="mb-12">
+        <div className="mb-6 sm:mb-12">
           <div className="flex overflow-x-auto pb-4 hide-scrollbar">
-            <div className="flex space-x-2 md:space-x-4 mx-auto">
+            <div className="flex space-x-1 sm:space-x-2 md:space-x-4 mx-auto">
               {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setActiveTab(category.id)}
-                  className={`px-5 py-3 rounded-full font-medium whitespace-nowrap transition-all ${
+                  className={`px-3 sm:px-5 py-2 sm:py-3 rounded-full font-medium whitespace-nowrap transition-all text-xs sm:text-sm ${
                     activeTab === category.id
                       ? 'bg-slate-800 text-white shadow-lg'
                       : 'bg-white text-slate-600 hover:bg-slate-100'
@@ -227,24 +227,24 @@ export default function Packages() {
           </div>
           
           {/* Sort and Filter Controls */}
-          <div className="flex flex-wrap justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-sm">
-            <div className="flex items-center gap-4">
-              <h2 className="text-xl font-bold text-slate-800">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-8 bg-white p-3 sm:p-4 rounded-xl shadow-sm">
+            <div className="flex items-center gap-2 mb-3 sm:mb-0">
+              <h2 className="text-lg sm:text-xl font-bold text-slate-800">
                 {activeTab === 'all' 
                   ? (searchQuery ? `Search Results: "${searchQuery}"` : 'All Premium Packages')
                   : categories.find(c => c.id === activeTab)?.name}
               </h2>
-              <div className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+              <div className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm font-medium">
                 {searchResults.length} packages
               </div>
             </div>
             
-            <div className="flex items-center mt-4 sm:mt-0">
-              <label className="text-slate-600 mr-3">Sort by:</label>
+            <div className="flex items-center w-full sm:w-auto">
+              <label className="text-slate-600 mr-2 text-sm sm:text-base">Sort by:</label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="bg-slate-50 border border-slate-200 rounded-md px-2 py-1.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm sm:text-base flex-1 sm:flex-none"
               >
                 <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
@@ -274,7 +274,7 @@ export default function Packages() {
           </div>
         ) : (
           /* Packages Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 pr-2 sm:pr-0">
             {searchResults.map((pkg) => (
               <motion.div
                 key={pkg.id}
@@ -287,7 +287,7 @@ export default function Packages() {
                 onClick={() => setSelectedPackage(pkg.id === selectedPackage ? null : pkg.id)}
               >
                 {/* Image Container */}
-                <div className="relative h-56">
+                <div className="relative h-48 sm:h-56">
                   <Image
                     src={pkg.imageUrl}
                     alt={pkg.name}
@@ -299,8 +299,8 @@ export default function Packages() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   
                   {/* Top badges */}
-                  <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
-                    <div className="px-3 py-1 bg-yellow-500 text-white rounded-lg text-sm font-medium">
+                  <div className="absolute top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 flex justify-between items-start">
+                    <div className="px-2 sm:px-3 py-0.5 sm:py-1 bg-yellow-500 text-white rounded-lg text-xs sm:text-sm font-medium">
                       {pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)}
                     </div>
                     <button 
@@ -308,76 +308,76 @@ export default function Packages() {
                         e.stopPropagation();
                         toggleFavorite(pkg.id);
                       }}
-                      className="w-8 h-8 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full"
+                      className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full"
                     >
                       <FaHeart className={favorites.includes(pkg.id) ? "text-red-500" : "text-white"} />
                     </button>
                   </div>
                   
                   {/* Bottom info */}
-                  <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+                  <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 flex justify-between items-end">
                     <div>
-                      <h3 className="text-white font-bold text-xl mb-1 drop-shadow-md">{pkg.name}</h3>
+                      <h3 className="text-white font-bold text-lg sm:text-xl mb-0.5 sm:mb-1 drop-shadow-md">{pkg.name}</h3>
                       <div className="flex items-center">
                         <FaMapMarkerAlt className="text-yellow-400 mr-1" />
-                        <span className="text-white/90 text-sm">{pkg.location}</span>
+                        <span className="text-white/90 text-xs sm:text-sm">{pkg.location}</span>
                       </div>
                     </div>
-                    <div className="flex items-center bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1">
+                    <div className="flex items-center bg-white/20 backdrop-blur-sm rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1">
                       <FaStar className="text-yellow-400 mr-1" />
-                      <span className="text-white font-medium">{pkg.rating}</span>
+                      <span className="text-white font-medium text-xs sm:text-sm">{pkg.rating}</span>
                     </div>
                   </div>
                 </div>
                 
                 {/* Content */}
-                <div className="p-5">
+                <div className="p-3 sm:p-5">
                   {/* Price */}
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="flex justify-between items-center mb-3 sm:mb-4">
                     <div>
                       {pkg.discount > 0 ? (
                         <>
-                          <span className="line-through text-slate-400 mr-2">${pkg.price}</span>
-                          <span className="text-2xl font-bold text-slate-800">
+                          <span className="line-through text-slate-400 mr-2 text-sm sm:text-base">${pkg.price}</span>
+                          <span className="text-xl sm:text-2xl font-bold text-slate-800">
                             ${getDiscountedPrice(pkg.price, pkg.discount)}
                           </span>
                         </>
                       ) : (
-                        <span className="text-2xl font-bold text-slate-800">${pkg.price}</span>
+                        <span className="text-xl sm:text-2xl font-bold text-slate-800">${pkg.price}</span>
                       )}
-                      <span className="text-slate-500 ml-1">per person</span>
+                      <span className="text-slate-500 ml-1 text-xs sm:text-sm">per person</span>
                     </div>
                     
                     {pkg.discount > 0 && (
-                      <div className="px-2 py-1 bg-red-100 text-red-700 rounded-lg text-sm font-medium">
+                      <div className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-red-100 text-red-700 rounded-lg text-xs sm:text-sm font-medium">
                         Save {pkg.discount}%
                       </div>
                     )}
                   </div>
                   
                   {/* Features */}
-                  <div className="space-y-3 mb-4">
+                  <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
                     <div className="flex items-center">
-                      <FaCalendarAlt className="text-slate-400 mr-3" />
-                      <span className="text-slate-700">{pkg.duration}</span>
+                      <FaCalendarAlt className="text-slate-400 mr-2 sm:mr-3 text-sm sm:text-base" />
+                      <span className="text-slate-700 text-sm sm:text-base">{pkg.duration}</span>
                     </div>
                     
                     <div className="flex items-center">
-                      <FaUsers className="text-slate-400 mr-3" />
-                      <span className="text-slate-700">
+                      <FaUsers className="text-slate-400 mr-2 sm:mr-3 text-sm sm:text-base" />
+                      <span className="text-slate-700 text-sm sm:text-base">
                         <span className="font-medium">{pkg.availableSpots}</span> spots left
                       </span>
                     </div>
                   </div>
                   
                   {/* Premium benefits */}
-                  <div className="mb-5">
-                    <h4 className="text-sm font-semibold text-slate-400 uppercase mb-2">Premium Benefits</h4>
-                    <div className="space-y-2">
+                  <div className="mb-4 sm:mb-5">
+                    <h4 className="text-xs sm:text-sm font-semibold text-slate-400 uppercase mb-1 sm:mb-2">Premium Benefits</h4>
+                    <div className="space-y-1 sm:space-y-2">
                       {pkg.benefits.map((benefit: string, idx: number) => (
                         <div key={idx} className="flex items-center">
-                          <div className="w-2 h-2 rounded-full bg-yellow-400 mr-2"></div>
-                          <span className="text-slate-600">{benefit}</span>
+                          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400 mr-1.5 sm:mr-2"></div>
+                          <span className="text-slate-600 text-xs sm:text-sm">{benefit}</span>
                         </div>
                       ))}
                     </div>
@@ -385,7 +385,7 @@ export default function Packages() {
                   
                   {/* CTA */}
                   <Link href={`/packages/${pkg.id}`} className="block w-full">
-                    <button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center group">
+                    <button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 sm:py-3 px-3 sm:px-4 rounded-lg transition-colors flex items-center justify-center group text-sm sm:text-base">
                       <span>View Details</span>
                       <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                     </button>
