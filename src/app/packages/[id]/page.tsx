@@ -75,22 +75,28 @@ export default function PackageDetail() {
     ],
     reviews: [
       { 
-        name: 'Sarah Johnson', 
+        name: 'Ahmed Khan', 
         rating: 5, 
-        date: '2 months ago',
-        comment: 'Absolutely incredible experience! The accommodations were luxurious, and the tour guides were knowledgeable and friendly. Would highly recommend this package!' 
+        date: '2 weeks ago',
+        comment: 'Our trip to Northern Pakistan was incredible! Safarnama arranged everything perfectly - from the comfortable transportation to the breathtaking views of Hunza Valley. The local guides were very knowledgeable about the history and culture.' 
       },
       { 
-        name: 'David Thompson', 
-        rating: 4, 
-        date: '3 months ago',
-        comment: 'Great package overall. The itinerary was well-planned and we got to see all the major attractions. Only downside was the weather, but that\'s not their fault!' 
-      },
-      { 
-        name: 'Michelle Wu', 
+        name: 'Fatima Zaidi', 
         rating: 5, 
         date: '1 month ago',
-        comment: 'This was our third time booking with them and it never disappoints. The premium benefits make all the difference. Worth every penny!' 
+        comment: 'We visited Swat Valley and it was a life-changing experience. The natural beauty was beyond words. Our guide from Safarnama made sure we experienced authentic local culture and cuisine. Highly recommended!' 
+      },
+      { 
+        name: 'Michael Chen', 
+        rating: 4, 
+        date: '3 weeks ago',
+        comment: 'As an international traveler, I was amazed by Pakistan\'s hospitality. Safarnama took care of all details and safety concerns. The Kalash Valley cultural tour was a highlight - something you won\'t experience anywhere else in the world.' 
+      },
+      { 
+        name: 'Sara Mahmood', 
+        rating: 5, 
+        date: '2 days ago',
+        comment: 'Just returned from the Skardu expedition package. The views of K2 base camp were magnificent! The accommodation arrangements were excellent and our guide was very professional. Will definitely book with Safarnama again!' 
       }
     ],
     faqs: [
@@ -196,7 +202,7 @@ export default function PackageDetail() {
             <div className="bg-white rounded-xl shadow-sm mb-8">
               <div className="border-b border-slate-100">
                 <div className="flex overflow-x-auto hide-scrollbar">
-                  {['overview', 'itinerary', 'inclusions', 'activities', 'reviews', 'faq'].map((tab) => (
+                  {['overview', 'schedule', 'inclusions', 'activities', 'reviews', 'faq'].map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setSelectedTab(tab)}
@@ -251,7 +257,7 @@ export default function PackageDetail() {
                           </li>
                           <li className="flex items-start">
                             <FaCheckCircle className="text-green-500 mt-1 mr-3 flex-shrink-0" />
-                            <span className="text-slate-600">Flexible itinerary with personalized experiences</span>
+                            <span className="text-slate-600">Flexible schedule with personalized experiences</span>
                           </li>
                         </ul>
                       </div>
@@ -270,8 +276,8 @@ export default function PackageDetail() {
                   </div>
                 )}
                 
-                {/* Itinerary Tab */}
-                {selectedTab === 'itinerary' && (
+                {/* Schedule Tab */}
+                {selectedTab === 'schedule' && (
                   <div>
                     <h2 className="text-2xl font-bold text-slate-800 mb-6">Your Journey Day by Day</h2>
                     <div className="space-y-6">

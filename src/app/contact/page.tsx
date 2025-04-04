@@ -249,7 +249,7 @@ export default function Contact() {
                           name="name"
                           required
                           className="block w-full pl-10 pr-3 py-2 bg-dark-light border border-dark-lighter rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-light"
-                          placeholder="John Doe"
+                          placeholder="M. Farhan"
                           value={formData.name}
                           onChange={handleChange}
                         />
@@ -270,7 +270,7 @@ export default function Contact() {
                           name="email"
                           required
                           className="block w-full pl-10 pr-3 py-2 bg-dark-light border border-dark-lighter rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-light"
-                          placeholder="john@example.com"
+                          placeholder="Mfarhan@example.com"
                           value={formData.email}
                           onChange={handleChange}
                         />
@@ -331,33 +331,6 @@ export default function Contact() {
                   </div>
                 </form>
               )}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Map Section */}
-      <div className="bg-dark py-16">
-        <div className="container mx-auto px-4">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-2xl font-bold text-light mb-8 text-center"
-          >
-            Find Us on the Map
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="h-96 bg-dark-light rounded-lg overflow-hidden border border-dark-lighter"
-          >
-            {/* In a real application, this would be a Google Maps or other map component */}
-            <div className="w-full h-full flex items-center justify-center">
-              <p className="text-light-dark">Map placeholder - In a real application, this would be an interactive map</p>
             </div>
           </motion.div>
         </div>

@@ -12,6 +12,32 @@ import Image from 'next/image';
 function PaymentWithSearchParams() {
   const searchParams = useSearchParams();
   
+  // Effect to prevent caching and ensure fresh reload
+  useEffect(() => {
+    // Set cache control headers to prevent caching
+    const meta = document.createElement('meta');
+    meta.httpEquiv = 'Cache-Control';
+    meta.content = 'no-cache, no-store, must-revalidate';
+    document.head.appendChild(meta);
+
+    const metaPragma = document.createElement('meta');
+    metaPragma.httpEquiv = 'Pragma';
+    metaPragma.content = 'no-cache';
+    document.head.appendChild(metaPragma);
+
+    const metaExpires = document.createElement('meta');
+    metaExpires.httpEquiv = 'Expires';
+    metaExpires.content = '0';
+    document.head.appendChild(metaExpires);
+
+    // Clean up
+    return () => {
+      document.head.removeChild(meta);
+      document.head.removeChild(metaPragma);
+      document.head.removeChild(metaExpires);
+    };
+  }, []);
+  
   // Get booking details from URL params
   const destination = searchParams.get('destination');
   const price = searchParams.get('price');
@@ -274,27 +300,35 @@ function PaymentContent({
                     
                     <div 
                       className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        showJazzCashDetails ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                        showJazzCashDetails ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'
                       }`}
                     >
                       <div className="p-3 border-t border-dark-lighter">
-                        <div className="flex justify-between items-center bg-dark p-3 rounded mb-2">
-                          <span className="text-light-dark text-sm mr-2">IBAN:</span>
-                          <span className="text-light font-mono">{jazzCashIban}</span>
-                          <button 
-                            onClick={() => handleCopyToClipboard(jazzCashIban, "JazzCash")}
-                            className={`ml-2 p-2 rounded-full transition-transform active:scale-90 no-focus-outline ${copyAnimation === 'JazzCash' ? 'bg-primary text-white ring-2 ring-primary ring-opacity-50' : 'text-primary hover:text-secondary hover:bg-dark-lighter'}`}
-                            aria-label="Copy IBAN"
-                          >
-                            <FaCopy className={`${copyAnimation === 'JazzCash' ? 'animate-bounce' : ''}`} />
-                          </button>
-                        </div>
-                        {copyAnimation === 'JazzCash' && (
-                          <div className="text-xs text-green-400 text-right mt-1 animate-fade-in">
-                            {copySuccess}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-dark p-3 rounded mb-2">
+                          <div className="flex items-center mb-2 sm:mb-0">
+                            <span className="text-light-dark text-sm mr-2">IBAN:</span>
+                            <span className="text-light font-mono break-all">{jazzCashIban}</span>
                           </div>
-                        )}
-                        <p className="text-light-dark text-sm">
+                          <div className="flex flex-col items-center self-end sm:self-auto ml-auto sm:ml-2">
+                            <button 
+                              onClick={() => handleCopyToClipboard(jazzCashIban, "JazzCash")}
+                              className={`p-2 rounded-full transition-transform active:scale-90 no-focus-outline ${copyAnimation === 'JazzCash' ? 'bg-primary text-white ring-2 ring-primary ring-opacity-50' : 'text-primary hover:text-secondary hover:bg-dark-lighter'}`}
+                              aria-label="Copy IBAN"
+                            >
+                              <FaCopy className={`${copyAnimation === 'JazzCash' ? 'animate-bounce' : ''}`} />
+                            </button>
+                            {copyAnimation === 'JazzCash' && (
+                              <div className="text-xs text-green-400 mt-1 animate-fade-in">
+                                {copySuccess}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center bg-dark p-3 rounded mb-2">
+                          <span className="text-light-dark text-sm mr-2">Account Holder:</span>
+                          <span className="text-light">Muzammil Saleem</span>
+                        </div>
+                        <p className="text-light-dark text-sm opacity-60">
                           Please include your name and booking date in the transfer description
                         </p>
                       </div>
@@ -315,34 +349,42 @@ function PaymentContent({
                     
                     <div 
                       className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                        showEasyPaisaDetails ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                        showEasyPaisaDetails ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'
                       }`}
                     >
                       <div className="p-3 border-t border-dark-lighter">
-                        <div className="flex justify-between items-center bg-dark p-3 rounded mb-2">
-                          <span className="text-light-dark text-sm mr-2">IBAN:</span>
-                          <span className="text-light font-mono">{easyPaisaIban}</span>
-                          <button 
-                            onClick={() => handleCopyToClipboard(easyPaisaIban, "EasyPaisa")}
-                            className={`ml-2 p-2 rounded-full transition-transform active:scale-90 no-focus-outline ${copyAnimation === 'EasyPaisa' ? 'bg-primary text-white ring-2 ring-primary ring-opacity-50' : 'text-primary hover:text-secondary hover:bg-dark-lighter'}`}
-                            aria-label="Copy IBAN"
-                          >
-                            <FaCopy className={`${copyAnimation === 'EasyPaisa' ? 'animate-bounce' : ''}`} />
-                          </button>
-                        </div>
-                        {copyAnimation === 'EasyPaisa' && (
-                          <div className="text-xs text-green-400 text-right mt-1 animate-fade-in">
-                            {copySuccess}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-dark p-3 rounded mb-2">
+                          <div className="flex items-center mb-2 sm:mb-0">
+                            <span className="text-light-dark text-sm mr-2">IBAN:</span>
+                            <span className="text-light font-mono break-all">{easyPaisaIban}</span>
                           </div>
-                        )}
-                        <p className="text-light-dark text-sm">
+                          <div className="flex flex-col items-center self-end sm:self-auto ml-auto sm:ml-2">
+                            <button 
+                              onClick={() => handleCopyToClipboard(easyPaisaIban, "EasyPaisa")}
+                              className={`p-2 rounded-full transition-transform active:scale-90 no-focus-outline ${copyAnimation === 'EasyPaisa' ? 'bg-primary text-white ring-2 ring-primary ring-opacity-50' : 'text-primary hover:text-secondary hover:bg-dark-lighter'}`}
+                              aria-label="Copy IBAN"
+                            >
+                              <FaCopy className={`${copyAnimation === 'EasyPaisa' ? 'animate-bounce' : ''}`} />
+                            </button>
+                            {copyAnimation === 'EasyPaisa' && (
+                              <div className="text-xs text-green-400 mt-1 animate-fade-in">
+                                {copySuccess}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center bg-dark p-3 rounded mb-2">
+                          <span className="text-light-dark text-sm mr-2">Account Holder:</span>
+                          <span className="text-light">Muzammil Saleem</span>
+                        </div>
+                        <p className="text-light-dark text-sm opacity-60">
                           Please include your name and booking date in the transfer description
                         </p>
                       </div>
-                      </div>
                     </div>
                   </div>
-                  
+                </div>
+                
                 <form onSubmit={handleSubmit} className="pt-4">
                   <div>
                     <button
@@ -498,12 +540,15 @@ function PaymentContent({
       <div class="logo-container">
         <div style="display: flex; align-items: center;">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="#2e7d32">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-            <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm-3 5c0-1.65 1.35-3 3-3s3 1.35 3 3-1.35 3-3 3-3-1.35-3-3z" fill="#4caf50"/>
-            <path d="M15.94 11.65l-4.29-4.29c-.26-.26-.69-.15-.83.21l-1.41 3.54c-.07.17-.06.36.03.52l.76 1.51c.08.17.22.3.4.36l1.51.76c.16.08.35.09.52.03l3.54-1.41c.35-.14.46-.58.21-.83l-1.51-1.51 1.51-1.51c.35-.35.09-.92-.44-.82z" fill="#66bb6a"/>
+            <circle cx="12" cy="12" r="11" fill="#2e7d32"/>
+            <circle cx="12" cy="12" r="9" fill="#1b5e20"/>
+            <path d="M12,6 L13,9 L16,9 L13.5,11 L14.5,14 L12,12.5 L9.5,14 L10.5,11 L8,9 L11,9 Z" fill="#4caf50"/>
+            <path d="M8,14 C8,17.3 9.8,20 12,20 C14.2,20 16,17.3 16,14 L8,14 Z" fill="#81c784"/>
+            <path d="M12,4 C8.7,4 6,5.8 6,8 L18,8 C18,5.8 15.3,4 12,4 Z" fill="#81c784"/>
+            <circle cx="12" cy="12" r="2" fill="#c8e6c9"/>
           </svg>
           <h2 style="font-size: 32px; color: #333; font-weight: bold; margin: 0 0 0 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; letter-spacing: -1px;">
-            <span style="color: #f8c301; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Safar</span><span style="color: #ff7e00; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">nama</span>
+            <span style="color: #ff7e00; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Safar</span><span style="color: #ff7e00; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">nama</span>
             <span style="font-size: 14px; display: block; color: #388e3c; letter-spacing: 1px; font-weight: normal; font-style: italic; margin-top: -5px;">Explore Pakistan</span>
           </h2>
         </div>
@@ -514,7 +559,7 @@ function PaymentContent({
       </div>
     </div>
     
-    <h1 class="receipt-title">Booking Confirmation</h1>
+    <h1 class="receipt-title">Booking Details</h1>
     
     <div class="info-section">
       <div class="info-row">

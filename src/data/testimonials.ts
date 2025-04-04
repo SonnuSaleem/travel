@@ -1,38 +1,38 @@
 export const testimonials = [
   {
     id: '1',
-    customerName: 'Sarah Johnson',
-    customerImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+    customerName: 'Ahmed Khan',
+    customerImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    comment: 'Our trip to Bali was absolutely magical! The accommodations were luxurious, the tour guides were knowledgeable, and the itinerary was perfectly balanced. We will definitely book with this agency again!',
-    destination: 'Bali Paradise',
-    date: new Date('2023-10-15')
+    comment: 'Our trip to Northern Pakistan was incredible! Safarnama arranged everything perfectly - from the comfortable transportation to the breathtaking views of Hunza Valley. The local guides were very knowledgeable about the history and culture.',
+    destination: 'Northern Pakistan Explorer',
+    date: new Date('2023-12-15')
   },
   {
     id: '2',
-    customerName: 'Michael Chen',
-    customerImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+    customerName: 'Fatima Zaidi',
+    customerImage: 'https://images.unsplash.com/photo-1611432579699-484f7990b127?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    comment: 'The Swiss Alps adventure exceeded all our expectations. The attention to detail was impressive, and the guides made sure we had the best experience possible. Highly recommended!',
-    destination: 'Swiss Alps Adventure',
-    date: new Date('2023-11-22')
+    comment: 'We visited Swat Valley and it was a life-changing experience. The natural beauty was beyond words. Our guide from Safarnama made sure we experienced authentic local culture and cuisine. Highly recommended!',
+    destination: 'Swat Valley Adventure',
+    date: new Date('2023-12-02')
   },
   {
     id: '3',
-    customerName: 'Emily Rodriguez',
-    customerImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+    customerName: 'Michael Chen',
+    customerImage: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
     rating: 4,
-    comment: "Tokyo Explorer was a fantastic experience! The only reason I'm giving 4 stars instead of 5 is because some of the days felt a bit rushed. Otherwise, it was an amazing trip with great cultural insights.",
-    destination: 'Tokyo Explorer',
-    date: new Date('2023-09-05')
+    comment: "As an international traveler, I was amazed by Pakistan's hospitality. Safarnama took care of all details and safety concerns. The Kalash Valley cultural tour was a highlight - something you won't experience anywhere else in the world.",
+    destination: 'Kalash Valley Cultural Tour',
+    date: new Date('2023-11-25')
   },
   {
     id: '4',
-    customerName: 'David Thompson',
-    customerImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+    customerName: 'Sara Mahmood',
+    customerImage: 'https://images.unsplash.com/photo-1614283233556-f35b0c801ef1?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    comment: 'The Santorini Getaway was the perfect honeymoon package. The sunset views were breathtaking, and the private tours allowed us to experience the island at our own pace. Unforgettable!',
-    destination: 'Santorini Getaway',
-    date: new Date('2023-08-12')
+    comment: 'Just returned from the Skardu expedition package. The views of K2 base camp were magnificent! The accommodation arrangements were excellent and our guide was very professional. Will definitely book with Safarnama again!',
+    destination: 'Skardu & K2 Base Camp Expedition',
+    date: new Date('2023-12-27')
   }
 ]; 

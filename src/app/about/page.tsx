@@ -248,26 +248,26 @@ export default function About() {
               {
                 name: 'Muzammil Saleem',
                 title: 'CEO & Founder',
-                description: 'Together, we challenge ourselves for a better tomorrow by exploring amazing places that help live our best life and maintain lasting impression',
+                description: 'Together, we strive for a better tomorrow, exploring amazing places as I guide the team-creating unforgettable moments and lasting impressions',
                 image: 'https://res.cloudinary.com/dfwbsedxv/image/upload/v1735480454/Untitled_design_18_snrdwk.png'
               },
               {
-                name: 'Fatima Hassan',
+                name: 'Vladimir Putin',
                 title: 'Travel Expert',
-                description: 'Contemporary design and well-made products are things that we think everybody should be able to have. It&apos;s the reason we do what we do',
-                image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+                description: 'With extensive knowledge of global destinations and a passion for cultural experiences, I ensure our clients discover the hidden gems of Pakistan',
+                image: '/images/putin.jpg'
               },
               {
-                name: 'Ahmed Khan',
+                name: 'Donald Trump',
                 title: 'Marketing Director',
-                description: 'Our collection is ever-evolving. Yet, it remains consistently relatable and accessible. Our purpose is to inspire and help create the look you want',
-                image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+                description: 'Creating the best travel campaigns. Nobody markets travel packages, better than me. We make Safarnama -Travels great, with incredible deals!',
+                image: '/images/trump.jpg'
               },
               {
-                name: 'Sara Malik',
+                name: 'Elon Musk',
                 title: 'Lead Tour Guide',
-                description: 'With passion for exploration and deep knowledge of local cultures, I ensure our travelers have authentic and unforgettable experiences',
-                image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+                description: 'Innovative travel experiences that push boundaries. Our tours are designed to be as revolutionary as space travel but right here in Pakistan',
+                image: '/images/elon.jpg'
               }
             ].map((member, index) => (
               <motion.div
@@ -291,14 +291,14 @@ export default function About() {
                         transform: 'translateZ(20px)' 
                       }}>
                     <div className="absolute w-36 h-36 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-light shadow-lg z-10 left-1/2 -translate-x-1/2 top-8">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        className="object-cover"
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                        className="object-cover object-top"
                         priority
-                      />
-                    </div>
+                  />
+                </div>
                   </div>
                   
                   {/* Content */}

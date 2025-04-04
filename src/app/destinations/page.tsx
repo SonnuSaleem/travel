@@ -6,7 +6,7 @@ import { FaSearch, FaFilter, FaStar } from 'react-icons/fa';
 import DestinationCard from '@/components/DestinationCard';
 import { destinations } from '@/data/destinations';
 import BackButton from '@/components/BackButton';
-import Link from 'next/link';
+ 
 
 export default function Destinations() {
   const [searchTerm, setSearchTerm] = useState('');
