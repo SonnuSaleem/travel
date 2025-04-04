@@ -90,7 +90,7 @@ const Testimonials = () => {
               <button
                 key={index}
                 onClick={() => handleDotClick(index)}
-                className={`w-3 h-3 rounded-full mx-1 focus:outline-none ${
+                className={`w-3 h-3 rounded-full mx-1 no-focus-outline ${
                   index === activeIndex ? 'bg-primary' : 'bg-dark-lighter'
                 }`}
                 aria-label={`View testimonial ${index + 1}`}

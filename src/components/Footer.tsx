@@ -21,16 +21,16 @@ const Footer = () => {
               Your trusted partner for unforgettable travel experiences. We specialize in creating personalized journeys that match your dreams and preferences.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-yellow-500 hover:text-yellow-600 transition-colors duration-300">
+              <a href="#" className="text-yellow-500 hover:text-yellow-600 active:text-yellow-600 transition-colors duration-300 no-focus-outline p-1 rounded">
                 <FaFacebook size={20} />
               </a>
-              <a href="#" className="text-yellow-500 hover:text-yellow-600 transition-colors duration-300">
+              <a href="#" className="text-yellow-500 hover:text-yellow-600 active:text-yellow-600 transition-colors duration-300 no-focus-outline p-1 rounded">
                 <FaTwitter size={20} />
               </a>
-              <a href="#" className="text-yellow-500 hover:text-yellow-600 transition-colors duration-300">
+              <a href="#" className="text-yellow-500 hover:text-yellow-600 active:text-yellow-600 transition-colors duration-300 no-focus-outline p-1 rounded">
                 <FaInstagram size={20} />
               </a>
-              <a href="#" className="text-yellow-500 hover:text-yellow-600 transition-colors duration-300">
+              <a href="#" className="text-yellow-500 hover:text-yellow-600 active:text-yellow-600 transition-colors duration-300 no-focus-outline p-1 rounded">
                 <FaYoutube size={20} />
               </a>
             </div>
@@ -41,27 +41,27 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4 text-yellow-600">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                <Link href="/" className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/destinations" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                <Link href="/destinations" className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                   Destinations
                 </Link>
               </li>
               <li>
-                <Link href="/packages" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                <Link href="/packages" className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                   Packages
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                <Link href="/about" className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                <Link href="/contact" className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                   Contact
                 </Link>
               </li>
@@ -74,14 +74,14 @@ const Footer = () => {
             <ul className="space-y-2">
               {featuredDestinations.map((destination) => (
                 <li key={destination.id}>
-                  <Link href={`/packages/${destination.id}`} className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                  <Link href={`/packages/${destination.id}`} className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                     {destination.name}, {destination.location.split(',')[1]?.trim() || destination.location.split(',')[0]?.trim()}
                   </Link>
                 </li>
               ))}
               {featuredDestinations.length < 5 && (
                 <li>
-                  <Link href="/packages" className="text-slate-600 hover:text-yellow-500 transition-colors duration-300">
+                  <Link href="/packages" className="text-slate-600 hover:text-yellow-500 active:text-yellow-500 focus-visible:text-yellow-500 no-focus-outline p-1 -m-1 rounded transition-colors duration-300">
                     View All Packages
                   </Link>
                 </li>
@@ -103,7 +103,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <FaEnvelope className="mr-3 text-yellow-500" />
-                <span className="text-slate-600">muzammilsaleem709@gmail.com</span>
+                <span className="text-slate-600">infoSafarnama@gmail.com</span>
               </li>
             </ul>
           </div>

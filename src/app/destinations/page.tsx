@@ -139,8 +139,8 @@ export default function Destinations() {
             <div className="mb-6">
               <h3 className="font-semibold text-light mb-3">Price Range</h3>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-light">${priceRange[0].toLocaleString()}</span>
-                <span className="text-light">${priceRange[1].toLocaleString()}</span>
+                <span className="text-light">PKR {(priceRange[0] * 270).toLocaleString()}</span>
+                <span className="text-light">PKR {(priceRange[1] * 270).toLocaleString()}</span>
               </div>
               <input
                 type="range"
@@ -195,8 +195,8 @@ export default function Destinations() {
               <div className="mb-6">
                 <h3 className="font-semibold text-light mb-3">Price Range</h3>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-light-dark">${priceRange[0]}</span>
-                  <span className="text-light-dark">${priceRange[1]}</span>
+                  <span className="text-light-dark">PKR {(priceRange[0] * 270).toLocaleString()}</span>
+                  <span className="text-light-dark">PKR {(priceRange[1] * 270).toLocaleString()}</span>
                 </div>
                 <input
                   type="range"

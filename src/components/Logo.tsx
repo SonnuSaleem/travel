@@ -71,7 +71,7 @@ const Logo = ({
   // Logo with tree image
   return (
     <div className={`flex flex-col items-center ${className}`}>
-      <Link href="/">
+      <Link href="/" className="no-focus-outline">
         <motion.div 
           className={`font-extrabold ${textSizeClasses} flex items-center`}
           initial={animated ? "hidden" : "visible"}

@@ -81,7 +81,7 @@ export async function sendUserEmail(
     console.log(`Attempting to send email to user: ${userEmail}`);
     
     const mailOptions = {
-      from: `"Travel Agency" <${process.env.EMAIL_USER}>`,
+      from: `"Safarnama Travels" <${process.env.EMAIL_USER}>`,
       to: userEmail,
       subject: subject,
       html: htmlContent,
@@ -205,7 +205,7 @@ export async function sendAdminEmail(
     console.log(`Attempting to send email to admin: ${process.env.ADMIN_EMAIL}`);
     
     const mailOptions = {
-      from: `"Travel Agency" <${process.env.EMAIL_USER}>`,
+      from: `"Safarnama Travels" <${process.env.EMAIL_USER}>`,
       to: process.env.ADMIN_EMAIL,
       replyTo: replyTo || process.env.EMAIL_USER,
       subject: subject,
@@ -407,11 +407,12 @@ export const emailTemplates = {
   newsletterSubscription: (data: Newsletter) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">Newsletter Subscription Confirmed</h2>
-      <p>Thank you for subscribing to our newsletter! Your email address <strong>${data.email}</strong> has been added to our mailing list.</p>
-      <p>You'll receive regular updates about our latest travel deals, destinations, and travel tips.</p>
+      <p>Thank you for subscribing to Safarnama Travels newsletter!</p>
+      <p>Your email address <strong>${data.email}</strong> has been added to our mailing list.</p>
+      <p>You'll receive updates about our latest travel deals, destinations, and travel tips.</p>
       <p>If you didn't subscribe to our newsletter, please ignore this email.</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
       </div>
     </div>
   `,
@@ -424,7 +425,7 @@ export const emailTemplates = {
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
       </div>
     </div>
   `,
@@ -434,10 +435,11 @@ export const emailTemplates = {
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">Message Received</h2>
       <p>Dear ${name},</p>
-      <p>Thank you for contacting us. We have received your message and will get back to you as soon as possible.</p>
-      <p>Our team typically responds within 24-48 hours during business days.</p>
+      <p>Thank you for choosing Safarnama Travels. We have received your message.</p>
+      <p>After some processing, our team will contact you shortly. Please be patient and wait for our response.</p>
+      <p>We apologize for any delay and appreciate your understanding.</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
       </div>
     </div>
   `,
@@ -459,7 +461,7 @@ export const emailTemplates = {
       </div>
       <p><strong>Date Submitted:</strong> ${new Date().toLocaleString()}</p>
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
       </div>
     </div>
   `,
@@ -469,7 +471,9 @@ export const emailTemplates = {
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
       <h2 style="color: #4a5568;">Booking Confirmation</h2>
       <p>Dear ${data.firstName} ${data.lastName},</p>
-      <p>Thank you for booking with us! Here are your booking details:</p>
+      <p>Thank you for choosing Safarnama Travels. We have received your booking details.</p>
+      <p>After some processing, our team will contact you shortly. Please be patient and wait for our response.</p>
+      <p>We apologize for any delay and appreciate your understanding.</p>
       
       <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 15px 0;">
         <h3 style="margin-top: 0; color: #4a5568;">Booking Information</h3>
@@ -487,11 +491,8 @@ export const emailTemplates = {
         <p><strong>Phone:</strong> ${data.phone || 'Not provided'}</p>
       </div>
       
-      <p>We will contact you shortly with more details about your trip.</p>
-      <p>If you have any questions, please don't hesitate to contact us.</p>
-      
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
       </div>
     </div>
   `,
@@ -520,7 +521,7 @@ export const emailTemplates = {
       <p><strong>Date Submitted:</strong> ${new Date().toLocaleString()}</p>
       
       <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Travel Agency. All rights reserved.</p>
+        <p style="font-size: 12px; color: #718096;">© ${new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
       </div>
     </div>
   `

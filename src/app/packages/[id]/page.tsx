@@ -19,7 +19,6 @@ export default function PackageDetail() {
   const params = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedTab, setSelectedTab] = useState('overview');
-  const [selectedImage, setSelectedImage] = useState(0);
   
   // Get package data based on ID
   const packageId = params.id as string;
@@ -29,74 +28,23 @@ export default function PackageDetail() {
   const packageExtendedData = {
     images: [
       packageData?.imageUrl || '',
-      // Different images based on packageId
-      ...(packageId === '1' ? [
-        'https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1623071284631-a04a7e63bde3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1615473787525-4574d69da836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '2' ? [
-        'https://images.unsplash.com/photo-1586422885236-8abce772768e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1614097396310-92b1bd7fa915?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1623071284831-de9d344d0978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '3' ? [
-        'https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1598861371960-b671a8dbd95d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1589308978062-99626e2fa4d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '4' ? [
-        'https://images.unsplash.com/photo-1578271887552-5ac3a72752bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1600590402802-7a551516c88c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '5' ? [
-        'https://images.unsplash.com/photo-1598864668488-60a770db6892?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1609092877116-90fa2dd2bb61?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1600069740609-f4364762ebf2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '6' ? [
-        'https://images.unsplash.com/photo-1593398359762-e8684d153ccf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1551018612-9715965c6742?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1559521783-1d1599583485?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '7' ? [
-        'https://images.unsplash.com/photo-1544069797-9db25096b32c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1553521503-69829e0c89e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1543158266-0066955047b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '8' ? [
-        'https://images.unsplash.com/photo-1585241936939-be4099591252?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1569288063942-8a1e59a3dd7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1578752545565-00b851fea74d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '9' ? [
-        'https://images.unsplash.com/photo-1559735614-e35ef860a156?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1611601147557-dfa984bf6446?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '10' ? [
-        'https://images.unsplash.com/photo-1517824806704-9040b037703b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1592853584674-cc658f74dadb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1569383746724-56c057a8b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '11' ? [
-        'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1604604557577-4e27a33e57da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1601302594591-a1607fc3b57a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : packageId === '12' ? [
-        'https://images.unsplash.com/photo-1583449542361-8bb0f354f876?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1589395937772-f67057e233b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1589486285381-a48bc962fa48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ] : [
-        'https://images.unsplash.com/photo-1602088113235-229c19758e9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1551918120-9739cb430c6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1494922275507-58dc039ed337?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      ]),
     ],
     inclusions: [
-      'Luxury Accommodation', 
-      'Airport Transfers', 
-      'Guided Tours',
-      'Breakfast & Dinner',
-      'Travel Insurance',
-      'Welcome Package'
+      'Professional guide',
+      'Transportation',
+      'Accommodation',
+      'Meals as per itinerary',
+      'Activities as mentioned',
+      'Entrance fees',
+      'Travel insurance'
     ],
     exclusions: [
-      'International Flights',
-      'Personal Expenses',
-      'Visa Fees (if applicable)',
-      'Optional Activities'
+      'International flights',
+      'Personal expenses',
+      'Optional activities',
+      'Alcoholic beverages',
+      'Tips and gratuities',
+      'Visa fees (if applicable)'
     ],
     itinerary: [
       { 
@@ -199,13 +147,13 @@ export default function PackageDetail() {
       {/* Hero Section */}
       <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <Image 
-          src={packageExtendedData.images[selectedImage]}
+          src={packageExtendedData.images[0]}
           alt={packageData.name}
           fill
-          className="object-cover transition-all duration-700 ease-in-out"
+          className="object-cover rounded-xl"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <motion.div
@@ -236,24 +184,6 @@ export default function PackageDetail() {
               </div>
             </div>
           </motion.div>
-          
-          {/* Image Thumbnails */}
-          <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
-            {packageExtendedData.images.map((img, idx) => (
-              <button 
-                key={idx}
-                onClick={() => setSelectedImage(idx)}
-                className={`relative h-16 w-24 flex-shrink-0 rounded-md overflow-hidden border-2 ${selectedImage === idx ? 'border-yellow-500 opacity-100' : 'border-transparent opacity-70'} transition-all`}
-              >
-                <Image 
-                  src={img}
-                  alt={`${packageData.name} view ${idx + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </button>
-            ))}
-          </div>
         </div>
       </div>
       

@@ -43,10 +43,10 @@ function BookingConfirmationContent() {
             </motion.div>
             
             <h1 className="text-3xl md:text-4xl font-bold text-light mb-4">
-              Booking Confirmed!
+              Under Processing
             </h1>
             <p className="text-light-dark text-lg max-w-xl mx-auto">
-              Thank you for booking with us. Your travel adventure is now confirmed. We&apos;ve sent a confirmation email to your inbox.
+              Thank you for booking with us. Your travel request is now being processed. We'll review your booking details and contact you shortly for confirmation.
             </p>
           </div>
 

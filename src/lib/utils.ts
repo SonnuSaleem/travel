@@ -45,8 +45,8 @@ export function formatDate(dateString: string) {
  * @param price - The price to format
  */
 export function formatPrice(price: number) {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-PK', {
     style: 'currency',
-    currency: 'USD'
-  }).format(price);
+    currency: 'PKR'
+  }).format(price * 270);
 } 

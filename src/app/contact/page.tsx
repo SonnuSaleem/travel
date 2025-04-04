@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaUser, FaPaperPlane } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
-import { getApiUrl } from '@/lib/utils';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -110,7 +109,7 @@ export default function Contact() {
       <div className="relative h-[40vh] md:h-[50vh]">
         <Image
           src="https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg?cs=srgb&dl=pexels-asadphoto-1268855.jpg&fm=jpg"
-          alt="Contact TravelEase"
+          alt="Contact Our Expert Team"
           fill
           className="object-cover"
           priority
@@ -124,7 +123,7 @@ export default function Contact() {
               transition={{ duration: 0.5 }}
               className="text-4xl md:text-5xl font-bold mb-4 text-shadow-lg"
             >
-              Contact <span className="text-primary bg-dark/50 px-2 rounded">Travel</span><span className="text-secondary bg-dark/50 px-2 rounded">Ease</span>
+              Contact <span className="text-primary bg-dark/50 px-2 rounded">Our Expert</span><span className="text-secondary bg-dark/50 px-2 rounded">Team</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -156,7 +155,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-light">Our Office</h3>
-                  <p className="text-light-dark">123 Travel Street, Tourism City, TC 12345</p>
+                  <p className="text-light-dark">358 Travel Street, Phool Nagar Tourism City</p>
                 </div>
               </div>
               <div className="flex items-start">
@@ -165,7 +164,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-light">Phone</h3>
-                  <p className="text-light-dark">+1 (555) 123-4567</p>
+                  <p className="text-light-dark">+92 3258894708</p>
                 </div>
               </div>
               <div className="flex items-start">
@@ -174,7 +173,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-light">Email</h3>
-                  <p className="text-light-dark">info@travelease.com</p>
+                  <p className="text-light-dark">infoSafarnama@gmail.com</p>
                 </div>
               </div>
             </div>

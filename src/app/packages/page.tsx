@@ -19,6 +19,7 @@ export default function Packages() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<typeof premiumPackages>([]);
+  const [priceRange, setPriceRange] = useState([0, 5000]);
 
   // Categories
   const categories = [
@@ -214,7 +215,7 @@ export default function Packages() {
                 <button
                   key={category.id}
                   onClick={() => setActiveTab(category.id)}
-                  className={`px-3 sm:px-5 py-2 sm:py-3 rounded-full font-medium whitespace-nowrap transition-all text-xs sm:text-sm ${
+                  className={`px-3 sm:px-5 py-2 sm:py-3 rounded-full font-medium whitespace-nowrap transition-all text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
                     activeTab === category.id
                       ? 'bg-slate-800 text-white shadow-lg'
                       : 'bg-white text-slate-600 hover:bg-slate-100'
@@ -283,8 +284,9 @@ export default function Packages() {
                 transition={{ duration: 0.4 }}
                 className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] ${
                   selectedPackage === pkg.id ? 'ring-2 ring-yellow-500' : ''
-                }`}
+                } focus:outline-none focus:ring-2 focus:ring-yellow-500`}
                 onClick={() => setSelectedPackage(pkg.id === selectedPackage ? null : pkg.id)}
+                tabIndex={0}
               >
                 {/* Image Container */}
                 <div className="relative h-48 sm:h-56">
@@ -308,7 +310,7 @@ export default function Packages() {
                         e.stopPropagation();
                         toggleFavorite(pkg.id);
                       }}
-                      className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full"
+                      className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     >
                       <FaHeart className={favorites.includes(pkg.id) ? "text-red-500" : "text-white"} />
                     </button>
@@ -337,15 +339,15 @@ export default function Packages() {
                     <div>
                       {pkg.discount > 0 ? (
                         <>
-                          <span className="line-through text-slate-400 mr-2 text-sm sm:text-base">${pkg.price}</span>
-                          <span className="text-xl sm:text-2xl font-bold text-slate-800">
-                            ${getDiscountedPrice(pkg.price, pkg.discount)}
+                          <span className="line-through text-slate-400 mr-2 text-xs sm:text-sm">PKR {(pkg.price * 270).toLocaleString()}</span>
+                          <span className="text-lg sm:text-xl font-bold text-slate-800">
+                            PKR {(getDiscountedPrice(pkg.price, pkg.discount) * 270).toLocaleString()}
                           </span>
                         </>
                       ) : (
-                        <span className="text-xl sm:text-2xl font-bold text-slate-800">${pkg.price}</span>
+                        <span className="text-lg sm:text-xl font-bold text-slate-800">PKR {(pkg.price * 270).toLocaleString()}</span>
                       )}
-                      <span className="text-slate-500 ml-1 text-xs sm:text-sm">per person</span>
+                      <span className="text-slate-500 ml-1 text-xs"> /person</span>
                     </div>
                     
                     {pkg.discount > 0 && (
@@ -385,7 +387,7 @@ export default function Packages() {
                   
                   {/* CTA */}
                   <Link href={`/packages/${pkg.id}`} className="block w-full">
-                    <button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 sm:py-3 px-3 sm:px-4 rounded-lg transition-colors flex items-center justify-center group text-sm sm:text-base">
+                    <button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 sm:py-3 px-3 sm:px-4 rounded-lg transition-colors flex items-center justify-center group text-sm sm:text-base yellow-focus-border">
                       <span>View Details</span>
                       <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                     </button>

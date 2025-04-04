@@ -42,10 +42,11 @@ const DestinationCard = ({
       whileHover={{ y: -10 }}
       className={`bg-dark rounded-lg overflow-hidden shadow-lg transition-all duration-300 h-full flex flex-col ${
         featured ? 'border-2 border-primary' : ''
-      } cursor-pointer`}
+      } cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-500`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleCardClick}
+      tabIndex={0}
     >
       <div className="relative h-60 w-full">
         <Image
@@ -86,13 +87,13 @@ const DestinationCard = ({
         <p className="text-light-dark mb-6 line-clamp-3 flex-grow">{description}</p>
 
         <div className="flex justify-between items-center mt-auto pt-4 border-t border-dark-light/10">
-          <div className="text-secondary font-bold">
-            ${price.toLocaleString()}
-            <span className="text-light-dark font-normal text-sm"> /person</span>
+          <div className="text-secondary font-bold text-sm whitespace-nowrap">
+            PKR {(price * 270).toLocaleString()}
+            <span className="text-light-dark font-normal text-xs"> /person</span>
           </div>
           <Link
             href={`/packages/${id}`}
-            className="bg-gradient-primary hover:opacity-90 text-black px-4 py-2 rounded-md transition-all transform hover:scale-105 active:scale-95 shadow-md font-medium"
+            className="bg-gradient-primary hover:opacity-90 text-black px-3 py-2 rounded-md transition-all transform hover:scale-105 active:scale-95 shadow-md font-medium yellow-focus-border text-sm whitespace-nowrap ml-4"
             onClick={(e) => e.stopPropagation()}
           >
             View Details

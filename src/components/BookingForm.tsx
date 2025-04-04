@@ -78,7 +78,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
       <div className="bg-gradient-to-r from-primary to-secondary p-px rounded-t-lg -mt-6 -mx-6 mb-6">
         <h3 className="text-2xl font-bold text-light p-4 flex items-center justify-between">
           <span>Book Your Trip</span>
-          <span className="text-3xl">${price}</span>
+          <span className="text-xl">PKR {(price * 270).toLocaleString()}</span>
         </h3>
       </div>
       
@@ -101,7 +101,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               name="customerName"
               value={formData.customerName}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-light"
+              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light"
               placeholder="Full Name"
               required
             />
@@ -120,7 +120,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               name="customerEmail"
               value={formData.customerEmail}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-light"
+              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light"
               placeholder="your@email.com"
               required
             />
@@ -139,7 +139,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               name="customerPhone"
               value={formData.customerPhone}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-light"
+              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light"
               placeholder="+1 (123) 456-7890"
               required
             />
@@ -159,7 +159,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               value={formData.travelDate}
               onChange={handleChange}
               min={new Date().toISOString().split('T')[0]}
-              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-light calendar-white"
+              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light calendar-white"
               required
             />
           </div>
@@ -176,7 +176,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               name="numberOfTravelers"
               value={formData.numberOfTravelers}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-light appearance-none"
+              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light appearance-none"
               required
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
@@ -197,7 +197,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               name="specialRequests"
               value={formData.specialRequests}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-light min-h-[100px]"
+              className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light min-h-[100px]"
               placeholder="Any special requirements or requests..."
             ></textarea>
           </div>
@@ -206,13 +206,13 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
         <div className="pt-4">
           <div className="flex justify-between items-center mb-4">
             <span className="text-light font-medium">Total Price:</span>
-            <span className="text-secondary text-2xl font-bold">${price * parseInt(formData.numberOfTravelers)}</span>
+            <span className="text-secondary text-xl font-bold">PKR {(price * parseInt(formData.numberOfTravelers) * 270).toLocaleString()}</span>
           </div>
           
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-yellow-300 hover:bg-yellow-400 text-black hover:text-white font-bold py-4 px-6 rounded-md transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center group"
+            className="w-full bg-yellow-300 hover:bg-yellow-400 text-black hover:text-white font-bold py-4 px-6 rounded-md transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-dark"
           >
             {isSubmitting ? (
               <span className="flex items-center">

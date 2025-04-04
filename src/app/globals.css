@@ -112,7 +112,26 @@ html {
 /* Focus outline styles */
 *:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.3); /* yellow-500 */
+  box-shadow: 0 0 0 1px rgba(234, 179, 8, 0.3); /* yellow-500 with reduced opacity */
+}
+
+/* Apply no focus outline to all interactive elements */
+a:focus, button:focus, input:focus, textarea:focus, select:focus, [role="button"]:focus {
+  outline: 1px solid rgba(234, 179, 8, 0.3) !important;
+  box-shadow: none !important;
+}
+
+/* Class to completely remove focus outlines for specific elements */
+.no-focus-outline:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Yellow focus border style for buttons and links */
+.yellow-focus-border:focus {
+  outline: 0.5px solid rgba(234, 179, 8, 0.5) !important;
+  outline-offset: 1px !important;
+  box-shadow: none !important;
 }
 
 /* Input autofill styles */
@@ -154,6 +173,11 @@ input:-webkit-autofill:active {
   border-radius: 9999px;
   font-weight: 600;
   font-size: 0.875rem;
+}
+
+/* Active state for navigation links */
+.nav-link-active {
+  color: #eab308 !important; /* yellow-500 */
 }
 
 .styling{
@@ -239,3 +263,5 @@ input:-webkit-autofill:active {
     -webkit-font-smoothing: auto;
   }
 } 
+
+ 

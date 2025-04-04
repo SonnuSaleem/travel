@@ -51,7 +51,7 @@ const WhatsAppButton = ({ phoneNumber }: WhatsAppButtonProps) => {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-full p-3.5 shadow-[0_6px_16px_rgba(0,0,0,0.4),0_0_0_3px_rgba(255,255,255,0.1)_inset] hover:shadow-[0_8px_25px_rgba(0,0,0,0.5),0_0_0_3px_rgba(255,255,255,0.15)_inset] transition-all duration-300 flex items-center justify-center border border-green-400/30"
+          className="relative bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-full p-3.5 shadow-[0_6px_16px_rgba(0,0,0,0.4),0_0_0_3px_rgba(255,255,255,0.1)_inset] hover:shadow-[0_8px_25px_rgba(0,0,0,0.5),0_0_0_3px_rgba(255,255,255,0.15)_inset] transition-all duration-300 flex items-center justify-center border border-green-400/30 no-focus-outline"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           whileHover={{ scale: 1.05 }}

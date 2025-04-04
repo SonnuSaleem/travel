@@ -41,11 +41,16 @@ module.exports = {
       },
       animation: {
         'shimmer': 'shimmer 2s infinite linear',
+        'fade-in': 'fadeIn 0.5s ease-in-out',
       },
       keyframes: {
         shimmer: {
           '0%': { transform: 'translateX(-100%) rotate(45deg)' },
           '100%': { transform: 'translateX(200%) rotate(45deg)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
       },
     },

@@ -22,7 +22,7 @@ const BackButton = ({ goToHome = false, className = '' }: BackButtonProps) => {
   return (
     <button
       onClick={handleClick}
-      className={`flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors p-2 ${className}`}
+      className={`flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors p-2 no-focus-outline ${className}`}
       aria-label={goToHome ? "Go to home page" : "Go back"}
     >
       <FaArrowLeft className="text-lg" />
