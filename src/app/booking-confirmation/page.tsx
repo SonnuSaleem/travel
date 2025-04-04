@@ -43,10 +43,10 @@ function BookingConfirmationContent() {
             </motion.div>
             
             <h1 className="text-3xl md:text-4xl font-bold text-light mb-4">
-              Under Processing
+              Booking Received
             </h1>
             <p className="text-light-dark text-lg max-w-xl mx-auto">
-              Thank you for booking with us. Your travel request is now being processed. We'll review your booking details and contact you shortly for confirmation.
+              Thank you for booking with us. Your travel request is now being processed. We&apos;ll review your booking details and contact you shortly for confirmation.
             </p>
           </div>
 
@@ -117,7 +117,7 @@ function BookingConfirmationContent() {
             <div className="border-t border-dark-lighter pt-6 mt-6">
               <div className="flex justify-between items-center">
                 <h3 className="text-light font-medium">Total Amount</h3>
-                <p className="text-xl font-bold text-secondary">${price}</p>
+                <p className="text-xl font-bold text-secondary">PKR {(parseFloat(price || '0') * 270).toLocaleString()}</p>
               </div>
             </div>
           </motion.div>

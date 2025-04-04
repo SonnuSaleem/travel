@@ -26,11 +26,43 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Special handling for phone number
+    if (name === 'customerPhone') {
+      // Remove all non-digit characters except the '+' at the beginning
+      let phoneValue = value.replace(/[^\d+]/g, '');
+      
+      // Only add space after +92 if it's not already there
+      if (phoneValue.startsWith('+92') && phoneValue.length > 3 && phoneValue.charAt(3) !== ' ') {
+        phoneValue = phoneValue.substring(0, 3) + ' ' + phoneValue.substring(3);
+      }
+      
+      // Limit to +92 followed by 10 digits (total 14 chars including '+' and space)
+      if (phoneValue.length > 14) {
+        phoneValue = phoneValue.substring(0, 14);
+      }
+      
+      setFormData(prev => ({ ...prev, [name]: phoneValue }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    // Check if the phone matches the pattern: +92 followed by 10 digits
+    const phoneRegex = /^\+92 \d{10}$/;
+    return phoneRegex.test(phone);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate phone number
+    if (!validatePhone(formData.customerPhone)) {
+      setError('Please enter a valid phone number in the format: +92 XXXXXXXXXX (10 digits after +92)');
+      return;
+    }
+    
     setIsSubmitting(true);
     setError('');
 
@@ -121,7 +153,7 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               value={formData.customerEmail}
               onChange={handleChange}
               className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light"
-              placeholder="your@email.com"
+              placeholder="your@gmail.com"
               required
             />
           </div>
@@ -140,8 +172,12 @@ const BookingForm = ({ destinationId, destinationName, price }: BookingFormProps
               value={formData.customerPhone}
               onChange={handleChange}
               className="block w-full pl-10 pr-3 py-3 bg-dark-light border border-dark-light rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-light"
-              placeholder="+1 (123) 456-7890"
+              placeholder="+92 3XXXXXXXXX"
               required
+              pattern="^\+92 \d{10}$"
+              minLength={14}
+              maxLength={14}
+              title="Phone number must be in format: +92 followed by 10 digits"
             />
           </div>
         </div>
