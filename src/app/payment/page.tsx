@@ -453,6 +453,27 @@ function PaymentContent({
         background-color: #ffffff;
       }
     }
+    @media print {
+      @page {
+        margin: 0;
+        size: auto;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      /* Hide URL info that browsers add when printing */
+      html {
+        height: 100%;
+        overflow: hidden;
+      }
+      /* Hide any browser-added footers */
+      body::after {
+        content: none !important;
+      }
+    }
     .header {
       display: flex;
       justify-content: space-between;

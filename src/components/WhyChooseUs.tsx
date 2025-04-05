@@ -6,8 +6,8 @@ import { FaGlobe, FaHandshake, FaMoneyBillWave, FaHeadset } from 'react-icons/fa
 const features = [
   {
     icon: <FaGlobe className="text-4xl text-yellow-500" />,
-    title: 'Worldwide Destinations',
-    description: 'Explore hundreds of exciting destinations across the globe with our carefully curated travel packages.'
+    title: 'Pakistan Exploration',
+    description: 'Discover Pakistan\'s majestic mountains, pristine valleys, and ancient heritage sites with authentic local experiences and breathtaking views.'
   },
   {
     icon: <FaHandshake className="text-4xl text-yellow-500" />,
@@ -38,7 +38,7 @@ const WhyChooseUs = () => {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
-            Why Choose <span className="text-yellow-600">Travel</span><span className="text-amber-600">Ease</span>
+            Why we <span className="text-yellow-600">Stands</span><span className="text-amber-600">Apart</span>
           </h2>
           <p className="text-slate-600 max-w-3xl mx-auto">
             We&apos;re dedicated to making your travel dreams come true with exceptional service and unforgettable experiences.
