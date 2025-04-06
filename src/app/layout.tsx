@@ -65,10 +65,10 @@ export const metadata: Metadata = {
     },
   },
   other: {
-    "google-site-verification": "google7b5ccef807913efb", // Replace with your Google Search Console verification code
+    "google-site-verification": "eHc5qU43lNhkEV0OpAlyfOlMzBsEYQ0RqlwdgMg2ykQ",
   },
   verification: {
-    google: "google7b5ccef807913efb", // Replace with your Google Search Console verification code
+    google: "eHc5qU43lNhkEV0OpAlyfOlMzBsEYQ0RqlwdgMg2ykQ",
   },
 };
 
@@ -88,7 +88,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="google-site-verification" content="google7b5ccef807913efb" />
+        <meta name="google-site-verification" content="eHc5qU43lNhkEV0OpAlyfOlMzBsEYQ0RqlwdgMg2ykQ" />
         <StructuredData type="organization" />
         <StructuredData type="localBusiness" />
         <StructuredData />
