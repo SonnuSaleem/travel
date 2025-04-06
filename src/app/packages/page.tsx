@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import BackButton from '@/components/BackButton';
 import { destinations } from '@/data/destinations';
+import StructuredData from '@/components/StructuredData';
 
 export default function Packages() {
   const [activeTab, setActiveTab] = useState('all');
@@ -122,6 +123,14 @@ export default function Packages() {
 
   return (
     <div className="pt-16 min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+      {/* Add structured data for packages page */}
+      <StructuredData 
+        type="website" 
+        url="https://www.safarnamatravels.fun/packages"
+        name="Safarnama Travels - Tour Packages & Travel Deals"
+        description="Browse our curated selection of Pakistan tour packages including Hunza Valley, Skardu, and other breathtaking destinations. Find your perfect travel experience."
+      />
+      
       <BackButton />
       
       {/* Hero Section with Video Background */}

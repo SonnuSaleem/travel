@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaUser, FaPaperPlane } from 'react-icons/fa';
 import BackButton from '@/components/BackButton';
+import StructuredData from '@/components/StructuredData';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -105,6 +106,14 @@ export default function Contact() {
     <div className="pt-16 bg-dark-light">
       <BackButton />
       
+      {/* Structured Data for Contact Page */}
+      <StructuredData 
+        type="localBusiness" 
+        url="https://www.safarnamatravels.fun/contact"
+        name="Safarnama Travels - Contact Us"
+        description="Contact Safarnama Travels for booking inquiries, travel assistance, or any questions about our Pakistan tour packages."
+      />
+      
       {/* Hero Section */}
       <div className="relative h-[40vh] md:h-[50vh]">
         <Image
@@ -173,7 +182,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-light">Email</h3>
-                  <p className="text-light-dark">infoSafarnama@gmail.com</p>
+                  <p className="text-light-dark">info@safarnamatravels.fun</p>
                 </div>
               </div>
             </div>

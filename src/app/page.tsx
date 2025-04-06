@@ -4,10 +4,11 @@ import Testimonials from '@/components/Testimonials';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import Newsletter from '@/components/Newsletter';
 import Script from 'next/script';
+import StructuredData from '@/components/StructuredData';
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <Script id="structured-data" type="application/ld+json" dangerouslySetInnerHTML={{
         __html: JSON.stringify({
           "@context": "https://schema.org",
@@ -51,11 +52,18 @@ export default function Home() {
         })
       }} />
       
+      <StructuredData 
+        type="website" 
+        url="https://www.safarnamatravels.fun"
+        name="Safarnama Travels - Premium Pakistan Tours & Travel Agency"
+        description="Safarnama Travels is Pakistan's leading travel agency specializing in northern areas tours, Gilgit-Baltistan expeditions, and custom Pakistan vacation packages."
+      />
+      
       <Hero />
       <FeaturedDestinations />
       <WhyChooseUs />
       <Testimonials />
       <Newsletter />
-    </div>
+    </main>
   );
 }

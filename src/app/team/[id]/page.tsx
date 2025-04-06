@@ -102,7 +102,7 @@ export default function TeamMemberDetail() {
                       </div>
                       <div>
                         <p className="text-sm text-light-dark">Email</p>
-                        <p className="text-light">{member.name.toLowerCase().replace(' ', '.')}@safarnama.com</p>
+                        <p className="text-light">{member.name.toLowerCase().replace(' ', '.')}@safarnamatravels.fun</p>
                       </div>
                     </div>
                     

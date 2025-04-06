@@ -2,5 +2,9 @@
 User-agent: *
 Allow: /
 
+# Disallow admin and API routes
+Disallow: /api/*
+Disallow: /admin/*
+
 # Sitemap location
-Sitemap: https://phoolnagar-travels.vercel.app/sitemap.xml 
+Sitemap: https://www.safarnamatravels.fun/sitemap.xml 

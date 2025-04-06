@@ -5,41 +5,43 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClientAnalytics from "@/components/ClientAnalytics";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import StructuredData from '@/components/StructuredData';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Safarnama - Premium Travel Experiences",
-  description: "Safarnama is your trusted travel partner offering exceptional tour packages, flight bookings, and visa services. Book your dream vacation today.",
-  keywords: ["Safarnama", "Travel Agency", "travel agency", "tour packages", "flight booking", "visa services"],
+  title: "Safarnama Travels - Premium Pakistan Tours & Packages",
+  description: "Safarnama Travels is Pakistan's trusted travel agency offering exceptional tour packages to Hunza, Skardu, and other stunning destinations. Book your dream vacation today.",
+  keywords: ["Pakistan travel", "Hunza valley tours", "Skardu packages", "Pakistan tourism", "Gilgit-Baltistan travel", "Northern Pakistan tours", "Safarnama Travels", "Shangrila Resort", "Deosai National Park"],
   authors: [{ name: "Safarnama" }],
   creator: "Safarnama",
   publisher: "Safarnama",
-  metadataBase: new URL("https://safarnama.vercel.app"),
+  metadataBase: new URL("https://www.safarnamatravels.fun"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Safarnama - Premium Travel Experiences",
-    description: "Safarnama is your trusted travel partner offering exceptional tour packages, flight bookings, and visa services. Book your dream vacation today.",
-    url: "https://safarnama.vercel.app",
-    siteName: "Safarnama",
+    title: "Safarnama Travels - Premium Pakistan Tours & Packages",
+    description: "Safarnama Travels is Pakistan's trusted travel agency offering exceptional tour packages to Hunza, Skardu, and other stunning destinations. Book your dream vacation today.",
+    url: "https://www.safarnamatravels.fun",
+    siteName: "Safarnama Travels",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "https://safarnama.vercel.app/og-image.jpg", // You'll need to create this image
+        url: "/images/og-image.jpg", 
         width: 1200,
         height: 630,
-        alt: "Safarnama - Your Trusted Travel Partner",
+        alt: "Safarnama Travels - Explore Pakistan",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Safarnama - Premium Travel Experiences",
-    description: "Safarnama is your trusted travel partner offering exceptional tour packages, flight bookings, and visa services.",
-    images: ["https://safarnama.vercel.app/og-image.jpg"], // Same as OG image
+    title: "Safarnama Travels - Premium Pakistan Tours & Packages",
+    description: "Pakistan's trusted travel agency offering exceptional tour packages.",
+    images: ["/images/og-image.jpg"],
   },
   icons: {
     icon: [
@@ -57,12 +59,16 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
   },
+  other: {
+    "google-site-verification": "google7b5ccef807913efb", // Replace with your Google Search Console verification code
+  },
   verification: {
-    google: "verification_token", // Replace with your Google Search Console verification token
+    google: "google7b5ccef807913efb", // Replace with your Google Search Console verification code
   },
 };
 
@@ -72,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -82,7 +88,11 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        
+        <meta name="google-site-verification" content="google7b5ccef807913efb" />
+        <StructuredData type="organization" />
+        <StructuredData type="localBusiness" />
+        <StructuredData />
+        <GoogleAnalytics gaId="G-XXXXXXXXXX" />
       </head>
       
       <body className={`${inter.className} bg-white text-slate-800`}>

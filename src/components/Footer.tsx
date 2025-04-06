@@ -103,14 +103,17 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <FaEnvelope className="mr-3 text-yellow-500" />
-                <span className="text-slate-600">infoSafarnama@gmail.com</span>
+                <span className="text-slate-600">info@safarnamatravels.fun</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-slate-200 mt-10 pt-6 text-center text-slate-500">
-          <p>&copy; {new Date().getFullYear()} Safarnama. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
+          <p className="mt-2 text-xs">
+            <a href="https://www.safarnamatravels.fun" className="text-yellow-500 hover:text-yellow-600 transition-colors">www.safarnamatravels.fun</a>
+          </p>
         </div>
       </div>
     </footer>
