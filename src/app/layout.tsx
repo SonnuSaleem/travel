@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/og-image.jpg", 
-        width: 1200,
-        height: 630,
-        alt: "Safarnama Travels - Explore Pakistan",
+        url: "/images/logo.png",
+        width: 512,
+        height: 512,
+        alt: "Safarnama Travels Logo",
       },
     ],
   },
@@ -41,13 +41,15 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Safarnama Travels - Premium Pakistan Tours & Packages",
     description: "Pakistan's trusted travel agency offering exceptional tour packages.",
-    images: ["/images/og-image.jpg"],
+    images: ["/images/logo.png"],
   },
   icons: {
     icon: [
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-64x64.png', sizes: '64x64', type: 'image/png' }
+      { url: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon-512x512.png', sizes: '512x512', type: 'image/png' }
     ],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
@@ -83,11 +85,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Fredoka:wght@300..700&family=Frijole&family=Marcellus&family=Oswald:wght@200..700&family=Pacifico&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <meta name="google-site-verification" content="eHc5qU43lNhkEV0OpAlyfOlMzBsEYQ0RqlwdgMg2ykQ" />
         <StructuredData type="organization" />
         <StructuredData type="localBusiness" />
