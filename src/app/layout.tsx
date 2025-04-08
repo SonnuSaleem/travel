@@ -82,13 +82,17 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Fredoka:wght@300..700&family=Frijole&family=Marcellus&family=Oswald:wght@200..700&family=Pacifico&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
-        <link rel="icon" href="/images/logo.png" />
-        <link rel="shortcut icon" href="/images/logo.png" />
+        <link rel="icon" href="/images/logo.png" type="image/png" sizes="512x512" />
+        <link rel="shortcut icon" href="/images/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/images/logo.png" />
         <meta name="msapplication-TileImage" content="/images/logo.png" />
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="next-head-count" content="0" />
+        <meta name="thumbnail" content="/images/logo.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta property="og:image:type" content="image/png" />
         <meta name="google-site-verification" content="eHc5qU43lNhkEV0OpAlyfOlMzBsEYQ0RqlwdgMg2ykQ" />
         <StructuredData type="organization" />
         <StructuredData type="localBusiness" />

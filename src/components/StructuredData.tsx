@@ -24,9 +24,27 @@ export default function StructuredData({
         return {
           '@context': 'https://schema.org',
           '@type': 'Organization',
+          '@id': `${url}/#organization`,
           name,
           url,
-          logo,
+          logo: {
+            '@type': 'ImageObject',
+            '@id': `${url}/#logo`,
+            url: logo,
+            contentUrl: logo,
+            width: 512,
+            height: 512,
+            caption: name
+          },
+          image: {
+            '@type': 'ImageObject',
+            '@id': `${url}/#logo`,
+            url: logo,
+            contentUrl: logo,
+            width: 512,
+            height: 512,
+            caption: name
+          },
           description,
           contactPoint: {
             '@type': 'ContactPoint',
@@ -46,9 +64,27 @@ export default function StructuredData({
         return {
           '@context': 'https://schema.org',
           '@type': 'TravelAgency',
+          '@id': `${url}/#business`,
           name,
           url,
-          logo,
+          logo: {
+            '@type': 'ImageObject',
+            '@id': `${url}/#logo`,
+            url: logo,
+            contentUrl: logo,
+            width: 512,
+            height: 512,
+            caption: name
+          },
+          image: {
+            '@type': 'ImageObject',
+            '@id': `${url}/#logo`,
+            url: logo,
+            contentUrl: logo,
+            width: 512,
+            height: 512,
+            caption: name
+          },
           description,
           address: {
             '@type': 'PostalAddress',
@@ -96,9 +132,13 @@ export default function StructuredData({
         return {
           '@context': 'https://schema.org',
           '@type': 'WebSite',
+          '@id': `${url}/#website`,
           url,
           name,
           description,
+          publisher: {
+            '@id': `${url}/#organization`
+          },
           potentialAction: {
             '@type': 'SearchAction',
             target: {
