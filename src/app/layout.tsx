@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Safarnama Travels - Premium Pakistan Tours & Packages",
+    title: "Safarnama Travels - Premium Tours & Packages",
     description: "Pakistan's trusted travel agency offering exceptional tour packages.",
     images: ["/images/logo.png"],
   },
@@ -94,6 +94,7 @@ export default function RootLayout({
         <meta property="og:image:height" content="512" />
         <meta property="og:image:type" content="image/png" />
         <meta name="google-site-verification" content="eHc5qU43lNhkEV0OpAlyfOlMzBsEYQ0RqlwdgMg2ykQ" />
+        <meta name="google-adsense-account" content="ca-pub-7382483806966514" />
         <StructuredData type="organization" />
         <StructuredData type="localBusiness" />
         <StructuredData />
