@@ -111,6 +111,14 @@ const Footer = () => {
 
         <div className="border-t border-slate-200 mt-10 pt-6 text-center text-slate-500">
           <p>&copy; {new Date().getFullYear()} Safarnama Travels. All rights reserved.</p>
+          <div className="mt-2 flex justify-center space-x-4 text-sm">
+            <Link href="/privacy-policy" className="text-yellow-500 hover:text-yellow-600 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-conditions" className="text-yellow-500 hover:text-yellow-600 transition-colors">
+              Terms & Conditions
+            </Link>
+          </div>
           <p className="mt-2 text-xs">
             <a href="https://www.safarnamatravels.fun" className="text-yellow-500 hover:text-yellow-600 transition-colors">www.safarnamatravels.fun</a>
           </p>
