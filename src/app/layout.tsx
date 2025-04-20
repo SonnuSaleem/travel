@@ -7,6 +7,7 @@ import ClientAnalytics from "@/components/ClientAnalytics";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import StructuredData from '@/components/StructuredData';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import SaleNotification from '@/components/SaleNotification';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -103,6 +104,7 @@ export default function RootLayout({
       
       <body className={`${inter.className} bg-white text-slate-800`}>
         <ClientAnalytics />
+        <SaleNotification />
         <Navbar />
         <main>{children}</main>
         <Footer />
